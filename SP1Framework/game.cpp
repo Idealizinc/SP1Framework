@@ -93,6 +93,17 @@ void render()
 
     //render the game
 
+    //Stone Tile Rendering.
+    const STONE color[] = {0x6F};
+
+    for (int i = 0; i < 28; ++i)
+    {
+        for (int p = 0; p < 76; ++p)
+        {
+            colour(color[0]);
+        }
+    }
+
     //render test screen code (not efficient at all)
     const WORD colors[] =   {
 	                        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
