@@ -96,32 +96,32 @@ void render()
     //Stone Tile Rendering.
     const WORD color[] = {0x88};
 
-    for (int i = 0; i < 28; ++i)
+    for (int i = 0; i < 20; ++i)
     {
-        for (int p = 0; p < 74; ++p)
+        for (int p = 0; p < 75; ++p)
         {
             //if ( /*Insert Variable Name*/ == "▓")
             //{
-                gotoXY(2 + p, i);
+                gotoXY(2 + p, 1 + i);
                 colour(color[0]);
-                std::cout << "hey";
+                std::cout << "p"; 
                 //break;
             //}
         }
     }
 
     //render test screen code (not efficient at all)
-    const WORD colors[] =   {
-	                        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-	                        0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-	                        };
-	
-	for (int i = 0; i < 12; ++i)
-	{
-		gotoXY(3*i,i+1);
-		colour(colors[i]);
-		std::cout << "WOW";
-	}
+ //   const WORD colors[] =   {
+	//                        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+	//                        0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+	//                        };
+	//
+	//for (int i = 0; i < 12; ++i)
+	//{
+	//	gotoXY(3*i,i+1);
+	//	colour(colors[i]);
+	//	std::cout << "WOW";
+	//}
 
     // render time taken to calculate this frame
     gotoXY(70, 0);
@@ -136,6 +136,4 @@ void render()
     gotoXY(charLocation);
     colour(0x0C);
     std::cout << (char)1;
-
-    
 }
