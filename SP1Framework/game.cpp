@@ -1,4 +1,4 @@
-// This is the main file for the game logic and function
+﻿// This is the main file for the game logic and function
 //testing
 //hello
 #include "game.h"
@@ -94,13 +94,19 @@ void render()
     //render the game
 
     //Stone Tile Rendering.
-    const STONE color[] = {0x6F};
+    const WORD color[] = {0x88};
 
     for (int i = 0; i < 28; ++i)
     {
-        for (int p = 0; p < 76; ++p)
+        for (int p = 0; p < 74; ++p)
         {
-            colour(color[0]);
+            //if ( /*Insert Variable Name*/ == "▓")
+            //{
+                gotoXY(2 + p, i);
+                colour(color[0]);
+                std::cout << "hey";
+                //break;
+            //}
         }
     }
 
