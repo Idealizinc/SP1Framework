@@ -86,7 +86,23 @@ void update(double dt)
 
     // quits the game if player hits the escape key
     if (keyPressed[K_ESCAPE])
-        g_quitGame = true;    
+        g_quitGame = true;
+
+    /*temporary  wall thingy 
+
+    int detect[100][100];
+
+    switch(keyPressed[K_UP])
+    {
+    case;
+    if (charLocation.Y > 0 && detect[charLocation.Y - 1][charLocation.X] = '')
+    {
+        charLocation.Y--;
+    };
+    break;
+    }
+    
+    */
 }
 
 void render()
