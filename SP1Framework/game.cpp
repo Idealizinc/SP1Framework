@@ -173,30 +173,32 @@ void render()
 //cout << '\n';
 
     // Map Generate
-string line;
-ifstream myfile;
-myfile.open ("map.txt");
-if (myfile.is_open())
-{
-    //gotoXY(2,2);
-    while (getline(myfile,line))
-    {
-        for (int row = 1; row < 19; row++)
-        {
-            for (int col = 2; col < 74; col++)
-            {
-                gotoXY(col,row);
-                colour(0x1A);
-                cout << line[4] << '\n';
-            }
-        }
-         myfile.close();
-    }
-}
-else
-{
-    cout << "Unable to open file";
-}
+//string line;
+//char s[100][100];
+//ifstream myfile;
+//myfile.open ("map.txt");
+//if (myfile.is_open())
+//{
+//    //gotoXY(2,2);
+//    while (getline(myfile,line))
+//    {
+//        for (int row = 1; row < 19; row++)
+//        {
+//            for (int col = 0; col < 74; col++)
+//            {
+//                gotoXY(col + 1,row);
+//                colour(0x1A);
+//
+//                cout << line[col] << '\n';
+//            }
+//        }
+//         myfile.close();
+//    }
+//}
+//else
+//{
+//    cout << "Unable to open file";
+//}
 
     
 int Map [20][75] = { {1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,2 ,1 , 2 ,1 , 2},
@@ -229,7 +231,7 @@ int Map [20][75] = { {1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 , 2 ,1 
 //        colour(0x2B);
 //        std::cout << Map[row][col];
 //    }
-//}
+//} 
 
 
 }
