@@ -1,4 +1,4 @@
-// This is the main file for the game logic and function
+﻿// This is the main file for the game logic and function
 //
 //
 #include "game.h"
@@ -179,7 +179,7 @@ void renderMap()
         c.X = 5 * i;
         c.Y = i + 1;
         colour(colors[i]);
-        console.writeToBuffer(c, " ����", colors[i]);
+        console.writeToBuffer(c, " °±²Û", colors[i]);
     }*/
 
     
@@ -188,18 +188,28 @@ void renderMap()
         for (int j = 0; j < 79; ++j)
         {
 			char toBePrinted = mapArray[i][j];
-			if (toBePrinted == 49)
+			if (toBePrinted == '0')
 			{
-				toBePrinted = 177;
-            	console.writeToBuffer(j,i, toBePrinted, 0xF0);
+				toBePrinted = 176; // ░
+            	console.writeToBuffer(j,i, toBePrinted, 0x8A); // Dirty Green [Grass]
 			}
-			if (toBePrinted == 49)
+			else if (toBePrinted == '1')
 			{
-				toBePrinted = 177;
-            	console.writeToBuffer(j,i, toBePrinted, 0xF0);
+				toBePrinted = 178; // ▓
+				console.writeToBuffer(j,i, toBePrinted, 0x7F); // White [Walls]
+			}
+			else if (toBePrinted == 'X')
+			{
+				toBePrinted = 221;
+				console.writeToBuffer(j,i, toBePrinted, 0x74); // White [Walls]
+			}
+			else if (toBePrinted == '1')
+			{
+				toBePrinted = 178; // ▓
+				console.writeToBuffer(j,i, toBePrinted, 0x7F); // White [Walls]
 			}
 			else
-				console.writeToBuffer(j,i, toBePrinted, 0x5B);
+				console.writeToBuffer(j,i, toBePrinted, 0x4A); // Coloration Failed - Red BG Green Txt
 
         }
         i++;
