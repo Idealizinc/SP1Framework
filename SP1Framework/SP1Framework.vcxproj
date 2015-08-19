@@ -80,11 +80,8 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
-<<<<<<< Updated upstream
     <ClCompile Include="startmenu.cpp" />
-=======
     <ClCompile Include="monsterPrint.cpp" />
->>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h" />
