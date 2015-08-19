@@ -13,9 +13,9 @@ using std::vector;
 using std::ifstream;
 using std::getline;
 
-void createMap();
-void readmap();
-void stageinfo();
-void display();
+//void createMap();
+void readMap();
+//void stageinfo();
+//void display();
 
 #endif // _MAP_H

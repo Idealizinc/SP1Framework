@@ -6,18 +6,22 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <fstream>
+#include <string>
+#include <vector>
 #include "map.h"
 
 // Console object
-Console console(80, 25, "SP1 Framework");
+Console console(79, 25, "SP1 Framework");
 
 double elapsedTime;
 double deltaTime;
 bool keyPressed[K_COUNT];
-
+char mapArray[22][79];
 
 // Game specific variables here
 COORD charLocation;
+
 
 // Initialize variables, allocate memory, load data from file, etc. 
 // This is called once before entering into your main loop
@@ -87,10 +91,11 @@ void update(double dt)
 */
 void render()
 {
+    readMap();
     clearScreen();      // clears the current screen and draw from scratch 
     renderMap();        // renders the map to the buffer first
     renderCharacter();  // renders the character into the buffer
-    renderFramerate();  // renders debug information, frame rate, elapsed time, etc
+    //renderFramerate();  // renders debug information, frame rate, elapsed time, etc
     renderToScreen();   // dump the contents of the buffer to the screen, one frame worth of game
 }
 
@@ -130,15 +135,45 @@ void clearScreen()
     // Clears the buffer with this colour attribute
     console.clearBuffer(0x1F);
 }
+void readMap()
+{
+    string mapline;
+    int x2 = 0, y2 = 0;
+    ifstream mymapfile ("map1.txt");
+    if (mymapfile.is_open())
+    {
+        while (getline (mymapfile,mapline))
+        {
+            for (int i = 0; i < mapline.length();++i)
+            {
+                //if ( mapline[i] == '1' )
+                //{
+                //    //mapline[i] = 176;
+                //}
+                //else if ( mapline[i] == '0' )
+                //{
+                //    mapline[i] = 48;
+                //}
+            }
+            for ( int x = 0; x < 79; ++x )
+            {
+                mapArray[y2][x] = mapline[x];
+            }
+            ++y2;
+        }
+    }
+    mymapfile.close();
+}
+
 void renderMap()
 {
     // Set up sample colours, and output shadings
-   /* const WORD colors[] = {
+   const WORD stage1colors[] = {
         0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
         0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
     };
 
-    COORD c;
+    /*COORD c;
     for (int i = 0; i < 12; ++i)
     {
         c.X = 5 * i;
@@ -146,136 +181,35 @@ void renderMap()
         colour(colors[i]);
         console.writeToBuffer(c, " °±²Û", colors[i]);
     }*/
-    string line;
-    int x1 = 0, y1 = 0;
-    char stageArray[2][79];
-    ifstream myfile ("stageinfo.txt");
-    if (myfile.is_open())
-    {
-        while (getline (myfile,line))
-        {
-            for (int i = 0; i < line.length();++i)
-            {
-                if ( line[i] == '1' )
-                {
-                    line[i] = 49;
-                }
-                else if ( line[i] == '0' )
-                {
-                    line[i] = 48;
-                }
-            }
-            for ( int x = 0; x < 79; ++x )
-            {
-                stageArray[y1][x] = line[x];
-            }
-            ++y1;      
-        }
 
-    }
-    myfile.close();
-
-    for (int i = 0; i < 2;)
+    
+    for (int i = 0; i < 22;)
     {
         for (int j = 0; j < 79; ++j)
         {
-            console.writeToBuffer(j,i, stageArray[i][j],0x4C);
+			char toBePrinted = mapArray[i][j];
+			if (toBePrinted == 49)
+			{
+				toBePrinted = 177;
+            	console.writeToBuffer(j,i, toBePrinted, 0xF0);
+			}
+			if (toBePrinted == 49)
+			{
+				toBePrinted = 177;
+            	console.writeToBuffer(j,i, toBePrinted, 0xF0);
+			}
+			else
+				console.writeToBuffer(j,i, toBePrinted, 0x5B);
+
         }
-    cout << endl;
-    i++;
+        i++;
     }
-
-
-    string mapline;
-  int x2 = 0, y2 = 0;
-  char mapArray[20][79];
-  ifstream mymapfile ("map1.txt");
-  if (mymapfile.is_open())
-  {
-      while (getline (mymapfile,mapline))
-      {
-          for (int i = 0; i < mapline.length();++i)
-          {
-              if ( mapline[i] == '1' )
-              {
-                  mapline[i] = 49;
-              }
-              else if ( mapline[i] == '0' )
-              {
-                  mapline[i] = 48;
-              }
-          }
-          for ( int x = 0; x < 79; ++x )
-          {
-              mapArray[y2][x] = mapline[x];
-          }
-          ++y2;      
-      }
-
-  }
-  mymapfile.close();
-
-  for (int i = 0; i < 20;)
-  {
-    
-    for (int j = 0; j < 79; ++j)
-    {
-        console.writeToBuffer(j,i, mapArray[i][j],0xFF);
-    }
-    cout << endl;
-    i++;
-  }
-
-
-
-   string displayline;
-  int x3 = 0, y3 = 0;
-  char mapdisplayArray[6][79];
-  ifstream mydisplayfile ("display.txt");
-  if (mydisplayfile.is_open())
-  {
-      while (getline (mydisplayfile,displayline))
-      {
-          for (int i = 0; i < displayline.length();++i)
-          {
-              if ( displayline[i] == '1' )
-              {
-                  displayline[i] = 49;
-              }
-              else if ( displayline[i] == '0' )
-              {
-                  displayline[i] = 48;
-              }
-          }
-          for ( int x = 0; x < 79; ++x )
-          {
-              mapdisplayArray[y3][x] = displayline[x];
-          }
-          ++y3;      
-      }
-
-  }
-  mydisplayfile.close();
-
-  for (int i = 0; i < 6;)
-  {
-    
-    for (int j = 0; j < 79; ++j)
-    {
-        console.writeToBuffer(j,i, mapdisplayArray[i][j],0x4C);
-    }
-    cout << endl;
-    i++;
-  }
-
-  
-  
 }
 
 void renderCharacter()
 {
     // Draw the location of the character
-    console.writeToBuffer(charLocation, (char)1, 0x0C);
+    console.writeToBuffer(charLocation, (char)2, 0x0C);
 }
 
 void renderFramerate()
