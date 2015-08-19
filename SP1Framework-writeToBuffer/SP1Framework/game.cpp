@@ -146,14 +146,7 @@ void readMap()
         {
             for (int i = 0; i < mapline.length();++i)
             {
-                //if ( mapline[i] == '1' )
-                //{
-                //    //mapline[i] = 176;
-                //}
-                //else if ( mapline[i] == '0' )
-                //{
-                //    mapline[i] = 48;
-                //}
+				//Do Nothing Significant
             }
             for ( int x = 0; x < 79; ++x )
             {
