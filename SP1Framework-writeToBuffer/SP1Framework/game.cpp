@@ -12,12 +12,14 @@
 #include "map.h"
 
 // Console object
-Console console(79, 25, "SP1 Framework");
+Console console(78, 25, "SP1 Framework");
 
 double elapsedTime;
 double deltaTime;
 bool keyPressed[K_COUNT];
 char mapArray[22][79];
+int xSpawnCoord = 0, ySpawnCoord = 0;
+bool rendered = false;
 
 // Game specific variables here
 COORD charLocation;
@@ -33,7 +35,7 @@ void init()
     charLocation.X = console.getConsoleSize().X / 2;
     charLocation.Y = console.getConsoleSize().Y / 2;
     // sets the width, height and the font name to use in the console
-    console.setConsoleFont(0, 16, L"Consolas");
+    console.setConsoleFont(0, 24, L"Consolas");
 }
 
 // Do your clean up of memory here
@@ -94,9 +96,15 @@ void render()
     readMap();
     clearScreen();      // clears the current screen and draw from scratch 
     renderMap();        // renders the map to the buffer first
-    renderCharacter();  // renders the character into the buffer
+	renderCharacter();  // renders the character into the buffer
     //renderFramerate();  // renders debug information, frame rate, elapsed time, etc
     renderToScreen();   // dump the contents of the buffer to the screen, one frame worth of game
+	if (rendered == false)
+	{
+		charLocation.X = xSpawnCoord;
+		charLocation.Y = ySpawnCoord;
+		rendered = true;
+	}
 }
 
 void moveCharacter()
@@ -133,7 +141,7 @@ void processUserInput()
 void clearScreen()
 {
     // Clears the buffer with this colour attribute
-    console.clearBuffer(0x1F);
+    console.clearBuffer(0x0F);
 }
 void readMap()
 {
@@ -148,7 +156,7 @@ void readMap()
             {
 				//Do Nothing Significant
             }
-            for ( int x = 0; x < 79; ++x )
+            for ( int x = 0; x < mapline.length(); ++x )
             {
                 mapArray[y2][x] = mapline[x];
             }
@@ -181,7 +189,7 @@ void renderMap()
         for (int j = 0; j < 79; ++j)
         {
 			char toBePrinted = mapArray[i][j];
-			if (toBePrinted == '0')
+			if (toBePrinted == ' ')
 			{
 				toBePrinted = 176; // ░
             	console.writeToBuffer(j,i, toBePrinted, 0x8A); // Dirty Green [Grass]
@@ -191,15 +199,22 @@ void renderMap()
 				toBePrinted = 178; // ▓
 				console.writeToBuffer(j,i, toBePrinted, 0x7F); // White [Walls]
 			}
-			else if (toBePrinted == 'X')
-			{
-				toBePrinted = 221;
-				console.writeToBuffer(j,i, toBePrinted, 0x74); // White [Walls]
-			}
-			else if (toBePrinted == '1')
+			else if (toBePrinted == 'W')
 			{
 				toBePrinted = 178; // ▓
-				console.writeToBuffer(j,i, toBePrinted, 0x7F); // White [Walls]
+				console.writeToBuffer(j,i, toBePrinted, 0x08); // Grey [Walls]
+			}
+			else if (toBePrinted == 'T')
+			{
+				toBePrinted = 'T'; // ▓
+				console.writeToBuffer(j,i, toBePrinted, 0x22); // Green [Trees]
+			}
+			else if (toBePrinted == 'P')
+			{
+				xSpawnCoord = j;
+				ySpawnCoord = i;
+				toBePrinted = 176; // ░
+            	console.writeToBuffer(j,i, toBePrinted, 0x8A); // Dirty Green [Grass]
 			}
 			else
 				console.writeToBuffer(j,i, toBePrinted, 0x4A); // Coloration Failed - Red BG Green Txt
@@ -212,7 +227,7 @@ void renderMap()
 void renderCharacter()
 {
     // Draw the location of the character
-    console.writeToBuffer(charLocation, (char)2, 0x0C);
+    console.writeToBuffer(charLocation, (char)1, 0x08);
 }
 
 void renderFramerate()
