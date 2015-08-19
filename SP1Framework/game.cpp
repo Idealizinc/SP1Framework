@@ -213,9 +213,7 @@ for (int i = 1; i < 20; ++i)
     }
 cout << '\n';
 
-<<<<<<< HEAD
-    
-=======
+
     // Map Generate
 //string line;
 //char s[100][100];

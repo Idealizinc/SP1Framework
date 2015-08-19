@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -157,7 +156,6 @@ void display()
     i++;
   }
 }
-=======
 //#include <iostream>
 //#include <vector>
 //
@@ -243,4 +241,3 @@ void display()
 //        cVec.push_back(mapVector[x][y]);
 //    }
 //}
->>>>>>> origin/master
