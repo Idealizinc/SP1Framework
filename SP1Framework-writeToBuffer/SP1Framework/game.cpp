@@ -18,9 +18,11 @@ double elapsedTime;
 double deltaTime;
 bool keyPressed[K_COUNT];
 char mapArray[22][79];
+char battleArray[22][79];
 int xSpawnCoord = 0, ySpawnCoord = 0;
 bool renderedChar = false;
-
+bool battleModeOn = true; // SET TO FALSE LATER
+void readBattleScreen();
 // Game specific variables here
 COORD charLocation;
 
@@ -94,6 +96,7 @@ void update(double dt)
 void render()
 {
     readMap();
+	readBattleScreen();
     clearScreen();      // clears the current screen and draw from scratch 
     renderMap();        // renders the map to the buffer first
 	renderCharacter();  // renders the character into the buffer
@@ -183,22 +186,28 @@ void readMap()
     mymapfile.close();
 }
 
-void renderMap()
+void readBattleScreen()
 {
-    // Set up sample colours, and output shadings
-   const WORD stage1colors[] = {
-        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-        0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-    };
-
-    /*COORD c;
-    for (int i = 0; i < 12; ++i)
+    string mapline;
+    int y2 = 0;
+    ifstream mymapfile ("battlescreen1.txt");
+    if (mymapfile.is_open())
     {
-        c.X = 5 * i;
-        c.Y = i + 1;
-        colour(colors[i]);
-        console.writeToBuffer(c, " °±²Û", colors[i]);
-    }*/
+        while (getline (mymapfile,mapline))
+        {
+            for ( int x = 0; x < mapline.length(); x++ )
+            {
+                battleArray[y2][x] = mapline[x];
+				//cout << mapArray[y2][x];
+            }
+            ++y2;
+        }
+    }
+    mymapfile.close();
+}
+
+void drawMap()
+{
 	for (int i = 0; i < 22;)
 	{
 		for (int j = 0; j < 79; ++j)
@@ -251,6 +260,58 @@ void renderMap()
 		}
 		i++;
 	}
+}
+
+void drawBattleScreen()
+{
+	for (int i = 0; i < 22;)
+	{
+		for (int j = 0; j < 79; ++j)
+		{
+			char toBePrinted = battleArray[i][j];
+			if (toBePrinted == '1')
+			{
+				toBePrinted = 178; // ▓
+				console.writeToBuffer(j,i, toBePrinted, 0x7F); // White [Walls]
+			}
+			else if (toBePrinted == 'W')
+			{
+				toBePrinted = 176; // ░
+				console.writeToBuffer(j,i, toBePrinted, 0x80); // Grey [Walls]
+			}
+			//else
+			//	console.writeToBuffer(j,i, toBePrinted, 0x4A); // Coloration Failed - Red BG Green Txt
+		}
+		i++;
+	}
+}
+
+void renderMap()
+{
+    // Set up sample colours, and output shadings
+   const WORD stage1colors[] = {
+        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+        0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+    };
+
+    /*COORD c;
+    for (int i = 0; i < 12; ++i)
+    {
+        c.X = 5 * i;
+        c.Y = i + 1;
+        colour(colors[i]);
+        console.writeToBuffer(c, " °±²Û", colors[i]);
+    }*/
+
+   if (battleModeOn == true)
+   {
+	   drawBattleScreen();
+   }
+   else if (battleModeOn == false)
+   {
+	   drawMap();
+   }
+	
 }
 
 void renderCharacter()
