@@ -2,33 +2,30 @@
 //
 //
 #include "game.h"
-#include "mapGen.h"
 #include "Framework\console.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
 
 // Console object
-<<<<<<< HEAD
 Console console(80, 25, "SP1 Framework");
-=======
 Console console(78, 25, "SP1 Framework");
->>>>>>> origin/master
+
 
 double elapsedTime;
 double deltaTime;
 bool keyPressed[K_COUNT];
-<<<<<<< HEAD
 
 
-=======
+
+
 char mapArray[22][79];
 char battleArray[22][79];
 int xSpawnCoord = 0, ySpawnCoord = 0;
 bool renderedChar = false;
 bool battleModeOn = true; // SET TO FALSE LATER
 void readBattleScreen();
->>>>>>> origin/master
+
 // Game specific variables here
 COORD charLocation;
 
@@ -100,17 +97,16 @@ void update(double dt)
 */
 void render()
 {
-<<<<<<< HEAD
+
     clearScreen();      // clears the current screen and draw from scratch 
     renderMap();        // renders the map to the buffer first
     renderCharacter();  // renders the character into the buffer
-=======
+
     readMap();
 	readBattleScreen();
     clearScreen();      // clears the current screen and draw from scratch 
     renderMap();        // renders the map to the buffer first
 	renderCharacter();  // renders the character into the buffer
->>>>>>> origin/master
     renderFramerate();  // renders debug information, frame rate, elapsed time, etc
     renderToScreen();   // dump the contents of the buffer to the screen, one frame worth of game
 	if (renderedChar == false)
@@ -177,8 +173,7 @@ void clearScreen()
     // Clears the buffer with this colour attribute
     console.clearBuffer(0x0F);
 }
-<<<<<<< HEAD
-=======
+
 void readMap()
 {
     string mapline;
@@ -299,7 +294,7 @@ void drawBattleScreen()
 	}
 }
 
->>>>>>> origin/master
+
 void renderMap()
 {
     // Set up sample colours, and output shadings
@@ -316,9 +311,8 @@ void renderMap()
         colour(colors[i]);
         console.writeToBuffer(c, " °±²Û", colors[i]);
     }*/
-<<<<<<< HEAD
+
 	readMap();
-=======
 
    if (battleModeOn == true)
    {
@@ -329,17 +323,17 @@ void renderMap()
 	   drawMap();
    }
 	
->>>>>>> origin/master
+
 }
 
 void renderCharacter()
 {
     // Draw the location of the character
-<<<<<<< HEAD
+
     console.writeToBuffer(charLocation, (char)1, 0x0C);
-=======
+
     console.writeToBuffer(charLocation, (char)1, 0x08);
->>>>>>> origin/master
+
 }
 
 void renderFramerate()
