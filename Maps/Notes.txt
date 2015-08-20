@@ -1,0 +1,9 @@
+W=178 walls
+C=220 Chests
+R=220 Trapped(Rigged) chests
+T=190 Trees
+X=63  Boss
+P=155 Player
+G=Grass
+H=Healing point
+A=Water
