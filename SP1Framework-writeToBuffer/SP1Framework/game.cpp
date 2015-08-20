@@ -35,7 +35,7 @@ void init()
     charLocation.X = console.getConsoleSize().X / 2;
     charLocation.Y = console.getConsoleSize().Y / 2;
     // sets the width, height and the font name to use in the console
-    console.setConsoleFont(0, 24, L"Consolas");
+    console.setConsoleFont(0, 24, L"Lucida Console");
 }
 
 // Do your clean up of memory here
@@ -175,7 +175,7 @@ void readMap()
             for ( int x = 0; x < mapline.length(); x++ )
             {
                 mapArray[y2][x] = mapline[x];
-				cout << mapArray[y2][x];
+				//cout << mapArray[y2][x];
             }
             ++y2;
         }
@@ -216,13 +216,13 @@ void renderMap()
 			}
 			else if (toBePrinted == 'W')
 			{
-				toBePrinted = 178; // ▓
-				console.writeToBuffer(j,i, toBePrinted, 0x08); // Grey [Walls]
+				toBePrinted = 176; // ░
+				console.writeToBuffer(j,i, toBePrinted, 0x80); // Grey [Walls]
 			}
 			else if (toBePrinted == 'T')
 			{
-				toBePrinted = 57; // 9
-				console.writeToBuffer(j,i, toBePrinted, 0x8A); // Green [Trees]
+				toBePrinted = 232; // Φ
+				console.writeToBuffer(j,i, toBePrinted, 0x2A); // Green [Trees]
 			}
 			else if (toBePrinted == 'P')
 			{
@@ -231,8 +231,23 @@ void renderMap()
 				toBePrinted = 176; // ░ Fill up space under player.
             	console.writeToBuffer(j,i, toBePrinted, 0x8A); // Dirty Green [Grass]
 			}
-			else
-				console.writeToBuffer(j,i, toBePrinted, 0x4A); // Coloration Failed - Red BG Green Txt
+			else if (toBePrinted == 'C')
+			{
+				toBePrinted = 254; // ■
+				console.writeToBuffer(j,i, toBePrinted, 0x2E); // Gold [Chests]
+			}
+			else if (toBePrinted == 'E')
+			{
+				toBePrinted = 233; // Θ
+				console.writeToBuffer(j,i, toBePrinted, 0x8B); // Blue [Portal]
+			}
+			else if (toBePrinted == 'X')
+			{
+				toBePrinted = 15; // Θ
+				console.writeToBuffer(j,i, toBePrinted, 0x8C); // Red [Boss]
+			}
+			//else
+			//	console.writeToBuffer(j,i, toBePrinted, 0x4A); // Coloration Failed - Red BG Green Txt
 		}
 		i++;
 	}
