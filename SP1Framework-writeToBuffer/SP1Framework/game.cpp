@@ -2,26 +2,22 @@
 //
 //
 #include "game.h"
+#include "mapGen.h"
 #include "Framework\console.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include "map.h"
 
 // Console object
-Console console(79, 25, "SP1 Framework");
+Console console(80, 25, "SP1 Framework");
 
 double elapsedTime;
 double deltaTime;
 bool keyPressed[K_COUNT];
-char mapArray[22][79];
+
 
 // Game specific variables here
 COORD charLocation;
-
 
 // Initialize variables, allocate memory, load data from file, etc. 
 // This is called once before entering into your main loop
@@ -91,11 +87,10 @@ void update(double dt)
 */
 void render()
 {
-    readMap();
     clearScreen();      // clears the current screen and draw from scratch 
     renderMap();        // renders the map to the buffer first
     renderCharacter();  // renders the character into the buffer
-    //renderFramerate();  // renders debug information, frame rate, elapsed time, etc
+    renderFramerate();  // renders debug information, frame rate, elapsed time, etc
     renderToScreen();   // dump the contents of the buffer to the screen, one frame worth of game
 }
 
@@ -135,45 +130,15 @@ void clearScreen()
     // Clears the buffer with this colour attribute
     console.clearBuffer(0x1F);
 }
-void readMap()
-{
-    string mapline;
-    int x2 = 0, y2 = 0;
-    ifstream mymapfile ("map1.txt");
-    if (mymapfile.is_open())
-    {
-        while (getline (mymapfile,mapline))
-        {
-            for (int i = 0; i < mapline.length();++i)
-            {
-                //if ( mapline[i] == '1' )
-                //{
-                //    //mapline[i] = 176;
-                //}
-                //else if ( mapline[i] == '0' )
-                //{
-                //    mapline[i] = 48;
-                //}
-            }
-            for ( int x = 0; x < 79; ++x )
-            {
-                mapArray[y2][x] = mapline[x];
-            }
-            ++y2;
-        }
-    }
-    mymapfile.close();
-}
-
 void renderMap()
 {
     // Set up sample colours, and output shadings
-   const WORD stage1colors[] = {
+    /*const WORD colors[] = {
         0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
         0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
     };
 
-    /*COORD c;
+    COORD c;
     for (int i = 0; i < 12; ++i)
     {
         c.X = 5 * i;
@@ -181,35 +146,13 @@ void renderMap()
         colour(colors[i]);
         console.writeToBuffer(c, " °±²Û", colors[i]);
     }*/
-
-    
-    for (int i = 0; i < 22;)
-    {
-        for (int j = 0; j < 79; ++j)
-        {
-			char toBePrinted = mapArray[i][j];
-			if (toBePrinted == 49)
-			{
-				toBePrinted = 177;
-            	console.writeToBuffer(j,i, toBePrinted, 0xF0);
-			}
-			if (toBePrinted == 49)
-			{
-				toBePrinted = 177;
-            	console.writeToBuffer(j,i, toBePrinted, 0xF0);
-			}
-			else
-				console.writeToBuffer(j,i, toBePrinted, 0x5B);
-
-        }
-        i++;
-    }
+	readMap();
 }
 
 void renderCharacter()
 {
     // Draw the location of the character
-    console.writeToBuffer(charLocation, (char)2, 0x0C);
+    console.writeToBuffer(charLocation, (char)1, 0x0C);
 }
 
 void renderFramerate()
