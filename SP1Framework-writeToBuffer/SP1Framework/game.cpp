@@ -97,7 +97,7 @@ void render()
     clearScreen();      // clears the current screen and draw from scratch 
     renderMap();        // renders the map to the buffer first
 	renderCharacter();  // renders the character into the buffer
-    //renderFramerate();  // renders debug information, frame rate, elapsed time, etc
+    renderFramerate();  // renders debug information, frame rate, elapsed time, etc
     renderToScreen();   // dump the contents of the buffer to the screen, one frame worth of game
 	if (renderedChar == false)
 	{
@@ -112,23 +112,43 @@ void moveCharacter()
     // Updating the location of the character based on the key press
     if (keyPressed[K_UP] && charLocation.Y > 0)
     {
-        //Beep(1440, 30);
-        charLocation.Y--;
+        if ((mapArray[charLocation.Y - 1][charLocation.X] != 'W') && 
+            (mapArray[charLocation.Y - 1][charLocation.X] != '1') &&
+            (mapArray[charLocation.Y - 1][charLocation.X] != 'T'))
+        {
+            //Beep(1440, 30);
+            charLocation.Y--;
+        }
     }
     if (keyPressed[K_LEFT] && charLocation.X > 0)
     {
-        //Beep(1440, 30);
-        charLocation.X--;
+        if ((mapArray[charLocation.Y][charLocation.X - 1] != 'W') &&
+            (mapArray[charLocation.Y][charLocation.X - 1] != '1') &&
+            (mapArray[charLocation.Y][charLocation.X - 1] != 'T'))
+        {
+            //Beep(1440, 30);
+            charLocation.X--;
+        }
     }
     if (keyPressed[K_DOWN] && charLocation.Y < console.getConsoleSize().Y - 1)
     {
-        //Beep(1440, 30);
-        charLocation.Y++;
+        if ((mapArray[charLocation.Y + 1][charLocation.X] != 'W') && 
+            (mapArray[charLocation.Y + 1][charLocation.X] != '1') &&
+            (mapArray[charLocation.Y + 1][charLocation.X] != 'T'))
+        {
+            //Beep(1440, 30);
+            charLocation.Y++;
+        }
     }
     if (keyPressed[K_RIGHT] && charLocation.X < console.getConsoleSize().X - 1)
     {
-        //Beep(1440, 30);
-        charLocation.X++;
+        if ((mapArray[charLocation.Y][charLocation.X + 1] != 'W') && 
+            (mapArray[charLocation.Y][charLocation.X + 1] != '1') && 
+            (mapArray[charLocation.Y][charLocation.X + 1] != 'T'))
+        {
+            //Beep(1440, 30);
+            charLocation.X++;
+        }
     }
 }
 void processUserInput()
@@ -146,19 +166,16 @@ void clearScreen()
 void readMap()
 {
     string mapline;
-    int x2 = 0, y2 = 0;
+    int y2 = 0;
     ifstream mymapfile ("map1.txt");
     if (mymapfile.is_open())
     {
         while (getline (mymapfile,mapline))
         {
-            for (int i = 0; i < mapline.length();++i)
-            {
-				//Do Nothing Significant
-            }
-            for ( int x = 0; x < mapline.length(); ++x )
+            for ( int x = 0; x < mapline.length(); x++ )
             {
                 mapArray[y2][x] = mapline[x];
+				cout << mapArray[y2][x];
             }
             ++y2;
         }
