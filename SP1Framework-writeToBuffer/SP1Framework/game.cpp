@@ -19,7 +19,7 @@ double deltaTime;
 bool keyPressed[K_COUNT];
 char mapArray[22][79];
 int xSpawnCoord = 0, ySpawnCoord = 0;
-bool rendered = false;
+bool renderedChar = false;
 
 // Game specific variables here
 COORD charLocation;
@@ -99,11 +99,11 @@ void render()
 	renderCharacter();  // renders the character into the buffer
     //renderFramerate();  // renders debug information, frame rate, elapsed time, etc
     renderToScreen();   // dump the contents of the buffer to the screen, one frame worth of game
-	if (rendered == false)
+	if (renderedChar == false)
 	{
 		charLocation.X = xSpawnCoord;
 		charLocation.Y = ySpawnCoord;
-		rendered = true;
+		renderedChar = true;
 	}
 }
 
@@ -182,12 +182,10 @@ void renderMap()
         colour(colors[i]);
         console.writeToBuffer(c, " °±²Û", colors[i]);
     }*/
-
-    
-    for (int i = 0; i < 22;)
-    {
-        for (int j = 0; j < 79; ++j)
-        {
+	for (int i = 0; i < 22;)
+	{
+		for (int j = 0; j < 79; ++j)
+		{
 			char toBePrinted = mapArray[i][j];
 			if (toBePrinted == ' ')
 			{
@@ -206,22 +204,21 @@ void renderMap()
 			}
 			else if (toBePrinted == 'T')
 			{
-				toBePrinted = 'T'; // ▓
-				console.writeToBuffer(j,i, toBePrinted, 0x22); // Green [Trees]
+				toBePrinted = 57; // 9
+				console.writeToBuffer(j,i, toBePrinted, 0x8A); // Green [Trees]
 			}
 			else if (toBePrinted == 'P')
 			{
-				xSpawnCoord = j;
+				xSpawnCoord = j; // Obtain spawn coordinates for player
 				ySpawnCoord = i;
-				toBePrinted = 176; // ░
+				toBePrinted = 176; // ░ Fill up space under player.
             	console.writeToBuffer(j,i, toBePrinted, 0x8A); // Dirty Green [Grass]
 			}
 			else
 				console.writeToBuffer(j,i, toBePrinted, 0x4A); // Coloration Failed - Red BG Green Txt
-
-        }
-        i++;
-    }
+		}
+		i++;
+	}
 }
 
 void renderCharacter()
