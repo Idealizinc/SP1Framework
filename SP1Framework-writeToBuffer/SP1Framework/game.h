@@ -6,6 +6,7 @@
 extern StopWatch g_timer;
 extern bool g_quitGame;
 
+// Key Input
 enum Keys
 {
     K_UP,
@@ -14,6 +15,15 @@ enum Keys
     K_RIGHT,
     K_ESCAPE,
     K_COUNT
+};
+
+// Stage Changing.
+enum stage
+{
+    STAGE1 = 1,
+    STAGE2,
+    STAGE3,
+    STAGE4,
 };
 
 void init();                // initialize your variables, allocate memory, etc
@@ -29,5 +39,7 @@ void renderMap();           // renders the map to the buffer first
 void renderCharacter();     // renders the character into the buffer
 void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
+void chest();               // states what happens when player steps on chest.
+void portal();              // Changes stage when player completes current stage.
 
 #endif // _GAME_H

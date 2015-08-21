@@ -26,12 +26,22 @@ void readBattleScreen();
 void readBattleScreen2();
 
 //For Battle Scrn & Battle Anim
-bool battleModeOn = true; // SET TO FALSE LATER
+bool battleModeOn = false; // SET TO FALSE LATER
 bool animate = true;
 
 
 // Game specific variables here
 COORD charLocation;
+
+
+// Stage Changing.
+enum stage
+{
+    STAGE1 = 1,
+    STAGE2,
+    STAGE3,
+    STAGE4,
+};
 
 
 // Initialize variables, allocate memory, load data from file, etc. 
@@ -284,8 +294,8 @@ void drawMap()
 			}
 			else if (toBePrinted == 'E')
 			{
-				toBePrinted = 233; // Θ
-				console.writeToBuffer(j,i, toBePrinted, 0x8B); // Blue [Portal]
+				toBePrinted = 10; // ◙
+				console.writeToBuffer(j,i, toBePrinted, 0xB8); // Blue [Portal]
 			}
 			else if (toBePrinted == 'X')
 			{
@@ -379,4 +389,22 @@ void renderToScreen()
 {
     // Writes the buffer to the console, hence you will see what you have written
     console.flushBufferToConsole();
+}
+
+void portal()
+{
+    stage stageNo = STAGE1;
+
+    if (stageNo == 1 && mapArray[charLocation.Y][charLocation.X] == 'E')
+    {
+        stageNo = static_cast<stage>(STAGE1 + 1);
+    }
+    if (stageNo == 2 && mapArray[charLocation.Y][charLocation.X] == 'E')
+    {
+        stageNo = static_cast<stage>(STAGE2 + 1);
+    }
+    if (stageNo == 3 && mapArray[charLocation.Y][charLocation.X] == 'E')
+    {
+        stageNo = static_cast<stage>(STAGE3 + 1);
+    }
 }
