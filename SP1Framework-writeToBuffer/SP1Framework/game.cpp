@@ -18,11 +18,30 @@ double elapsedTime;
 double deltaTime;
 bool keyPressed[K_COUNT];
 char mapArray[22][79];
+char battleArray[22][79];
 int xSpawnCoord = 0, ySpawnCoord = 0;
 bool renderedChar = false;
 
+void readBattleScreen();
+void readBattleScreen2();
+
+//For Battle Scrn & Battle Anim
+bool battleModeOn = false; // SET TO FALSE LATER
+bool animate = true;
+
+
 // Game specific variables here
 COORD charLocation;
+
+
+// Stage Changing.
+enum stage
+{
+    STAGE1 = 1,
+    STAGE2,
+    STAGE3,
+    STAGE4,
+};
 
 
 // Initialize variables, allocate memory, load data from file, etc. 
@@ -35,7 +54,7 @@ void init()
     charLocation.X = console.getConsoleSize().X / 2;
     charLocation.Y = console.getConsoleSize().Y / 2;
     // sets the width, height and the font name to use in the console
-    console.setConsoleFont(0, 24, L"Lucida Console");
+    console.setConsoleFont(0, 20, L"RASTER FONTS"); // Set console dimensions to 12 x 16
 }
 
 // Do your clean up of memory here
@@ -94,6 +113,17 @@ void update(double dt)
 void render()
 {
     readMap();
+    if (animate == false)
+    {
+        readBattleScreen();
+        animate = true;
+    }
+    else
+    {
+        readBattleScreen2();
+        animate = false;
+    }
+	//readBattleScreen();
     clearScreen();      // clears the current screen and draw from scratch 
     renderMap();        // renders the map to the buffer first
 	renderCharacter();  // renders the character into the buffer
@@ -183,22 +213,48 @@ void readMap()
     mymapfile.close();
 }
 
-void renderMap()
+void readBattleScreen()
 {
-    // Set up sample colours, and output shadings
-   const WORD stage1colors[] = {
-        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-        0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-    };
-
-    /*COORD c;
-    for (int i = 0; i < 12; ++i)
+    string mapline;
+    int y2 = 0;
+    ifstream mymapfile ("batanimation1.txt");
+    if (mymapfile.is_open())
     {
-        c.X = 5 * i;
-        c.Y = i + 1;
-        colour(colors[i]);
-        console.writeToBuffer(c, " °±²Û", colors[i]);
-    }*/
+        while (getline (mymapfile,mapline))
+        {
+            for ( int x = 0; x < mapline.length(); x++ )
+            {
+                battleArray[y2][x] = mapline[x];
+				//cout << mapArray[y2][x];
+            }
+            ++y2;
+        }
+    }
+    mymapfile.close();
+}
+
+void readBattleScreen2()
+{
+    string mapline;
+    int y2 = 0;
+    ifstream mymapfile ("batanimation2.txt");
+    if (mymapfile.is_open())
+    {
+        while (getline (mymapfile,mapline))
+        {
+            for ( int x = 0; x < mapline.length(); x++ )
+            {
+                battleArray[y2][x] = mapline[x];
+				//cout << mapArray[y2][x];
+            }
+            ++y2;
+        }
+    }
+    mymapfile.close();
+}
+
+void drawMap()
+{
 	for (int i = 0; i < 22;)
 	{
 		for (int j = 0; j < 79; ++j)
@@ -221,8 +277,8 @@ void renderMap()
 			}
 			else if (toBePrinted == 'T')
 			{
-				toBePrinted = 232; // Φ
-				console.writeToBuffer(j,i, toBePrinted, 0x2A); // Green [Trees]
+				toBePrinted = 5; // ♣
+				console.writeToBuffer(j,i, toBePrinted, 0x8A); // Green [Trees]
 			}
 			else if (toBePrinted == 'P')
 			{
@@ -238,8 +294,8 @@ void renderMap()
 			}
 			else if (toBePrinted == 'E')
 			{
-				toBePrinted = 233; // Θ
-				console.writeToBuffer(j,i, toBePrinted, 0x8B); // Blue [Portal]
+				toBePrinted = 10; // ◙
+				console.writeToBuffer(j,i, toBePrinted, 0xB8); // Blue [Portal]
 			}
 			else if (toBePrinted == 'X')
 			{
@@ -253,10 +309,62 @@ void renderMap()
 	}
 }
 
+void drawBattleScreen()
+{
+	for (int i = 0; i < 22;)
+	{
+		for (int j = 0; j < 79; ++j)
+		{
+			char toBePrinted = battleArray[i][j];
+			if (toBePrinted == '1')
+			{
+				toBePrinted = 178; // ▓
+				console.writeToBuffer(j,i, toBePrinted, 0x7F); // White [Walls]
+			}
+			else if (toBePrinted == 'W')
+			{
+				toBePrinted = 176; // ░
+				console.writeToBuffer(j,i, toBePrinted, 0x80); // Grey [Walls]
+			}
+			else
+				console.writeToBuffer(j,i, toBePrinted, 0x8F); // Coloration Failed - blk Txt
+		}
+		i++;
+	}
+}
+
+void renderMap()
+{
+    // Set up sample colours, and output shadings
+   const WORD stage1colors[] = {
+        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+        0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+    };
+
+    /*COORD c;
+    for (int i = 0; i < 12; ++i)
+    {
+        c.X = 5 * i;
+        c.Y = i + 1;
+        colour(colors[i]);
+        console.writeToBuffer(c, " °±²Û", colors[i]);
+    }*/
+
+   if (battleModeOn == true)
+   {
+	   drawBattleScreen();
+   }
+   else if (battleModeOn == false)
+   {
+	   drawMap();
+   }
+	
+}
+
 void renderCharacter()
 {
     // Draw the location of the character
-    console.writeToBuffer(charLocation, (char)1, 0x08);
+    console.writeToBuffer(charLocation, (char)2, 0x2F);
 }
 
 void renderFramerate()
@@ -281,4 +389,22 @@ void renderToScreen()
 {
     // Writes the buffer to the console, hence you will see what you have written
     console.flushBufferToConsole();
+}
+
+void portal()
+{
+    stage stageNo = STAGE1;
+
+    if (stageNo == 1 && mapArray[charLocation.Y][charLocation.X] == 'E')
+    {
+        stageNo = static_cast<stage>(STAGE1 + 1);
+    }
+    if (stageNo == 2 && mapArray[charLocation.Y][charLocation.X] == 'E')
+    {
+        stageNo = static_cast<stage>(STAGE2 + 1);
+    }
+    if (stageNo == 3 && mapArray[charLocation.Y][charLocation.X] == 'E')
+    {
+        stageNo = static_cast<stage>(STAGE3 + 1);
+    }
 }
