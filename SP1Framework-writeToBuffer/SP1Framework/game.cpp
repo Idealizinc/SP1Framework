@@ -41,6 +41,10 @@ void init()
     // Set precision for floating point output
     elapsedTime = 0.0;
 
+    readMap();
+    readPortal();
+
+
     charLocation.X = console.getConsoleSize().X / 2;
     charLocation.Y = console.getConsoleSize().Y / 2;
     // sets the width, height and the font name to use in the console
@@ -105,8 +109,21 @@ void update(double dt)
 */
 void render()
 {
-    readMap();
-    readPortal();
+	//readBattleScreen();
+    clearScreen();      // clears the current screen and draw from scratch 
+    renderMap();        // renders the map to the buffer first
+
+    //Portal Screen
+    if (mapArray[charLocation.Y][charLocation.X] == 'E')
+    {
+        atPortal = true;
+    }
+    if (atPortal == true)
+    {
+        clearScreen();
+        portalrender();
+    }
+
     if (animate == false)
     {
         readBattleScreen();
@@ -118,22 +135,6 @@ void render()
         animate = false;
     }
 
-
-    //Portal Screen
-    if (mapArray[charLocation.Y][charLocation.X] == 'E')
-    {
-        atPortal = true;
-    }
-    if (atPortal == true)
-    {
-        readPortal();
-    }
-
-
-
-	//readBattleScreen();
-    clearScreen();      // clears the current screen and draw from scratch 
-    renderMap();        // renders the map to the buffer first
 	if ((battleModeOn == false) && (renderedChar == true))
 	{
 		renderCharacter();  // renders the character into the buffer
@@ -169,11 +170,11 @@ void moveCharacter()
 
             //Beep(1440, 30);
             charLocation.Y--;
-			monster = encounterCheck();
-			if (monster != 0)
-			{
-				battleModeOn = true;
-			}
+			//monster = encounterCheck();
+			//if (monster != 0)
+			//{
+			//	battleModeOn = true;
+			//}
         }
     }
     if (keyPressed[K_LEFT] && charLocation.X > 0)
@@ -184,11 +185,11 @@ void moveCharacter()
         {
             //Beep(1440, 30);
             charLocation.X--;
-			monster = encounterCheck();
-			if (monster != 0)
-			{
-				battleModeOn = true;
-			}
+			//monster = encounterCheck();
+			//if (monster != 0)
+			//{
+			//	battleModeOn = true;
+			//}
         }
     }
     if (keyPressed[K_DOWN] && charLocation.Y < console.getConsoleSize().Y - 1)
@@ -199,11 +200,11 @@ void moveCharacter()
         {
             //Beep(1440, 30);
             charLocation.Y++;
-			monster = encounterCheck();
-			if (monster != 0)
-			{
-				battleModeOn = true;
-			}
+			//monster = encounterCheck();
+			//if (monster != 0)
+			//{
+			//	battleModeOn = true;
+			//}
         }
     }
     if (keyPressed[K_RIGHT] && charLocation.X < console.getConsoleSize().X - 1)
@@ -214,11 +215,11 @@ void moveCharacter()
         {
             //Beep(1440, 30);
             charLocation.X++;
-			monster = encounterCheck();
-			if (monster != 0)
-			{
-				battleModeOn = true;
-			}
+			//monster = encounterCheck();
+			//if (monster != 0)
+			//{
+			//	battleModeOn = true;
+			//}
         }
     }
 
@@ -474,6 +475,7 @@ void readPortal()
         }
         stageClr.close();
 }
+
 void portalrender()
 {
     for (int i = 0; i < 28; ++i)
@@ -481,25 +483,13 @@ void portalrender()
 		    for (int j = 0; j < 79; ++j)
 		    {
 			    char EndScreen = screenArray[i][j];
+                cout << EndScreen;
                 if (EndScreen == ' ')
-			    {
-				    EndScreen = 178; // ░
-            	    console.writeToBuffer(j,i, EndScreen, 0x2E);
-			    }
-                else if (EndScreen == '1')
                 {
-                    EndScreen = 178;
-				    console.writeToBuffer(j,i, EndScreen, 0x7F); // White [Walls]
-                }
-                else if (EndScreen == 'W')
-                {
-                    EndScreen = 176; // ░
-				    console.writeToBuffer(j,i, EndScreen, 0x8F); // Grey [Walls]
-                }
-                else
-                {
-                    console.writeToBuffer(j,i, EndScreen, 0x8F);
+                    EndScreen = 176;
+                    console.writeToBuffer(i,j, EndScreen, 0xB8);
                 }
              }
         }
+    atPortal = false;
 }
