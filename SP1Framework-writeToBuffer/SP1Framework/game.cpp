@@ -3,13 +3,7 @@
 //
 #include "game.h"
 #include "Framework\console.h"
-#include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include "map.h"
+#include "monsterEncounter.h"
 
 // Console object
 Console console(78, 25, "SP1 Framework");
@@ -19,20 +13,26 @@ double deltaTime;
 bool keyPressed[K_COUNT];
 char mapArray[22][79];
 char battleArray[22][79];
+char screenArray[28][79];
 int xSpawnCoord = 0, ySpawnCoord = 0;
+int xReturnCoord, yReturnCoord;
 bool renderedChar = false;
-unsigned int playerEXP = 0;
-char openedChest;
+
 int chest0 = 0;
 int chest1 = 0;
 
-//For Battle Screen & Battle Anim
+//For Battle Scrn & Battle Anim
 bool battleModeOn = false; // SET TO FALSE LATER
 bool animate = true;
+int monsterFound; 
+bool playerInputOn = true;
 
+//For Portal End Stage
+bool atPortal = false;
 
 // Game specific variables here
 COORD charLocation;
+
 
 // Initialize variables, allocate memory, load data from file, etc. 
 // This is called once before entering into your main loop
@@ -65,12 +65,15 @@ void shutdown()
 	For Alphanumeric keys, the values are their ascii values (uppercase).
 */
 void getInput()
-{    
-    keyPressed[K_UP] = isKeyPressed(VK_UP);
-    keyPressed[K_DOWN] = isKeyPressed(VK_DOWN);
-    keyPressed[K_LEFT] = isKeyPressed(VK_LEFT);
-    keyPressed[K_RIGHT] = isKeyPressed(VK_RIGHT);
-    keyPressed[K_ESCAPE] = isKeyPressed(VK_ESCAPE);
+{   
+	if (playerInputOn == true)
+	{
+		keyPressed[K_UP] = isKeyPressed(VK_UP);
+		keyPressed[K_DOWN] = isKeyPressed(VK_DOWN);
+		keyPressed[K_LEFT] = isKeyPressed(VK_LEFT);
+		keyPressed[K_RIGHT] = isKeyPressed(VK_RIGHT);
+	}
+	keyPressed[K_ESCAPE] = isKeyPressed(VK_ESCAPE);
 }
 
 /*
@@ -103,6 +106,7 @@ void update(double dt)
 void render()
 {
     readMap();
+    readPortal();
     if (animate == false)
     {
         readBattleScreen();
@@ -113,10 +117,35 @@ void render()
         readBattleScreen2();
         animate = false;
     }
+
+
+    //Portal Screen
+    if (mapArray[charLocation.Y][charLocation.X] == 'E')
+    {
+        atPortal = true;
+    }
+    if (atPortal == true)
+    {
+        readPortal();
+    }
+
+
+
 	//readBattleScreen();
     clearScreen();      // clears the current screen and draw from scratch 
     renderMap();        // renders the map to the buffer first
-	renderCharacter();  // renders the character into the buffer
+	if ((battleModeOn == false) && (renderedChar == true))
+	{
+		renderCharacter();  // renders the character into the buffer
+		xReturnCoord = charLocation.X;
+		yReturnCoord = charLocation.Y;
+	}
+	else if (battleModeOn == true)
+	{
+		charLocation.X = 100;
+		charLocation.Y = 100;
+		playerInputOn = false;
+	}
     renderFramerate();  // renders debug information, frame rate, elapsed time, etc
     renderToScreen();   // dump the contents of the buffer to the screen, one frame worth of game
 	if (renderedChar == false)
@@ -129,6 +158,7 @@ void render()
 
 void moveCharacter()
 {
+	int monster;
     // Updating the location of the character based on the key press
     if (keyPressed[K_UP] && charLocation.Y > 0)
     {
@@ -136,8 +166,14 @@ void moveCharacter()
             (mapArray[charLocation.Y - 1][charLocation.X] != '1') &&
             (mapArray[charLocation.Y - 1][charLocation.X] != 'T'))
         {
+
             //Beep(1440, 30);
             charLocation.Y--;
+			monster = encounterCheck();
+			if (monster != 0)
+			{
+				battleModeOn = true;
+			}
         }
     }
     if (keyPressed[K_LEFT] && charLocation.X > 0)
@@ -148,6 +184,11 @@ void moveCharacter()
         {
             //Beep(1440, 30);
             charLocation.X--;
+			monster = encounterCheck();
+			if (monster != 0)
+			{
+				battleModeOn = true;
+			}
         }
     }
     if (keyPressed[K_DOWN] && charLocation.Y < console.getConsoleSize().Y - 1)
@@ -158,6 +199,11 @@ void moveCharacter()
         {
             //Beep(1440, 30);
             charLocation.Y++;
+			monster = encounterCheck();
+			if (monster != 0)
+			{
+				battleModeOn = true;
+			}
         }
     }
     if (keyPressed[K_RIGHT] && charLocation.X < console.getConsoleSize().X - 1)
@@ -168,10 +214,14 @@ void moveCharacter()
         {
             //Beep(1440, 30);
             charLocation.X++;
+			monster = encounterCheck();
+			if (monster != 0)
+			{
+				battleModeOn = true;
+			}
         }
     }
 
-    //Check if Chest is nearby
     chest();
 }
 void processUserInput()
@@ -282,12 +332,12 @@ void drawMap()
 			}
 			else if (toBePrinted == 'C')
 			{
-				    toBePrinted = 254; // ■
-				    console.writeToBuffer(j,i, toBePrinted, 0x2E); // Gold [Chests]
+				toBePrinted = 254; // ■
+				console.writeToBuffer(j,i, toBePrinted, 0x2E); // Gold [Chests]
 			}
 			else if (toBePrinted == 'E')
 			{
-				toBePrinted = 10; // ◙
+				toBePrinted = 10; // 
 				console.writeToBuffer(j,i, toBePrinted, 0xB8); // Blue [Portal]
 			}
 			else if (toBePrinted == 'X')
@@ -328,30 +378,30 @@ void drawBattleScreen()
 
 void renderMap()
 {
-    // Set up sample colours, and output shadings
-   const WORD stage1colors[] = {
-        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-        0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-    };
+	// Set up sample colours, and output shadings
+	const WORD stage1colors[] = {
+		0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+	};
 
-    /*COORD c;
-    for (int i = 0; i < 12; ++i)
-    {
-        c.X = 5 * i;
-        c.Y = i + 1;
-        colour(colors[i]);
-        console.writeToBuffer(c, " °±²Û", colors[i]);
-    }*/
+	/*COORD c;
+	for (int i = 0; i < 12; ++i)
+	{
+		c.X = 5 * i;
+		c.Y = i + 1;
+		colour(colors[i]);
+		console.writeToBuffer(c, " °±²Û", colors[i]);
+	}*/
 
-   if (battleModeOn == true)
-   {
-	   drawBattleScreen();
-   }
-   else if (battleModeOn == false)
-   {
-	   drawMap();
-   }
-	
+	if (battleModeOn == true)
+	{
+		drawBattleScreen();
+	}
+	else if (battleModeOn == false)
+	{
+		drawMap();
+	}
+	renderCharacter();  // renders the character into the buffer
 }
 
 void renderCharacter()
@@ -384,41 +434,72 @@ void renderToScreen()
     console.flushBufferToConsole();
 }
 
+//Checks if player is at the Chest.
 void chest()
 {
+    //cout << charLocation.Y;
     if (mapArray[charLocation.Y][charLocation.X] == 'C')
     {
-        if (chest0 == 0 && mapArray[20][44])
+        //(charLocation.Y == 19 && charLocation.X == 43])
+        if ((chest0 == 0) && ((charLocation.Y == 19) && (charLocation.X == 43)))
         {
-            openedChest = mapArray[20][44];
             //Added (random) items!
             cout << "potato gained";
-            counter++;
+            ++chest0;
         }
-        if (chest1 == 0 && mapArray[3][72])
+        if ((chest1 == 0) &&  ((charLocation.Y == 2) && (charLocation.X == 71)))
         {
-            openedChest = mapArray[20][44];
             //Added (random) items!
             cout << "potato gained";
-            chest1++;
+            ++chest1;
         }
     }
 }
 
-void portal()
+void readPortal()
 {
-    stage stageNo = STAGE1;
-
-    if (stageNo == 1 && mapArray[charLocation.Y][charLocation.X] == 'E')
-    {
-        stageNo = static_cast<stage>(STAGE1 + 1);
-    }
-    if (stageNo == 2 && mapArray[charLocation.Y][charLocation.X] == 'E')
-    {
-        stageNo = static_cast<stage>(STAGE2 + 1);
-    }
-    if (stageNo == 3 && mapArray[charLocation.Y][charLocation.X] == 'E')
-    {
-        stageNo = static_cast<stage>(STAGE3 + 1);
-    }
+        string mapline;
+        int y2 = 0;
+        ifstream stageClr ("endscreen.txt");
+        if (stageClr.is_open())
+        {
+            while (getline (stageClr,mapline))
+            {
+                for ( int x = 0; x < mapline.length(); x++ )
+                {
+                    screenArray[y2][x] = mapline[x];
+                }
+                ++y2;
+            }
+        }
+        stageClr.close();
+}
+void portalrender()
+{
+    for (int i = 0; i < 28; ++i)
+	    {
+		    for (int j = 0; j < 79; ++j)
+		    {
+			    char EndScreen = screenArray[i][j];
+                if (EndScreen == ' ')
+			    {
+				    EndScreen = 178; // ░
+            	    console.writeToBuffer(j,i, EndScreen, 0x2E);
+			    }
+                else if (EndScreen == '1')
+                {
+                    EndScreen = 178;
+				    console.writeToBuffer(j,i, EndScreen, 0x7F); // White [Walls]
+                }
+                else if (EndScreen == 'W')
+                {
+                    EndScreen = 176; // ░
+				    console.writeToBuffer(j,i, EndScreen, 0x8F); // Grey [Walls]
+                }
+                else
+                {
+                    console.writeToBuffer(j,i, EndScreen, 0x8F);
+                }
+             }
+        }
 }
