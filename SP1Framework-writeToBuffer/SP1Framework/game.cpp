@@ -21,28 +21,18 @@ char mapArray[22][79];
 char battleArray[22][79];
 int xSpawnCoord = 0, ySpawnCoord = 0;
 bool renderedChar = false;
+unsigned int playerEXP = 0;
+char openedChest;
+int chest0 = 0;
+int chest1 = 0;
 
-void readBattleScreen();
-void readBattleScreen2();
-
-//For Battle Scrn & Battle Anim
+//For Battle Screen & Battle Anim
 bool battleModeOn = false; // SET TO FALSE LATER
 bool animate = true;
 
 
 // Game specific variables here
 COORD charLocation;
-
-
-// Stage Changing.
-enum stage
-{
-    STAGE1 = 1,
-    STAGE2,
-    STAGE3,
-    STAGE4,
-};
-
 
 // Initialize variables, allocate memory, load data from file, etc. 
 // This is called once before entering into your main loop
@@ -180,6 +170,9 @@ void moveCharacter()
             charLocation.X++;
         }
     }
+
+    //Check if Chest is nearby
+    chest();
 }
 void processUserInput()
 {
@@ -289,8 +282,8 @@ void drawMap()
 			}
 			else if (toBePrinted == 'C')
 			{
-				toBePrinted = 254; // ■
-				console.writeToBuffer(j,i, toBePrinted, 0x2E); // Gold [Chests]
+				    toBePrinted = 254; // ■
+				    console.writeToBuffer(j,i, toBePrinted, 0x2E); // Gold [Chests]
 			}
 			else if (toBePrinted == 'E')
 			{
@@ -389,6 +382,27 @@ void renderToScreen()
 {
     // Writes the buffer to the console, hence you will see what you have written
     console.flushBufferToConsole();
+}
+
+void chest()
+{
+    if (mapArray[charLocation.Y][charLocation.X] == 'C')
+    {
+        if (chest0 == 0 && mapArray[20][44])
+        {
+            openedChest = mapArray[20][44];
+            //Added (random) items!
+            cout << "potato gained";
+            counter++;
+        }
+        if (chest1 == 0 && mapArray[3][72])
+        {
+            openedChest = mapArray[20][44];
+            //Added (random) items!
+            cout << "potato gained";
+            chest1++;
+        }
+    }
 }
 
 void portal()
