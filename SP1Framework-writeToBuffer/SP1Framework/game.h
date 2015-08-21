@@ -34,12 +34,15 @@ void shutdown();            // do clean up, free memory
 
 void moveCharacter();       // moves the character, collision detection, physics, etc
 void processUserInput();    // checks if you should change states or do something else with the game, e.g. pause, exit
-void clearScreen();         // clears the current screen and draw from scratch 
+void clearScreen();         // clears the current screen and draw from scratch
+void readBattleScreen();    // first frame of animation
+void readBattleScreen2();   // second frame of animation
 void renderMap();           // renders the map to the buffer first
 void renderCharacter();     // renders the character into the buffer
 void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
 void chest();               // states what happens when player steps on chest.
 void portal();              // Changes stage when player completes current stage.
+
 
 #endif // _GAME_H
