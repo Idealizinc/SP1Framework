@@ -21,11 +21,15 @@ char mapArray[22][79];
 char battleArray[22][79];
 int xSpawnCoord = 0, ySpawnCoord = 0;
 bool renderedChar = false;
-bool battleModeOn = false; // SET TO FALSE LATER
+
 void readBattleScreen();
 void readBattleScreen2();
 
-bool animate = false;
+//For Battle Scrn & Battle Anim
+bool battleModeOn = true; // SET TO FALSE LATER
+bool animate = true;
+
+
 // Game specific variables here
 COORD charLocation;
 
@@ -40,7 +44,7 @@ void init()
     charLocation.X = console.getConsoleSize().X / 2;
     charLocation.Y = console.getConsoleSize().Y / 2;
     // sets the width, height and the font name to use in the console
-    console.setConsoleFont(0, 12, L"RASTER FONTS"); // Set console dimensions to 12 x 16
+    console.setConsoleFont(0, 20, L"RASTER FONTS"); // Set console dimensions to 12 x 16
 }
 
 // Do your clean up of memory here
@@ -350,7 +354,7 @@ void renderMap()
 void renderCharacter()
 {
     // Draw the location of the character
-    console.writeToBuffer(charLocation, (char)1, 0x2F);
+    console.writeToBuffer(charLocation, (char)2, 0x2F);
 }
 
 void renderFramerate()
