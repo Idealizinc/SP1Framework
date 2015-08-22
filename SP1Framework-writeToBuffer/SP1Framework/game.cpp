@@ -489,6 +489,11 @@ void portalrender()
                     EndScreen = 176;
                     console.writeToBuffer(i,j, EndScreen, 0xB8);
                 }
+                if (EndScreen == 'W')
+                {
+                    EndScreen = 177;
+                    console.writeToBuffer(i,j, EndScreen, 0xB8);
+                }
              }
         }
     atPortal = false;
