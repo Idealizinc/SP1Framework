@@ -486,12 +486,12 @@ void portalrender()
                 cout << EndScreen;
                 if (EndScreen == ' ')
                 {
-                    EndScreen = 176;
+                    //EndScreen = 176;
                     console.writeToBuffer(i,j, EndScreen, 0xB8);
                 }
                 if (EndScreen == 'W')
                 {
-                    EndScreen = 177;
+                    //EndScreen = 177;
                     console.writeToBuffer(i,j, EndScreen, 0xB8);
                 }
              }
