@@ -64,7 +64,9 @@ void render();              // renders the current state of the game to the cons
 void shutdown();            // do clean up, free memory
 
 void numberinput();         // gets the number LOLOLLOLLOL
-void moveCharacter();       // moves the character, collision detection, physics, etc
+void moveCharacter();       // moves the character.
+void checkDirection();      // check where it's pressing.
+void checkMovement(bool keyInput);       // checks the path it took. collision detection, physics, etc
 void processUserInput();    // checks if you should change states or do something else with the game, e.g. pause, exit
 void clearScreen();         // clears the current screen and draw from scratch 
 
@@ -76,6 +78,7 @@ void renderToScreen();      // dump the contents of the buffer to the screen, on
 void animateBSNorm();		//Swaps between and prints diff battle screens.
 void animateBSBoss();		//Same As Above Just For Boss Fights
 void portalrender();        // renders the portal.
+void renderGameOver();      // renders Game Over screen.
 
 //Reading
 void readMap();             // reads the map in a txt file.
@@ -84,12 +87,12 @@ void readBattleScreen();    // first frame of animation
 void readBattleScreen2();   // second frame of animation
 void readBossScreen();		// Read Boss Screen 1
 void readBossScreen2();		// Read Boss Screen 2
+void readGameOver();        // reads the gameover in a txt file.
 
 //Detection
 void bossFightCheck();		// Checks if player is on boss.
 void chest();               // states what happens when player steps on chest.
-
-
+void chestOpen();           // opens the map
 
 struct Monster
 {
