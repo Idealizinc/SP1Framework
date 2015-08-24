@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SP1Framework", "SP1Framework\SP1Framework.vcxproj", "{1A587CA1-7340-416F-94D6-7C400A833946}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4183C44D-5CA9-46CC-BA84-8C95E0FA578B}"
-	ProjectSection(SolutionItems) = preProject
-		SP1Framework\battlescreen.txt = SP1Framework\battlescreen.txt
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

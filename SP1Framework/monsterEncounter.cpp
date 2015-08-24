@@ -2,19 +2,25 @@
 
 int random_function();
 int monsterSelection(int val);
-
+void random();
+int randomenc = 0;
 int encounterCheck()
 {
 	int monster = monsterSelection(random_function());
 	return monster;
 }
-
+void random()
+{
+	srand(time(NULL));
+	randomenc = rand()%50 + 1;
+}
 int random_function()
 {
 	int encounterCheck;
 	//srand((unsigned)time(0));
-	encounterCheck = rand()%(40);
+	encounterCheck = randomenc;
 	return encounterCheck;
+
 }
 
 int monsterSelection(int var)
