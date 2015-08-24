@@ -30,6 +30,7 @@ int randomNo1 = ( rand()%9 ) + 1;
 int randomNo2 = ( rand()%9 ) + 1;
 int randomsign = ( rand()%3 ) + 1;
 vector<char> ansVec;
+string answer;
 //For Battle Scrn & Battle Anim 
 bool battleModeOn = false; // SET TO FALSE LATER
 bool animate = true;
@@ -526,57 +527,57 @@ void numberinput()
 	int counter = 0;
 	if ( keyPressed[K_1] )
 	{
-		ansVec.push_back( '1' );
+		answer += ( '1' );
 		++counter;
 	}
 	else if ( keyPressed[K_2] )
 	{
-		ansVec.push_back( '2' );
+		answer += ( '2' );
 		++counter;
 	}
 	else if ( keyPressed[K_3] )
 	{
-		ansVec.push_back( '3' );
+		answer += ( '3' );
 		++counter;
 	}
 	else if ( keyPressed[K_4] )
 	{
-		ansVec.push_back( '4' );
+		answer += ( '4' );
 		++counter;
 	}
 	else if ( keyPressed[K_5] )
 	{
-		ansVec.push_back( '5' );
+		answer += ( '5' );
 		++counter;
 	}
 	else if ( keyPressed[K_6] )
 	{
-		ansVec.push_back( '6' );
+		answer += ( '6' );
 		++counter;
 	}
 	else if ( keyPressed[K_7] )
 	{
-		ansVec.push_back( '7' );
+		answer += ( '7' );
 		++counter;
 	}
 	else if ( keyPressed[K_8] )
 	{
-		ansVec.push_back( '8' );
+		answer += ( '8' );
 		++counter;
 	}
 	else if ( keyPressed[K_9] )
 	{
-		ansVec.push_back( '9' );
+		answer += ( '9' );
 		++counter;
 	}
 	else if ( keyPressed[K_0] )
 	{
-		ansVec.push_back( '0' );
+		answer += ( '0' );
 		++counter;
 	}
 	else if ( keyPressed[K_BACKSPACE] )
 	{
-		ansVec[counter - 1] = 0;
+		answer.erase(answer.length() - 1 ) ;
 		--counter;
 	}
 	else if ( keyPressed[K_ENTER] )
