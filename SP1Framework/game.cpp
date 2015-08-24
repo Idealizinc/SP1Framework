@@ -30,12 +30,15 @@ int randomNo1 = ( rand()%9 ) + 1;
 int randomNo2 = ( rand()%9 ) + 1;
 int randomsign = ( rand()%3 ) + 1;
 vector<char> ansVec;
+string answer;
 //For Battle Scrn & Battle Anim 
-bool battleModeOn = false; // SET TO FALSE LATER
+bool battleModeOn = true; // SET TO FALSE LATER
 bool animate = true;
 int monsterFound; 
 bool playerInputOn = true;
-
+int answerIsDifferent;
+string battleAnswer;
+bool playerInputted = false;
 //For Portal End Stage
 bool atPortal = false; //Set To FALSE
 
@@ -299,6 +302,7 @@ void readMap()
     string mapline;
     int y2 = 0;
     ifstream mymapfile ("map1.txt");
+
     if (mymapfile.is_open())
     {
         while (getline (mymapfile,mapline))
@@ -312,6 +316,7 @@ void readMap()
         }
     }
     mymapfile.close();
+
 }
 
 void readBattleScreen()
@@ -451,6 +456,7 @@ void drawMap()
 			//	console.writeToBuffer(j,i, toBePrinted, 0x4A); // Coloration Failed - Red BG Green Txt
 		}
 		i++;
+
 	}
 
 	COORD c;
@@ -468,7 +474,7 @@ void drawMap()
 	text += myHP;
 	text += "    Exp: ";
 	text += playerExp;
-	
+	//charHP++; testing if changeable 
 	c.X = 0;
 	c.Y = 23;
 	//console.writeToBuffer(c,text.str());
@@ -528,11 +534,20 @@ void drawBattleScreen()
 	d.Y = 23;
 	console.writeToBuffer(d, question, 0x0C);
 	int ans = randomNo1 + randomNo2;
+	std::ostringstream theAnswer;
+	theAnswer << ans;
+	string qnAnswer = theAnswer.str();
+	battleAnswer.assign(qnAnswer);
 	numberinput();
-	int playerinput = 0;
-	if ( playerinput == ans )
+	if ( (answerIsDifferent == false) && (playerInputted == true) )
 	{
 		monsterHP -= 15;
+		playerInputted == false;
+	}
+	else if ( (answerIsDifferent == true) && (playerInputted == true) )
+	{
+		charHP -= 30;
+		playerInputted == false;
 	}
 }
 
@@ -541,64 +556,66 @@ void numberinput()
 	int counter = 0;
 	if ( keyPressed[K_1] )
 	{
-		ansVec.push_back( '1' );
-		++counter;
+		answer += ( '1' );
 	}
 	else if ( keyPressed[K_2] )
 	{
-		ansVec.push_back( '2' );
-		++counter;
+		answer += ( '2' );
 	}
 	else if ( keyPressed[K_3] )
 	{
-		ansVec.push_back( '3' );
-		++counter;
+		answer += ( '3' );
 	}
 	else if ( keyPressed[K_4] )
 	{
-		ansVec.push_back( '4' );
-		++counter;
+		answer += ( '4' );
 	}
 	else if ( keyPressed[K_5] )
 	{
-		ansVec.push_back( '5' );
-		++counter;
+		answer += ( '5' );
 	}
 	else if ( keyPressed[K_6] )
 	{
-		ansVec.push_back( '6' );
-		++counter;
+		answer += ( '6' );
 	}
 	else if ( keyPressed[K_7] )
 	{
-		ansVec.push_back( '7' );
-		++counter;
+		answer += ( '7' );
 	}
 	else if ( keyPressed[K_8] )
 	{
-		ansVec.push_back( '8' );
-		++counter;
+		answer += ( '8' );
 	}
 	else if ( keyPressed[K_9] )
 	{
-		ansVec.push_back( '9' );
-		++counter;
+		answer += ( '9' );
 	}
 	else if ( keyPressed[K_0] )
 	{
-		ansVec.push_back( '0' );
-		++counter;
+		answer += ( '0' );
 	}
-	else if ( keyPressed[K_BACKSPACE] )
+	else if ( (keyPressed[K_BACKSPACE]) && (answer.length() > 0) )
 	{
-		ansVec[counter - 1] = 0;
-		--counter;
+		answer.erase(answer.length() - 1 ) ;
 	}
 	else if ( keyPressed[K_ENTER] )
 	{
-		ansVec[counter - 1] = 0;
-		--counter;
+		
+		if ( answer.compare(battleAnswer) == 0 )
+		{
+			answerIsDifferent = false;
+			playerInputted == true;
+		}
+		else if ( answer.compare(battleAnswer) > 0 )
+		{
+			answerIsDifferent = true;
+			playerInputted == true;
+		}
 	}
+	COORD e;
+	e.X = 20 ;
+	e.Y = 23 ;
+	console.writeToBuffer(e, answer, 0x0C);
 }
 
 void drawBattleScreenALT()
