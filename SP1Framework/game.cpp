@@ -32,11 +32,13 @@ int randomsign = ( rand()%3 ) + 1;
 vector<char> ansVec;
 string answer;
 //For Battle Scrn & Battle Anim 
-bool battleModeOn = false; // SET TO FALSE LATER
+bool battleModeOn = true; // SET TO FALSE LATER
 bool animate = true;
 int monsterFound; 
 bool playerInputOn = true;
-
+int answerIsDifferent;
+string battleAnswer;
+bool playerInputted = false;
 //For Portal End Stage
 bool atPortal = false; //Set To FALSE
 
@@ -518,11 +520,20 @@ void drawBattleScreen()
 	d.Y = 23;
 	console.writeToBuffer(d, question, 0x0C);
 	int ans = randomNo1 + randomNo2;
+	std::ostringstream theAnswer;
+	theAnswer << ans;
+	string qnAnswer = theAnswer.str();
+	battleAnswer.assign(qnAnswer);
 	numberinput();
-	int playerinput = 0;
-	if ( playerinput == ans )
+	if ( (answerIsDifferent == false) && (playerInputted == true) )
 	{
 		monsterHP -= 15;
+		playerInputted == false;
+	}
+	else if ( (answerIsDifferent == true) && (playerInputted == true) )
+	{
+		charHP -= 30;
+		playerInputted == false;
 	}
 }
 void numberinput()
@@ -568,14 +579,28 @@ void numberinput()
 	{
 		answer += ( '0' );
 	}
-	else if ( keyPressed[K_BACKSPACE] )
+	else if ( (keyPressed[K_BACKSPACE]) && (answer.length() > 0) )
 	{
 		answer.erase(answer.length() - 1 ) ;
 	}
 	else if ( keyPressed[K_ENTER] )
 	{
-		ansVec[counter - 1] = 0;
+		
+		if ( answer.compare(battleAnswer) == 0 )
+		{
+			answerIsDifferent = false;
+			playerInputted == true;
+		}
+		else if ( answer.compare(battleAnswer) > 0 )
+		{
+			answerIsDifferent = true;
+			playerInputted == true;
+		}
 	}
+	COORD e;
+	e.X = 20 ;
+	e.Y = 23 ;
+	console.writeToBuffer(e, answer, 0x0C);
 }
 void drawBattleScreenALT()
 {
