@@ -286,6 +286,7 @@ void readMap()
     string mapline;
     int y2 = 0;
     ifstream mymapfile ("map1.txt");
+
     if (mymapfile.is_open())
     {
         while (getline (mymapfile,mapline))
@@ -528,52 +529,42 @@ void numberinput()
 	if ( keyPressed[K_1] )
 	{
 		answer += ( '1' );
-		++counter;
 	}
 	else if ( keyPressed[K_2] )
 	{
 		answer += ( '2' );
-		++counter;
 	}
 	else if ( keyPressed[K_3] )
 	{
 		answer += ( '3' );
-		++counter;
 	}
 	else if ( keyPressed[K_4] )
 	{
 		answer += ( '4' );
-		++counter;
 	}
 	else if ( keyPressed[K_5] )
 	{
 		answer += ( '5' );
-		++counter;
 	}
 	else if ( keyPressed[K_6] )
 	{
 		answer += ( '6' );
-		++counter;
 	}
 	else if ( keyPressed[K_7] )
 	{
 		answer += ( '7' );
-		++counter;
 	}
 	else if ( keyPressed[K_8] )
 	{
 		answer += ( '8' );
-		++counter;
 	}
 	else if ( keyPressed[K_9] )
 	{
 		answer += ( '9' );
-		++counter;
 	}
 	else if ( keyPressed[K_0] )
 	{
 		answer += ( '0' );
-		++counter;
 	}
 	else if ( keyPressed[K_BACKSPACE] )
 	{
