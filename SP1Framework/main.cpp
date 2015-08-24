@@ -6,13 +6,13 @@
 
 StopWatch g_timer;            // Timer function to keep track of time and the frame rate
 bool g_quitGame = false;      // Set to true if you want to quit the game
-const unsigned char FPS = 5; // FPS of this game
-const unsigned int frameTime = 1000 / FPS; // time for each frame
+const unsigned char FPS = 100; // FPS of this game
+const unsigned int frameTime = 1000 / FPS; // time for each frame in milliseconds
 
 void mainLoop();
 
 // TODO:
-// Bug in waitUnitil. it waits for the time from getElapsedTime to waitUntil, but should be insignificant.
+// Bug in waitUntil. it waits for the time from getElapsedTime to waitUntil, but should be insignificant.
 
 int main()
 {
@@ -27,7 +27,6 @@ int main()
 // at a specific frame rate
 void mainLoop()
 {
-    //system ("mode 650");
     g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
     while (!g_quitGame)      // run this loop until user wants to quit 
 	{        

@@ -33,14 +33,7 @@
     <ClCompile Include="game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-<<<<<<< Updated upstream
-    <ClCompile Include="startmenu.cpp">
-=======
-    <ClCompile Include="monsterPrint.cpp">
->>>>>>> Stashed changes
+    <ClCompile Include="monsterEncounter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,8 +47,13 @@
     <ClInclude Include="game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="map.h">
+    <ClInclude Include="monsterEncounter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="map1.txt" />
+    <None Include="display.txt" />
+    <None Include="stageinfo.txt" />
   </ItemGroup>
 </Project>
