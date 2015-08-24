@@ -458,7 +458,7 @@ void drawMap()
 	text += myHP;
 	text += "    Exp: ";
 	text += playerExp;
-	//charHP++; testing if changeable
+	//charHP++; testing if changeable 
 	c.X = 0;
 	c.Y = 23;
 	//console.writeToBuffer(c,text.str());
