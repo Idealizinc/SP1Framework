@@ -5,6 +5,7 @@
 #include "Framework\console.h"
 #include "monsterEncounter.h"
 
+
 // Console object
 Console console(78, 25, "SP1 Framework");
 
@@ -12,23 +13,36 @@ double elapsedTime;
 double deltaTime;
 bool keyPressed[K_COUNT];
 char mapArray[22][79];
-char battleArray[22][79];
-char screenArray[28][79];
+char battleArray[20][79];
+char battleArrayALT[20][79];
+char bossArray[20][79];
+char bossArrayALT[20][79];
+char screenArray[25][79];
 int xSpawnCoord = 0, ySpawnCoord = 0;
 int xReturnCoord, yReturnCoord;
 bool renderedChar = false;
-
+int charHP = 1000;
+int monsterHP = 100;
 int chest0 = 0;
 int chest1 = 0;
-
-//For Battle Scrn & Battle Anim
+int playerxp = 0;
+int randomNo1 = ( rand()%9 ) + 1;
+int randomNo2 = ( rand()%9 ) + 1;
+int randomsign = ( rand()%3 ) + 1;
+vector<char> ansVec;
+//For Battle Scrn & Battle Anim 
 bool battleModeOn = false; // SET TO FALSE LATER
 bool animate = true;
 int monsterFound; 
 bool playerInputOn = true;
 
 //For Portal End Stage
-bool atPortal = false;
+bool atPortal = false; //Set To FALSE
+
+//For Boss Fight
+bool animate2 = true;
+bool bossCleared = false; //Set To FALSE
+bool inBossFight = false;
 
 // Game specific variables here
 COORD charLocation;
@@ -43,12 +57,16 @@ void init()
 
     readMap();
     readPortal();
-
+	readBattleScreen();
+	readBattleScreen2();
+	readBossScreen();
+	readBossScreen2();
 
     charLocation.X = console.getConsoleSize().X / 2;
     charLocation.Y = console.getConsoleSize().Y / 2;
     // sets the width, height and the font name to use in the console
-    console.setConsoleFont(0, 20, L"RASTER FONTS"); // Set console dimensions to 12 x 16
+    //console.setConsoleFont(0, 20, L"Consolas"); / /For Testing if you're lazy to reset size every time
+	console.setConsoleFont(0, 20, L"RASTER FONTS"); // Set console dimensions to 12 x 16
 }
 
 // Do your clean up of memory here
@@ -77,7 +95,30 @@ void getInput()
 		keyPressed[K_LEFT] = isKeyPressed(VK_LEFT);
 		keyPressed[K_RIGHT] = isKeyPressed(VK_RIGHT);
 	}
-	keyPressed[K_ESCAPE] = isKeyPressed(VK_ESCAPE);
+		keyPressed[K_1] = isKeyPressed(0x31);
+		keyPressed[K_2] = isKeyPressed(0x32);
+		keyPressed[K_3] = isKeyPressed(0x33);
+		keyPressed[K_4] = isKeyPressed(0x34);
+		keyPressed[K_5] = isKeyPressed(0x35);
+		keyPressed[K_6] = isKeyPressed(0x36);
+		keyPressed[K_7] = isKeyPressed(0x37);
+		keyPressed[K_8] = isKeyPressed(0x38);
+		keyPressed[K_9] = isKeyPressed(0x39);
+		keyPressed[K_0] = isKeyPressed(0x30);
+		keyPressed[K_NUM1] = isKeyPressed(VK_NUMPAD1);
+		keyPressed[K_NUM2] = isKeyPressed(VK_NUMPAD2);
+		keyPressed[K_NUM3] = isKeyPressed(VK_NUMPAD3);
+		keyPressed[K_NUM4] = isKeyPressed(VK_NUMPAD4);
+		keyPressed[K_NUM5] = isKeyPressed(VK_NUMPAD5);
+		keyPressed[K_NUM6] = isKeyPressed(VK_NUMPAD6);
+		keyPressed[K_NUM7] = isKeyPressed(VK_NUMPAD7);
+		keyPressed[K_NUM8] = isKeyPressed(VK_NUMPAD8);
+		keyPressed[K_NUM9] = isKeyPressed(VK_NUMPAD9);
+		keyPressed[K_NUM0] = isKeyPressed(VK_NUMPAD0);
+		keyPressed[K_BACKSPACE] = isKeyPressed(VK_BACK);
+		keyPressed[K_ENTER] = isKeyPressed(VK_RETURN);
+
+		keyPressed[K_ESCAPE] = isKeyPressed(VK_ESCAPE);
 }
 
 /*
@@ -109,52 +150,49 @@ void update(double dt)
 */
 void render()
 {
-	//readBattleScreen();
     clearScreen();      // clears the current screen and draw from scratch 
     renderMap();        // renders the map to the buffer first
 
-    //Portal Screen
-    if (mapArray[charLocation.Y][charLocation.X] == 'E')
-    {
-        atPortal = true;
-    }
-    if (atPortal == true)
-    {
-        clearScreen();
-        portalrender();
-    }
-
-    if (animate == false)
-    {
-        readBattleScreen();
-        animate = true;
-    }
-    else
-    {
-        readBattleScreen2();
-        animate = false;
-    }
-
-	if ((battleModeOn == false) && (renderedChar == true))
+	if ((battleModeOn == false) && (inBossFight == false) && (renderedChar == true) && (atPortal == false))
 	{
 		renderCharacter();  // renders the character into the buffer
 		xReturnCoord = charLocation.X;
 		yReturnCoord = charLocation.Y;
+		playerInputOn = true;
+		charLocation.X = xReturnCoord;
+		charLocation.Y = yReturnCoord;
 	}
 	else if (battleModeOn == true)
 	{
+		animateBSNorm();
 		charLocation.X = 100;
 		charLocation.Y = 100;
 		playerInputOn = false;
 	}
-    renderFramerate();  // renders debug information, frame rate, elapsed time, etc
-    renderToScreen();   // dump the contents of the buffer to the screen, one frame worth of game
-	if (renderedChar == false)
+	else if (inBossFight == true)
+	{
+		animateBSBoss();
+		charLocation.X = 100;
+		charLocation.Y = 100;
+		playerInputOn = false;
+	}
+	else if (atPortal == true)
+    {
+		clearScreen();
+        charLocation.X = 100;
+		charLocation.Y = 100;
+		playerInputOn = false;
+		portalrender();
+    }
+    if (renderedChar == false)
 	{
 		charLocation.X = xSpawnCoord;
 		charLocation.Y = ySpawnCoord;
 		renderedChar = true;
 	}
+	renderFramerate();  // renders debug information, frame rate, elapsed time, etc
+    renderToScreen();   // dump the contents of the buffer to the screen, one frame worth of game
+	
 }
 
 void moveCharacter()
@@ -170,11 +208,11 @@ void moveCharacter()
 
             //Beep(1440, 30);
             charLocation.Y--;
-			//monster = encounterCheck();
-			//if (monster != 0)
-			//{
-			//	battleModeOn = true;
-			//}
+			monster = encounterCheck();
+			if (monster != 0)
+			{
+				battleModeOn = true;
+			}
         }
     }
     if (keyPressed[K_LEFT] && charLocation.X > 0)
@@ -185,11 +223,11 @@ void moveCharacter()
         {
             //Beep(1440, 30);
             charLocation.X--;
-			//monster = encounterCheck();
-			//if (monster != 0)
-			//{
-			//	battleModeOn = true;
-			//}
+			monster = encounterCheck();
+			if (monster != 0)
+			{
+				battleModeOn = true;
+			}
         }
     }
     if (keyPressed[K_DOWN] && charLocation.Y < console.getConsoleSize().Y - 1)
@@ -200,12 +238,12 @@ void moveCharacter()
         {
             //Beep(1440, 30);
             charLocation.Y++;
-			//monster = encounterCheck();
-			//if (monster != 0)
-			//{
-			//	battleModeOn = true;
-			//}
-        }
+			monster = encounterCheck();
+			if (monster != 0)
+			{
+				battleModeOn = true;
+			}
+       }
     }
     if (keyPressed[K_RIGHT] && charLocation.X < console.getConsoleSize().X - 1)
     {
@@ -215,14 +253,19 @@ void moveCharacter()
         {
             //Beep(1440, 30);
             charLocation.X++;
-			//monster = encounterCheck();
-			//if (monster != 0)
-			//{
-			//	battleModeOn = true;
-			//}
+			monster = encounterCheck();
+			if (monster != 0)
+			{
+				battleModeOn = true;
+			}
         }
     }
-
+	if (mapArray[charLocation.Y][charLocation.X] == 'E')
+    {
+        atPortal = true;
+		
+    }
+	bossFightCheck();
     chest();
 }
 void processUserInput()
@@ -261,7 +304,7 @@ void readBattleScreen()
 {
     string mapline;
     int y2 = 0;
-    ifstream mymapfile ("batanimation1.txt");
+    ifstream mymapfile ("MOB_DEVIL1.txt");
     if (mymapfile.is_open())
     {
         while (getline (mymapfile,mapline))
@@ -275,20 +318,64 @@ void readBattleScreen()
         }
     }
     mymapfile.close();
+
+	
 }
 
 void readBattleScreen2()
 {
     string mapline;
     int y2 = 0;
-    ifstream mymapfile ("batanimation2.txt");
+    ifstream mymapfile ("MOB_DEVIL2.txt");
     if (mymapfile.is_open())
     {
         while (getline (mymapfile,mapline))
         {
             for ( int x = 0; x < mapline.length(); x++ )
             {
-                battleArray[y2][x] = mapline[x];
+                battleArrayALT[y2][x] = mapline[x];
+				//cout << mapArray[y2][x];
+            }
+            ++y2;
+        }
+    }
+    mymapfile.close();
+
+	
+}
+
+void readBossScreen()
+{
+    string mapline;
+    int y2 = 0;
+    ifstream mymapfile ("BOSS_BAT1.txt");
+    if (mymapfile.is_open())
+    {
+        while (getline (mymapfile,mapline))
+        {
+            for ( int x = 0; x < mapline.length(); x++ )
+            {
+                bossArray[y2][x] = mapline[x];
+				//cout << mapArray[y2][x];
+            }
+            ++y2;
+        }
+    }
+    mymapfile.close();
+}
+
+void readBossScreen2()
+{
+    string mapline;
+    int y2 = 0;
+    ifstream mymapfile ("BOSS_BAT2.txt");
+    if (mymapfile.is_open())
+    {
+        while (getline (mymapfile,mapline))
+        {
+            for ( int x = 0; x < mapline.length(); x++ )
+            {
+                bossArrayALT[y2][x] = mapline[x];
 				//cout << mapArray[y2][x];
             }
             ++y2;
@@ -351,11 +438,33 @@ void drawMap()
 		}
 		i++;
 	}
+
+	COORD c;
+	std::ostringstream myhp;
+	myhp << charHP;
+	string myHP = myhp.str(); //string that contains player hp
+	std::ostringstream enemyhp; 
+	enemyhp << monsterHP;
+	string monhp = enemyhp.str(); //string that contains monster hp
+	std::ostringstream exp;
+	exp << playerxp;
+	string playerExp = exp.str(); // string that contains player exp
+	string text;
+	text = "     My HP: "; 
+	text += myHP;
+	text += "    Exp: ";
+	text += playerExp;
+	
+	c.X = 0;
+	c.Y = 23;
+	//console.writeToBuffer(c,text.str());
+
+	console.writeToBuffer(c, text, 0x0C);
 }
 
 void drawBattleScreen()
 {
-	for (int i = 0; i < 22;)
+	for (int i = 0; i < 20;)
 	{
 		for (int j = 0; j < 79; ++j)
 		{
@@ -375,6 +484,276 @@ void drawBattleScreen()
 		}
 		i++;
 	}
+
+	COORD c;
+	std::ostringstream myhp;
+	myhp << charHP;
+	string myHP = myhp.str();
+	std::ostringstream enemyhp;
+	enemyhp << monsterHP;
+	string monhp = enemyhp.str();
+	string text;
+	text = "     My HP: "; 
+	text += myHP;
+	text +=	"    Enemy HP: ";
+	text +=	monhp;
+	
+	c.X = 0;
+	c.Y = 21;
+	//console.writeToBuffer(c,text.str());
+
+	console.writeToBuffer(c, text, 0x0C);
+
+	COORD d;
+	string question;
+	question = "     What is ";
+	question += static_cast<char>(randomNo1) + 48;
+	question += " + ";
+	question += static_cast<char>(randomNo2) + 48;
+	d.X = 0;
+	d.Y = 23;
+	console.writeToBuffer(d, question, 0x0C);
+	int ans = randomNo1 + randomNo2;
+	numberinput();
+	int playerinput = 0;
+	if ( playerinput == ans )
+	{
+		monsterHP -= 15;
+	}
+}
+void numberinput()
+{
+	int counter = 0;
+	if ( keyPressed[K_1] )
+	{
+		ansVec.push_back( '1' );
+		++counter;
+	}
+	else if ( keyPressed[K_2] )
+	{
+		ansVec.push_back( '2' );
+		++counter;
+	}
+	else if ( keyPressed[K_3] )
+	{
+		ansVec.push_back( '3' );
+		++counter;
+	}
+	else if ( keyPressed[K_4] )
+	{
+		ansVec.push_back( '4' );
+		++counter;
+	}
+	else if ( keyPressed[K_5] )
+	{
+		ansVec.push_back( '5' );
+		++counter;
+	}
+	else if ( keyPressed[K_6] )
+	{
+		ansVec.push_back( '6' );
+		++counter;
+	}
+	else if ( keyPressed[K_7] )
+	{
+		ansVec.push_back( '7' );
+		++counter;
+	}
+	else if ( keyPressed[K_8] )
+	{
+		ansVec.push_back( '8' );
+		++counter;
+	}
+	else if ( keyPressed[K_9] )
+	{
+		ansVec.push_back( '9' );
+		++counter;
+	}
+	else if ( keyPressed[K_0] )
+	{
+		ansVec.push_back( '0' );
+		++counter;
+	}
+	else if ( keyPressed[K_BACKSPACE] )
+	{
+		ansVec[counter - 1] = 0;
+		--counter;
+	}
+	else if ( keyPressed[K_ENTER] )
+	{
+		ansVec[counter - 1] = 0;
+		--counter;
+	}
+}
+void drawBattleScreenALT()
+{
+	for (int i = 0; i < 20;)
+	{
+		for (int j = 0; j < 79; ++j)
+		{
+			char toBePrinted = battleArrayALT[i][j];
+			if (toBePrinted == '1')
+			{
+				toBePrinted = 178; // ▓
+				console.writeToBuffer(j,i, toBePrinted, 0x7F); // White [Walls]
+			}
+			else if (toBePrinted == 'W')
+			{
+				toBePrinted = 176; // ░
+				console.writeToBuffer(j,i, toBePrinted, 0x80); // Grey [Walls]
+			}
+			else
+				console.writeToBuffer(j,i, toBePrinted, 0x8F); // Coloration Failed - blk Txt
+		}
+		i++;
+	}
+
+	COORD c;
+	std::ostringstream myhp;
+	myhp << charHP;
+	string myHP = myhp.str();
+	std::ostringstream enemyhp;
+	enemyhp << monsterHP;
+	string monhp = enemyhp.str();	
+	string text;
+	text = "     My HP: "; 
+	text += myHP;
+	text +=	"    Enemy HP: ";
+	text +=	monhp;
+	
+	c.X = 0;
+	c.Y = 21;
+	//console.writeToBuffer(c,text.str());
+
+	console.writeToBuffer(c, text, 0x0C);
+
+	COORD d;
+	string question;
+	question = "     What is ";
+	question += static_cast<char>(randomNo1) + 48;
+	question += " + ";
+	question += static_cast<char>(randomNo2) + 48;
+	d.X = 0;
+	d.Y = 23;
+	console.writeToBuffer(d, question, 0x0C);
+	int playerinput = 0;
+
+}
+
+void animateBSNorm() // Battle Screen Anims
+{
+	if (animate == false)
+    {
+        drawBattleScreen();
+        animate = true;
+    }
+    else
+    {
+        drawBattleScreenALT();
+        animate = false;
+    }
+}
+
+void drawBattleScreenBoss()
+{
+	clearScreen();
+	for (int i = 0; i < 20;)
+	{
+		for (int j = 0; j < 79; ++j)
+		{
+			char toBePrinted = bossArray[i][j];
+			if (toBePrinted == '1')
+			{
+				toBePrinted = 178; // ▓
+				console.writeToBuffer(j,i, toBePrinted, 0x7F); // White [Walls]
+			}
+			else if (toBePrinted == 'W')
+			{
+				toBePrinted = 176; // ░
+				console.writeToBuffer(j,i, toBePrinted, 0x80); // Grey [Walls]
+			}
+			else
+				console.writeToBuffer(j,i, toBePrinted, 0x8F); // Coloration Failed - blk Txt
+		}
+		i++;
+	}
+
+	COORD c;
+	std::ostringstream myhp;
+	myhp << charHP;
+	string myHP = myhp.str();
+	std::ostringstream enemyhp;
+	enemyhp << monsterHP;
+	string monhp = enemyhp.str();	
+	string text;
+	text = "     My HP: "; 
+	text += myHP;
+	text +=	"    Enemy HP: ";
+	text +=	monhp;
+	
+	c.X = 0;
+	c.Y = 21;
+	//console.writeToBuffer(c,text.str());
+
+	console.writeToBuffer(c, text, 0x0C);
+}
+
+void drawBattleScreenBossALT()
+{
+	clearScreen();
+	for (int i = 0; i < 20;)
+	{
+		for (int j = 0; j < 79; ++j)
+		{
+			char toBePrinted = bossArrayALT[i][j];
+			if (toBePrinted == '1')
+			{
+				toBePrinted = 178; // ▓
+				console.writeToBuffer(j,i, toBePrinted, 0x7F); // White [Walls]
+			}
+			else if (toBePrinted == 'W')
+			{
+				toBePrinted = 176; // ░
+				console.writeToBuffer(j,i, toBePrinted, 0x80); // Grey [Walls]
+			}
+			else
+				console.writeToBuffer(j,i, toBePrinted, 0x8F); // Coloration Failed - blk Txt
+		}
+		i++;
+	}
+
+	COORD c;
+	std::ostringstream myhp;
+	myhp << charHP;
+	string myHP = myhp.str();
+	std::ostringstream enemyhp;
+	enemyhp << monsterHP;
+	string monhp = enemyhp.str();	
+	string text;
+	text = "     My HP: "; 
+	text += myHP;
+	text +=	"    Enemy HP: ";
+	text +=	monhp;
+	
+	c.X = 0;
+	c.Y = 21;
+	//console.writeToBuffer(c,text.str());
+
+	console.writeToBuffer(c, text, 0x0C);
+}
+
+void animateBSBoss() // Battle Screen Anims
+{
+	if (animate2 == false)
+    {
+        drawBattleScreenBoss();
+        animate2 = true;
+    }
+    else
+    {
+        drawBattleScreenBossALT();
+        animate2 = false;
+    }
 }
 
 void renderMap()
@@ -457,6 +836,14 @@ void chest()
     }
 }
 
+void bossFightCheck()
+{
+    if ((mapArray[charLocation.Y][charLocation.X] == 'X') && (bossCleared == false))
+    {
+        inBossFight = true;
+    }
+}
+
 void readPortal()
 {
         string mapline;
@@ -478,23 +865,30 @@ void readPortal()
 
 void portalrender()
 {
-    for (int i = 0; i < 28; ++i)
-	    {
-		    for (int j = 0; j < 79; ++j)
-		    {
-			    char EndScreen = screenArray[i][j];
-                cout << EndScreen;
-                if (EndScreen == ' ')
-                {
-                    //EndScreen = 176;
-                    console.writeToBuffer(i,j, EndScreen, 0xB8);
-                }
-                if (EndScreen == 'W')
-                {
-                    //EndScreen = 177;
-                    console.writeToBuffer(i,j, EndScreen, 0xB8);
-                }
-             }
-        }
-    atPortal = false;
+    for (int i = 0; i < 25; ++i)
+	{
+		for (int j = 0; j < 78; ++j)
+		{
+			char EndScreen = screenArray[i][j];
+			if (EndScreen == '1')
+			{
+				EndScreen = 178; // ▓
+				console.writeToBuffer(j,i, EndScreen, 0x7F); // White [Walls]
+			}
+			else if (EndScreen == 'W')
+			{
+				EndScreen = 176; // ░
+				console.writeToBuffer(j,i, EndScreen, 0x8F); // Grey [Walls]
+			}
+			else if (EndScreen == 'S')
+			{
+				EndScreen = 176; // ░
+				console.writeToBuffer(j,i, EndScreen, 0x00); // Blk [Spaces]
+			}
+			else
+			{
+				console.writeToBuffer(j,i, EndScreen, 0x0B); // Color The Underscores dases and so, Blue.
+			}
+		}
+     }
 }

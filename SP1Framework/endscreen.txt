@@ -1,28 +1,25 @@
 111111111111111111111111111111111111111111111111111111111111111111111111111111
-11WWW                                                                    WWW11
-11WW                                                                      WW11
-11W                                                                        W11
-11                                                                          11
-11                                                                          11
-11                                                                          11
-11                                                                          11
+11WWWSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSWWW11
+11WWSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSWW11
+11WSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSW11
+11SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS11
+11SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS11
+11SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS11
 111111111111111111111111111111111111111111111111111111111111111111111111111111
-11                                                                          11
-11   _____ _                      _____ _                         _ _ 	    11
-11  / ____| |                    / ____| |                       | | |      11
-11 | (___ | |_ __ _  __ _  ___  | |    | | ___  __ _ _ __ ___  __| | |      11
-11  \___ \| __/ _` |/ _` |/ _ \ | |    | |/ _ \/ _` | '__/ _ \/ _` | |      11
-11  __ _) | || (_| | (_| |  __/ | |____| |  __/ (_| | | |  __/ (_| |_|      11
-11 |_____/ \__\__,_|\__, |\___|  \_____|_|\___|\__,_|_|  \___|\__,_(_)      11
-11                   __/ |                                                  11
-11                  |___/                                                   11
+11SSSSS_____S_SSSSSSSSSSSSSSSSSSSSSS_____S_SSSSSSSSSSSSSSSSSSSSSSSSS_S_SSSSS11
+11SSSS/ ____| |SSSSSSSSSSSSSSSSSSSS/ ____| |SSSSSSSSSSSSSSSSSSSSSSS| | |SSSS11
+11SSS| (___ | |_S__S_SS__S_SS___SS| |    | | ___  __ _ _ __ ___  __| | |SSSS11
+11SSSS\___ \| __/ _` |/ _` |/ _ \S| |    | |/ _ \/ _` | '__/ _ \/ _` | |SSSS11
+11SSSS__S_) | || (_| | (_| |  __/S| |____| |  __/ (_| | | |  __/ (_| |_|SSSS11
+11SSS|_____/ \__\__,_|\__, |\___|SS\_____|_|\___|\__,_|_|  \___|\__,_(_)SSSS11
+11SSSSSSSSSSSSSSSSSSSSS__/ |SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS11
+11SSSSSSSSSSSSSSSSSSSS|___/SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS11
+11SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS11
 111111111111111111111111111111111111111111111111111111111111111111111111111111
-11                                                                          11
-11                                                                          11
-11                                                                          11
-11                                                                          11
-11                                                                          11
-11W                                                                        W11
-11WW                                                                      WW11
-11WWW                                                                    WWW11
+11SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS11
+11SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS11
+11SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS11
+11WSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSW11
+11WWSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSWW11
+11WWWSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSWWW11
 111111111111111111111111111111111111111111111111111111111111111111111111111111
