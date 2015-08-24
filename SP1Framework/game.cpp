@@ -300,6 +300,7 @@ void readMap()
         }
     }
     mymapfile.close();
+
 }
 
 void readBattleScreen()
@@ -439,6 +440,7 @@ void drawMap()
 			//	console.writeToBuffer(j,i, toBePrinted, 0x4A); // Coloration Failed - Red BG Green Txt
 		}
 		i++;
+
 	}
 
 	COORD c;
@@ -456,7 +458,7 @@ void drawMap()
 	text += myHP;
 	text += "    Exp: ";
 	text += playerExp;
-	
+	//charHP++; testing if changeable
 	c.X = 0;
 	c.Y = 23;
 	//console.writeToBuffer(c,text.str());
@@ -569,12 +571,10 @@ void numberinput()
 	else if ( keyPressed[K_BACKSPACE] )
 	{
 		answer.erase(answer.length() - 1 ) ;
-		--counter;
 	}
 	else if ( keyPressed[K_ENTER] )
 	{
 		ansVec[counter - 1] = 0;
-		--counter;
 	}
 }
 void drawBattleScreenALT()
