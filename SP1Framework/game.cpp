@@ -29,16 +29,18 @@ int playerxp = 0;
 int randomNo1 = ( rand()%9 ) + 1;
 int randomNo2 = ( rand()%9 ) + 1;
 int randomsign = ( rand()%3 ) + 1;
-vector<char> ansVec;
+
 string answer;
 //For Battle Scrn & Battle Anim 
-bool battleModeOn = true; // SET TO FALSE LATER
+bool battleModeOn = false; // SET TO FALSE LATER
 bool animate = true;
 int monsterFound; 
 bool playerInputOn = true;
 int answerIsDifferent;
 string battleAnswer;
 bool playerInputted = false;
+bool locationSaved =  false;
+
 //For Portal End Stage
 bool atPortal = false; //Set To FALSE
 
@@ -160,19 +162,34 @@ void render()
 {
     clearScreen();      // clears the current screen and draw from scratch 
     renderMap();        // renders the map to the buffer first
+	renderCharacter();  // renders the character into the buffer
+	renderFramerate();  // renders debug information, frame rate, elapsed time, etc
+    renderToScreen();   // dump the contents of the buffer to the screen, one frame worth of game
+	
+}
 
+void renderSelection()
+{
 	if ((battleModeOn == false) && (inBossFight == false) && (renderedChar == true) && (atPortal == false))
 	{
-		renderCharacter();  // renders the character into the buffer
-		xReturnCoord = charLocation.X;
-		yReturnCoord = charLocation.Y;
 		playerInputOn = true;
-		charLocation.X = xReturnCoord;
-		charLocation.Y = yReturnCoord;
+		if (locationSaved == true)
+		{
+			charLocation.X = xReturnCoord;
+			charLocation.Y = yReturnCoord;
+			locationSaved = false;
+		}
+		renderCharacter();  // renders the character into the buffer
 	}
 	else if (battleModeOn == true)
 	{
 		animateBSNorm();
+		if (locationSaved == false)
+		{
+			xReturnCoord = charLocation.X;
+			yReturnCoord = charLocation.Y;
+			locationSaved = true;
+		}
 		charLocation.X = 100;
 		charLocation.Y = 100;
 		playerInputOn = false;
@@ -207,9 +224,6 @@ void render()
 		charLocation.Y = ySpawnCoord;
 		renderedChar = true;
 	}
-	renderFramerate();  // renders debug information, frame rate, elapsed time, etc
-    renderToScreen();   // dump the contents of the buffer to the screen, one frame worth of game
-	
 }
 
 void moveCharacter()
@@ -295,6 +309,87 @@ void clearScreen()
 {
     // Clears the buffer with this colour attribute
     console.clearBuffer(0x0F);
+}
+void printMapStats()
+{
+	COORD c;
+	std::ostringstream myhp;
+	myhp << charHP;
+	string myHP = myhp.str(); //string that contains player hp
+	std::ostringstream enemyhp; 
+	enemyhp << monsterHP;
+	string monhp = enemyhp.str(); //string that contains monster hp
+	std::ostringstream exp;
+	exp << playerxp;
+	string playerExp = exp.str(); // string that contains player exp
+	string text;
+	text = "     My HP: "; 
+	text += myHP;
+	text += "    Exp: ";
+	text += playerExp;
+	//charHP++; testing if changeable 
+	c.X = 0;
+	c.Y = 23;
+	//console.writeToBuffer(c,text.str());
+
+	console.writeToBuffer(c, text, 0x0C);
+}
+
+void printBattleStats()
+{
+	COORD c;
+	std::ostringstream myhp;
+	myhp << charHP;
+	string myHP = myhp.str();
+	std::ostringstream enemyhp;
+	enemyhp << monsterHP;
+	string monhp = enemyhp.str();
+	string text;
+	text = "     My HP: "; 
+	text += myHP;
+	text +=	"    Enemy HP: ";
+	text +=	monhp;
+	c.X = 0;
+	c.Y = 21;
+	console.writeToBuffer(c, text, 0x0C);
+
+	COORD d;
+	string question;
+	question = "     What is ";
+	question += static_cast<char>(randomNo1) + 48;
+	question += " + ";
+	question += static_cast<char>(randomNo2) + 48;
+	d.X = 0;
+	d.Y = 23;
+	console.writeToBuffer(d, question, 0x0C);
+	int ans = randomNo1 + randomNo2;
+	std::ostringstream theAnswer;
+	theAnswer << ans;
+	string qnAnswer = theAnswer.str();
+	battleAnswer.assign(qnAnswer);
+	numberinput();
+	if ( (answerIsDifferent == false) && (playerInputted == true) )
+	{
+		monsterHP -= 15;
+		playerInputted == false;
+		
+	}
+	else if ( (answerIsDifferent == true) && (playerInputted == true) )
+	{
+		charHP -= 30;
+		playerInputted == false;
+		
+	}
+	if (( monsterHP <= 0 ) && (battleModeOn = true))
+	{
+		battleModeOn = false;
+		monsterHP = 100;
+		playerxp += 1;
+	}
+	if (( charHP <= 0 ) && (battleModeOn = true))
+	{
+		atPortal = true;
+	}
 }
 
 void readMap()
@@ -456,30 +551,8 @@ void drawMap()
 			//	console.writeToBuffer(j,i, toBePrinted, 0x4A); // Coloration Failed - Red BG Green Txt
 		}
 		i++;
-
 	}
-
-	COORD c;
-	std::ostringstream myhp;
-	myhp << charHP;
-	string myHP = myhp.str(); //string that contains player hp
-	std::ostringstream enemyhp; 
-	enemyhp << monsterHP;
-	string monhp = enemyhp.str(); //string that contains monster hp
-	std::ostringstream exp;
-	exp << playerxp;
-	string playerExp = exp.str(); // string that contains player exp
-	string text;
-	text = "     My HP: "; 
-	text += myHP;
-	text += "    Exp: ";
-	text += playerExp;
-	//charHP++; testing if changeable 
-	c.X = 0;
-	c.Y = 23;
-	//console.writeToBuffer(c,text.str());
-
-	console.writeToBuffer(c, text, 0x0C);
+	printMapStats();
 }
 
 void drawBattleScreen()
@@ -504,56 +577,11 @@ void drawBattleScreen()
 		}
 		i++;
 	}
-
-	COORD c;
-	std::ostringstream myhp;
-	myhp << charHP;
-	string myHP = myhp.str();
-	std::ostringstream enemyhp;
-	enemyhp << monsterHP;
-	string monhp = enemyhp.str();
-	string text;
-	text = "     My HP: "; 
-	text += myHP;
-	text +=	"    Enemy HP: ";
-	text +=	monhp;
-	
-	c.X = 0;
-	c.Y = 21;
-	//console.writeToBuffer(c,text.str());
-
-	console.writeToBuffer(c, text, 0x0C);
-
-	COORD d;
-	string question;
-	question = "     What is ";
-	question += static_cast<char>(randomNo1) + 48;
-	question += " + ";
-	question += static_cast<char>(randomNo2) + 48;
-	d.X = 0;
-	d.Y = 23;
-	console.writeToBuffer(d, question, 0x0C);
-	int ans = randomNo1 + randomNo2;
-	std::ostringstream theAnswer;
-	theAnswer << ans;
-	string qnAnswer = theAnswer.str();
-	battleAnswer.assign(qnAnswer);
-	numberinput();
-	if ( (answerIsDifferent == false) && (playerInputted == true) )
-	{
-		monsterHP -= 15;
-		playerInputted == false;
-	}
-	else if ( (answerIsDifferent == true) && (playerInputted == true) )
-	{
-		charHP -= 30;
-		playerInputted == false;
-	}
+	printBattleStats();
 }
 
 void numberinput()
 {
-	int counter = 0;
 	if ( keyPressed[K_1] )
 	{
 		answer += ( '1' );
@@ -600,16 +628,17 @@ void numberinput()
 	}
 	else if ( keyPressed[K_ENTER] )
 	{
-		
 		if ( answer.compare(battleAnswer) == 0 )
 		{
 			answerIsDifferent = false;
 			playerInputted == true;
+			monsterHP -= 15;
 		}
-		else if ( answer.compare(battleAnswer) > 0 )
+		else if ( answer.compare(battleAnswer) != 0 )
 		{
 			answerIsDifferent = true;
 			playerInputted == true;
+			charHP -= 30;
 		}
 	}
 	COORD e;
@@ -640,37 +669,6 @@ void drawBattleScreenALT()
 		}
 		i++;
 	}
-
-	COORD c;
-	std::ostringstream myhp;
-	myhp << charHP;
-	string myHP = myhp.str();
-	std::ostringstream enemyhp;
-	enemyhp << monsterHP;
-	string monhp = enemyhp.str();	
-	string text;
-	text = "     My HP: "; 
-	text += myHP;
-	text +=	"    Enemy HP: ";
-	text +=	monhp;
-	
-	c.X = 0;
-	c.Y = 21;
-	//console.writeToBuffer(c,text.str());
-
-	console.writeToBuffer(c, text, 0x0C);
-
-	COORD d;
-	string question;
-	question = "     What is ";
-	question += static_cast<char>(randomNo1) + 48;
-	question += " + ";
-	question += static_cast<char>(randomNo2) + 48;
-	d.X = 0;
-	d.Y = 23;
-	console.writeToBuffer(d, question, 0x0C);
-	int playerinput = 0;
-
 }
 
 void animateBSNorm() // Battle Screen Anims
@@ -710,25 +708,7 @@ void drawBattleScreenBoss()
 		}
 		i++;
 	}
-
-	COORD c;
-	std::ostringstream myhp;
-	myhp << charHP;
-	string myHP = myhp.str();
-	std::ostringstream enemyhp;
-	enemyhp << monsterHP;
-	string monhp = enemyhp.str();	
-	string text;
-	text = "     My HP: "; 
-	text += myHP;
-	text +=	"    Enemy HP: ";
-	text +=	monhp;
-	
-	c.X = 0;
-	c.Y = 21;
-	//console.writeToBuffer(c,text.str());
-
-	console.writeToBuffer(c, text, 0x0C);
+	printBattleStats();
 }
 
 void drawBattleScreenBossALT()
@@ -754,25 +734,6 @@ void drawBattleScreenBossALT()
 		}
 		i++;
 	}
-
-	COORD c;
-	std::ostringstream myhp;
-	myhp << charHP;
-	string myHP = myhp.str();
-	std::ostringstream enemyhp;
-	enemyhp << monsterHP;
-	string monhp = enemyhp.str();	
-	string text;
-	text = "     My HP: "; 
-	text += myHP;
-	text +=	"    Enemy HP: ";
-	text +=	monhp;
-	
-	c.X = 0;
-	c.Y = 21;
-	//console.writeToBuffer(c,text.str());
-
-	console.writeToBuffer(c, text, 0x0C);
 }
 
 void animateBSBoss() // Battle Screen Anims
@@ -814,7 +775,7 @@ void renderMap()
 	{
 		drawMap();
 	}
-	renderCharacter();  // renders the character into the buffer
+	renderSelection();
 }
 
 void renderCharacter()

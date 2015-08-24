@@ -79,6 +79,8 @@ void animateBSNorm();		//Swaps between and prints diff battle screens.
 void animateBSBoss();		//Same As Above Just For Boss Fights
 void portalrender();        // renders the portal.
 void renderGameOver();      // renders Game Over screen.
+void printMapStats();
+void printBattleStats();
 
 //Reading
 void readMap();             // reads the map in a txt file.
