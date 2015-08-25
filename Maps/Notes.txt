@@ -7,3 +7,4 @@ P=155 Player
 G=Grass
 H=Healing point
 A=Water
+E=end
