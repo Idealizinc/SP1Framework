@@ -42,6 +42,9 @@ bool playerInputted = false;
 //For Portal End Stage
 bool atPortal = false; //Set To FALSE
 
+//For Game Over Screen
+bool playerDead = false;
+
 //For Boss Fight
 bool animate2 = true;
 bool bossCleared = false; //Set To FALSE
@@ -50,6 +53,8 @@ bool inBossFight = false;
 // Game specific variables here
 COORD charLocation;
 
+//Movement
+bool keyPress;
 
 // Initialize variables, allocate memory, load data from file, etc. 
 // This is called once before entering into your main loop
@@ -187,6 +192,15 @@ void render()
 		playerInputOn = false;
 		portalrender();
     }
+    else if (playerDead == true)
+    {
+		clearScreen();
+        charLocation.X = 100;
+		charLocation.Y = 100;
+		playerInputOn = false;
+		renderGameOver();
+    }
+
     if (renderedChar == false)
 	{
 		charLocation.X = xSpawnCoord;
@@ -200,77 +214,76 @@ void render()
 
 void moveCharacter()
 {
-	int monster;
-    // Updating the location of the character based on the key press
+    checkDirection();
+    checkMovement(keyPress);
+    chest();
+}
+
+void checkDirection()
+{
     if (keyPressed[K_UP] && charLocation.Y > 0)
     {
-        if ((mapArray[charLocation.Y - 1][charLocation.X] != 'W') && 
-            (mapArray[charLocation.Y - 1][charLocation.X] != '1') &&
-            (mapArray[charLocation.Y - 1][charLocation.X] != 'T'))
-        {
-
-            //Beep(1440, 30);
-            charLocation.Y--;
-			monster = encounterCheck();
-			if (monster != 0)
-			{
-				battleModeOn = true;
-			}
-        }
+        keyPress = keyPressed[K_UP];
     }
     if (keyPressed[K_LEFT] && charLocation.X > 0)
     {
-        if ((mapArray[charLocation.Y][charLocation.X - 1] != 'W') &&
-            (mapArray[charLocation.Y][charLocation.X - 1] != '1') &&
-            (mapArray[charLocation.Y][charLocation.X - 1] != 'T'))
-        {
-            //Beep(1440, 30);
-            charLocation.X--;
-			monster = encounterCheck();
-			if (monster != 0)
-			{
-				battleModeOn = true;
-			}
-        }
+        keyPress = keyPressed[K_LEFT];
     }
     if (keyPressed[K_DOWN] && charLocation.Y < console.getConsoleSize().Y - 1)
     {
-        if ((mapArray[charLocation.Y + 1][charLocation.X] != 'W') && 
-            (mapArray[charLocation.Y + 1][charLocation.X] != '1') &&
-            (mapArray[charLocation.Y + 1][charLocation.X] != 'T'))
-        {
-            //Beep(1440, 30);
-            charLocation.Y++;
-			monster = encounterCheck();
-			if (monster != 0)
-			{
-				battleModeOn = true;
-			}
-       }
+        keyPress = keyPressed[K_DOWN];
     }
     if (keyPressed[K_RIGHT] && charLocation.X < console.getConsoleSize().X - 1)
     {
-        if ((mapArray[charLocation.Y][charLocation.X + 1] != 'W') && 
-            (mapArray[charLocation.Y][charLocation.X + 1] != '1') && 
-            (mapArray[charLocation.Y][charLocation.X + 1] != 'T'))
+        keyPress = keyPressed[K_RIGHT];
+    }
+    //playerPosition = mapArray[charLocation.Y][charLocation.X];
+}
+
+void checkMovement(bool keyInput)
+{
+    int Y = charLocation.Y;
+    int X = charLocation.X;
+    if (keyInput == true && keyPressed[K_UP])
+    {
+        if ((mapArray[Y - 1][X] != 'W') && (mapArray[Y - 1][X] != '1') &&
+            (mapArray[Y - 1][X] != 'T'))
         {
-            //Beep(1440, 30);
-            charLocation.X++;
-			monster = encounterCheck();
-			if (monster != 0)
-			{
-				battleModeOn = true;
-			}
+            charLocation.Y--;
+        }
+
+    }
+    if (keyInput == true && keyPressed[K_LEFT])
+    {
+        if ((mapArray[Y][X - 1] != 'W') && (mapArray[Y][X - 1] != '1') &&
+            (mapArray[Y][X - 1] != 'T'))
+        {
+            charLocation.X--;
         }
     }
-	if (mapArray[charLocation.Y][charLocation.X] == 'E')
+    if (keyInput == true && keyPressed[K_DOWN])
     {
-        atPortal = true;
-		
+        if ((mapArray[Y + 1][X] != 'W') && (mapArray[Y + 1][X] != '1') &&
+            (mapArray[Y + 1][X] != 'T'))
+        {
+            charLocation.Y++;
+        }
     }
-	bossFightCheck();
-    chest();
+    if (keyInput == true && keyPressed[K_RIGHT])
+    {
+        if ((mapArray[Y][X + 1] != 'W') && (mapArray[Y][X + 1] != '1') &&
+            (mapArray[Y][X + 1] != 'T'))
+        {
+            charLocation.X++;
+        }
+    }
+    if (mapArray[Y][X] == 'E')
+    {
+        clearScreen();
+        atPortal = true;
+    }
 }
+
 void processUserInput()
 {
     // quits the game if player hits the escape key
@@ -283,6 +296,7 @@ void clearScreen()
     // Clears the buffer with this colour attribute
     console.clearBuffer(0x0F);
 }
+
 void readMap()
 {
     string mapline;
@@ -536,6 +550,7 @@ void drawBattleScreen()
 		playerInputted == false;
 	}
 }
+
 void numberinput()
 {
 	int counter = 0;
@@ -602,6 +617,7 @@ void numberinput()
 	e.Y = 23 ;
 	console.writeToBuffer(e, answer, 0x0C);
 }
+
 void drawBattleScreenALT()
 {
 	for (int i = 0; i < 20;)
@@ -825,6 +841,7 @@ void renderFramerate()
     c.Y = 0;
     console.writeToBuffer(c, ss.str(), 0x59);
 }
+
 void renderToScreen()
 {
     // Writes the buffer to the console, hence you will see what you have written
@@ -834,22 +851,15 @@ void renderToScreen()
 //Checks if player is at the Chest.
 void chest()
 {
-    //cout << charLocation.Y;
+    chestOpen();
+}
+
+void chestOpen()
+{
     if (mapArray[charLocation.Y][charLocation.X] == 'C')
     {
-        //(charLocation.Y == 19 && charLocation.X == 43])
-        if ((chest0 == 0) && ((charLocation.Y == 19) && (charLocation.X == 43)))
-        {
-            //Added (random) items!
-            cout << "potato gained";
-            ++chest0;
-        }
-        if ((chest1 == 0) &&  ((charLocation.Y == 2) && (charLocation.X == 71)))
-        {
-            //Added (random) items!
-            cout << "potato gained";
-            ++chest1;
-        }
+        //insert item codes
+        mapArray[charLocation.Y][charLocation.X] = ' ';
     }
 }
 
@@ -882,30 +892,79 @@ void readPortal()
 
 void portalrender()
 {
+        for (int i = 0; i < 25; ++i)
+	    {
+		        for (int j = 0; j < 78; ++j)
+		        {
+			        char EndScreen = screenArray[i][j];
+			        if (EndScreen == '1')
+			        {
+				        EndScreen = 178; // ▓
+				        console.writeToBuffer(j,i, EndScreen, 0x7F); // White [Walls]
+			        }
+			        else if (EndScreen == 'W')
+			        {
+				        EndScreen = 176; // ░
+				        console.writeToBuffer(j,i, EndScreen, 0x8F); // Grey [Walls]
+			        }
+			        else if (EndScreen == 'S')
+			        {
+				        EndScreen = 176; // ░
+				        console.writeToBuffer(j,i, EndScreen, 0x00); // Blk [Spaces]
+			        }
+			        else
+			        {
+				        console.writeToBuffer(j,i, EndScreen, 0x0B); // Color The Underscores dases and so, Blue.
+			        }
+		        }
+         }
+}
+
+void readGameOver()
+{
+        string mapline;
+        int y2 = 0;
+        ifstream gameOver ("gameover.txt");
+        if (gameOver.is_open())
+        {
+            while (getline (gameOver,mapline))
+            {
+                for ( int x = 0; x < mapline.length(); x++ )
+                {
+                    screenArray[y2][x] = mapline[x];
+                }
+                ++y2;
+            }
+        }
+        gameOver.close();
+}
+
+void renderGameOver()
+{
     for (int i = 0; i < 25; ++i)
-	{
-		for (int j = 0; j < 78; ++j)
-		{
-			char EndScreen = screenArray[i][j];
-			if (EndScreen == '1')
-			{
-				EndScreen = 178; // ▓
-				console.writeToBuffer(j,i, EndScreen, 0x7F); // White [Walls]
-			}
-			else if (EndScreen == 'W')
-			{
-				EndScreen = 176; // ░
-				console.writeToBuffer(j,i, EndScreen, 0x8F); // Grey [Walls]
-			}
-			else if (EndScreen == 'S')
-			{
-				EndScreen = 176; // ░
-				console.writeToBuffer(j,i, EndScreen, 0x00); // Blk [Spaces]
-			}
-			else
-			{
-				console.writeToBuffer(j,i, EndScreen, 0x0B); // Color The Underscores dases and so, Blue.
-			}
-		}
-     }
+	    {
+		        for (int j = 0; j < 78; ++j)
+		        {
+			        char GameOver = screenArray[i][j];
+			        if (GameOver == '1')
+			        {
+				        GameOver = 178; // ▓
+				        console.writeToBuffer(j,i, GameOver, 0x7F); // White [Walls]
+			        }
+			        else if (GameOver == 'W')
+			        {
+				        GameOver = 176; // ░
+				        console.writeToBuffer(j,i, GameOver, 0x8F); // Grey [Walls]
+			        }
+			        else if (GameOver == 'S')
+			        {
+				        GameOver = 176; // ░
+				        console.writeToBuffer(j,i, GameOver, 0x00); // Blk [Spaces]
+			        }
+			        else
+			        {
+				        console.writeToBuffer(j,i, GameOver, 0x0B); // Color The Underscores dases and so, Blue.
+			        }
+		        }
+         }
 }
