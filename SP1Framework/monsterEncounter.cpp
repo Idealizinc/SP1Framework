@@ -5,6 +5,7 @@ int monsterSelection(int val);
 void random();
 int randomenc = 0;
 int encounterUp = 0;
+int rate = 500; // Higher rate lower encounter
 
 int encounterCheck()
 {
@@ -20,7 +21,7 @@ int random_function()
 {
 	int encounterCheck;
 	srand(time(NULL));
-	encounterCheck = rand()%(420 + encounterUp); //randomenc;
+	encounterCheck = rand()%(rate + encounterUp); //randomenc;
 	return encounterCheck;
 
 }
@@ -31,7 +32,7 @@ int monsterSelection(int var)
 	int selectedMonster;
 	bool encounter = false;
 	bool check = false;
-	if ((var >= 420) && (encounter == false))
+	if ((var >= rate) && (encounter == false))
 	{
 		encounter = true;
 		encounterUp = 0;
