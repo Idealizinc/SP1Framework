@@ -10,72 +10,72 @@
 // Console object
 Console console(78, 25, "SP1 Framework");
 
-double elapsedTime;
-double deltaTime;
+//Time elapsed
+double elapsedTime;                     //Elapsed time of the game
+double deltaTime;                       //Frame per seconds.
+
+//Key input
 bool keyPressed[K_COUNT];
-char mapArray[22][79];
-char battleArray[20][79];
-char battleArrayALT[20][79];
-char bossArray[20][79];
-char bossArrayALT[20][79];
-char screenArray[25][79];
-char ggArray[25][79];
-int xSpawnCoord = 0, ySpawnCoord = 0;
-int xReturnCoord, yReturnCoord;
-bool renderedChar = false;
-int chest0 = 0;
-int chest1 = 0;
-int playerxp = 0;
-int playerlv = 1;
-bool randomEncountersOn = true; // SET TO TRUE LATER
+
+//2D array of map from text files.
+char mapArray[22][79];                  //Main map array
+char battleArray[20][79];               //Animated Battle screen array 1
+char battleArrayALT[20][79];            //Animated Battle screen array 2
+char bossArray[20][79];                 //Animated Boss screen array 1 
+char bossArrayALT[20][79];              //Animated Boss screen array 2
+char screenArray[25][79];               //Portal screen array
+char ggArray[25][79];                   //Game Over screen Array
+
+//Coordinates of players.
+int xSpawnCoord = 0, ySpawnCoord = 0;   //Initializing spawn coord default 0
+int xReturnCoord, yReturnCoord;         //Return coord when 
+bool renderedChar = false;              //Rendering of character.
+int playerxp = 0;                       //Player's EXP points
+bool randomEncountersOn = true;         //RNG of Monster
 
 //Read Values
-string normal_Monster1;
-string normal_Monster1ALT;
-string boss_Monster1;
-string boss_Monster1ALT;
-string stage_Map;
+string normal_Monster1;     //store first frame of monster txt
+string normal_Monster1ALT;  //store second frame of monster txt
+string boss_Monster1;       //store first frame of boss txt
+string boss_Monster1ALT;    //store second frame of boss txt
+string stage_Map;           //store stage level.
 
 //Game State
 double loadTimer;
 bool loading = false;
 char loadScrnArray[25][79];
 GameStates currState = G_LoadScreen; // G_Intro
-bool atLoad = false;
-int currAtStage;
+
 //For Battle Scrn & Battle Anim 
-bool battleModeOn = false; // SET TO FALSE LATER
-bool animate = true;
-int monsterFound; 
-bool playerInputOn = true;
-int answerIsDifferent;
-string battleAnswer;
-bool locationSaved =  false;
-bool animate2 = true;
-bool bossCleared = false; //Set To FALSE
-bool inBossFight = false;
-bool initializeHP = false; // To initialise monster/boss HP
+bool battleModeOn = false;      // when true, loads battle screen
+bool animate = true;            // toggles between two frames.
+bool animate2 = true;           // toggles between two frames.
+int monsterFound;               // -
+bool playerInputOn = true;      // toggles movement of player.
+int answerIsDifferent;          // check if player ans is diff.
+string battleAnswer;            // holds value of player ans.
+bool locationSaved =  false;    //// saves player location upon battle.
+bool bossCleared = false;       // when boss cleared, won't meet again.
+bool inBossFight = false;       // toggles inboss fight screen.
+bool initializeHP = false;      // To initialise monster/boss HP
 
 //For Battle Systems
-bool playerInputted = false;
-bool questionMade = false;
-bool allowNumInput = true;
-double storedTime;
-double waitTime = 0.05;
-bool limiterSet = false;
-int randomNo1;
-int randomNo2;
-int randomSign;
-int randSign;
-int ans;
-string answer;
-int stageVal = 21; //Random unrelated value
+bool playerInputted = false;    // check if player got put answer.
+bool questionMade = false;      // creates question only when answered.
+bool allowNumInput = true;      // player's num input
+int playerDmg;                  // player dmg
+double storedTime;              // the value of the stored time.
+double waitTime = 0.05;         // waiting time for inputing value.
+bool limiterSet = false;        // prevents players from input value multi time
+int randomNo1;                  // random number for first value
+int randomNo2;                  // random number for second value
+int randomsign;                 // random sign symbols (not coded)
+string answer;                  //answer of player inputted.
+int currAtStage = 0;            // current stage level
+int stageVal = 21;              //Random unrelated value
 
 //For Game Over Screen
 bool playerDead = false;
-
-//Movement
-bool keyPress;
 
 //Status
 int status = 0;
@@ -90,7 +90,7 @@ COORD charLocation;
 Hero player;
 Monster MonsterUnit;
 Boss BossUnit;
-int charHP, HP, HP2, limitEXP, Damage, Damage2, monsterXP, monsterHP;
+int charHP, HP, foeHP, foeLVL, limitEXP, Damage, Damage2, monsterXP, monsterHP;
 
 // Initialize variables, allocate memory, load data from file, etc. 
 // This is called once before entering into your main loop
@@ -551,35 +551,56 @@ void clearScreen()
     console.clearBuffer(0x0F);
 }
 
+void checkLevelUp()
+{
+    if (player.exp >= player.expCap)
+    {
+        changePlayerStats();
+    }
+}
+
+void changePlayerStats()
+{
+    int rngdamage = rand() % 10 + 50;
+    player.level += 1;
+    player.exp -= player.expCap;
+    player.expCap = 50 * player.level;
+}
+
 void initiallizePlayerStats()
 {
 	int rngdamage = rand() % 10 + 50;
 	player.level = 1;
+    player.exp = 0;
+    //player.expCap = 100;
 	player.hp = 1000 + ((player.level) * 100);
-	player.damage = 10 + rngdamage;
-	player.exp = 100 * player.level;
-	limitEXP = player.exp;
+	player.damage = 1;
+	player.expCap = 50 * player.level;
+	limitEXP = player.expCap;
+    playerDmg = player.damage;
 }
 
 void setPlayerChangableStats()
 {
 	int rngdamage = rand() % 10 + 50;
 	//player.hp = 1000 + ((player.level) * 100);
-	player.damage = 10 + rngdamage * 1337;
-	player.exp = 100 * player.level;
+	player.damage = 1;
+	player.expCap = 50 * player.level;
+    playerDmg = player.damage;
 }
 
 void initiallizeMonsterStats()
 {
 	srand((unsigned)time(0));
 	MonsterUnit.level = (rand()%(currAtStage * 10 + 1)) + currAtStage;
-	MonsterUnit.hp = (MonsterUnit.level * 50);
+	MonsterUnit.hp = (MonsterUnit.level * 2);
 	MonsterUnit.expgiven = ((rand()%3) + 1) * MonsterUnit.level;
 	BossUnit.hp = 300 + (MonsterUnit.level * 100);
 	BossUnit.expgiven = 5000;
 	monsterXP = MonsterUnit.expgiven;
 	monsterHP = MonsterUnit.hp;
-	HP2 = monsterHP;
+	foeHP = monsterHP;
+    foeLVL = MonsterUnit.level;
 }
 
 void setMonsterChangableStats()
@@ -593,42 +614,56 @@ void setMonsterChangableStats()
 void printMapStats()
 {
 	COORD c;
+
+    checkLevelUp();
+
+    std::ostringstream mylvl;
+    mylvl << player.level;
+    string myLvl = mylvl.str(); //string that contains player lvl
+
 	std::ostringstream myhp;
 	myhp << player.hp;
 	string myHP = myhp.str(); //string that contains player hp
+
 	std::ostringstream enemyhp; 
-	enemyhp << HP2 ;
+	enemyhp << foeHP ;
 	string monhp = enemyhp.str(); //string that contains monster hp
+
 	std::ostringstream exp;
-	exp << playerxp;
+	exp << player.exp;
 	string playerExp = exp.str(); // string that contains player exp
+
+    std::ostringstream mylvlcap;
+    mylvlcap << player.expCap;
+    string mylvlCap = mylvlcap.str(); //string that contains player exp cap
+
 	string text;
-	text = " My HP: "; 
+    text = " My Level: ";
+    text +=  myLvl;
+	text += "    My HP: "; 
 	text += myHP;
 	text += "    Exp: ";
 	text += playerExp;
-	text += " ";
+	text += " / ";
+    text += mylvlCap;
 	//charHP++; testing if changeable 
-	c.X = 24;
+	c.X = 17;
 	c.Y = 21;
 	//console.writeToBuffer(c,text.str());
 	console.writeToBuffer(c, text, 0xF9);
 }
+
 void printBattleStats()
 {
-
+    checkLevelUp();
 	if (questionMade == false)
 	{
 		srand (elapsedTime);
-		randSign = (rand()%1) + 1;
 		randomNo1 = (rand()%9) + 1;
 		randomNo2 = (rand()%9) + 1;
+		randomsign = (rand()%3) + 1;
 		questionMade = true;
-		switch ( randSign )
-		{
-			case 1 : ans = randomNo1 + randomNo2; break;
-			case 2 : ans = randomNo1 * randomNo2; break;
-		}
+		int ans = randomNo1 + randomNo2;
 		std::ostringstream theAnswer;
 		theAnswer << ans;
 		string qnAnswer = theAnswer.str();
@@ -640,7 +675,7 @@ void printBattleStats()
 		if (battleModeOn == true)
 		{
 			//problem was here
-			HP2 = monsterHP;
+			foeHP = monsterHP;
 		}
 		if (inBossFight == true)
 		{
@@ -651,17 +686,25 @@ void printBattleStats()
 	COORD c;
 	std::ostringstream myhp;
 	myhp << player.hp ;
-	string myHP = myhp.str();
+	string myHP = myhp.str(); // string that contains player hp
+
+    std::ostringstream enemylvl;
+    enemylvl << foeLVL;
+    string enemyLVL = enemylvl.str(); // string that contains enemy lvl
+
 	std::ostringstream enemyhp;
-	enemyhp << HP2 ;
-	string monhp = enemyhp.str();
+	enemyhp << foeHP ;
+	string monhp = enemyhp.str(); // string that contains enemy hp
+
 	string text;
 	text = " My HP: ";
 	text += myHP;
+    text += "    Enemy Level: ";
+    text += enemyLVL;
 	text +=	"    Enemy HP: ";
 	text +=	monhp;
 	text += " ";
-	c.X = 23;
+	c.X = 16;
 	c.Y = 20;
 	console.writeToBuffer(c, text, 0x79);
 
@@ -669,25 +712,20 @@ void printBattleStats()
 	string question;
 	question = "What is ";
 	question += static_cast<char>(randomNo1) + 48;
-	switch (randSign)
-	{
-		case 1 : question += " + "; break;
-		case 2 : question += " x "; break;
-	}
+	question += " + ";
 	question += static_cast<char>(randomNo2) + 48;
 	question += "?";
 	d.X = 24;
 	d.Y = 21;
 	console.writeToBuffer(d, question, 0x0E);
 
-	
 	numberinput();
 
 	if ( (answerIsDifferent == 0) && (playerInputted == true) )
 	{
 		setPlayerChangableStats();
 		setMonsterChangableStats();
-		HP2 -= player.damage ;//20;
+		foeHP -= player.damage ;//20;
 		playerInputted = false;
 		
 	}
@@ -699,7 +737,7 @@ void printBattleStats()
 		playerInputted = false;
 		
 	} 
-	if (HP2 <= 0) //HP2 is monster hp
+	if (foeHP <= 0) //HP2 is monster hp
 	{
 		if (battleModeOn == true)
 		{
@@ -710,7 +748,7 @@ void printBattleStats()
 			bossCleared = true;
 			inBossFight = false;
 		}
-		playerxp += monsterXP;
+        (player.exp) += monsterXP;
 		initializeHP = false;
 	}
 	if (( player.hp <= 0 ) && ((battleModeOn == true) || (inBossFight == true)))
@@ -1168,6 +1206,7 @@ void renderLoadScreen()
 //		if ( wait < elapsedTime )
 //		++c;
 //	}
+	
 	/*while (c < 6)
 	{
 		renderLoadScreen();

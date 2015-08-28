@@ -9,8 +9,6 @@
 #include <string>
 #include <vector>
 #include <ctime>
-//        for (time_t t = time(0) + 5; time(0 ) < t; )
-//      {
 
 extern StopWatch g_timer;
 extern bool g_quitGame;
@@ -73,8 +71,8 @@ void shutdown();            // do clean up, free memory
 
 void numberinput();         // gets the number
 void moveCharacter();       // moves the character, collision detection, physics, etc
-void checkMove();         // checks the path it took. collision detection, physics, etc
-void monsterCheck();
+void checkMove();           // checks the path it took. collision detection, physics, etc
+void monsterCheck();        // checks for monster
 void processUserInput();    // checks if you should change states or do something else with the game, e.g. pause, exit
 void clearScreen();         // clears the current screen and draw from scratch 
 
@@ -83,17 +81,17 @@ void renderMap();           // renders the map to the buffer first
 void renderCharacter();     // renders the character into the buffer
 void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
-void animateBSNorm();		//Swaps between and prints diff battle screens.
-void animateBSBoss();		//Same As Above Just For Boss Fights
+void animateBSNorm();		// swaps between and prints diff battle screens.
+void animateBSBoss();		// same As Above Just For Boss Fights
 void portalrender();        // renders the portal.
 void printMapStats();       // stats of player
 void printBattleStats();    // stats of enemy and player.
 void printChestReward();    // shows bonus of the player.
 void portalrender();        // renders the portal.
 void renderGameOver();      // renders Game Over screen.
-void drawMap();
-void drawMapRendChar();
-void printFakeChestInfo();
+void drawMap();             // draws the game map.
+void drawMapRendChar();     // draws the character on map.
+void printFakeChestInfo();  // prints details of fake chest.
 void animateLoading();
 void renderLoadScreen();
 void readLoadScreen(string str);
@@ -106,30 +104,38 @@ void readBattleScreen2(string str);			// second frame of animation
 void readBossScreen(string str);			// Read Boss Screen 1
 void readBossScreen2(string str);			// Read Boss Screen 2
 void readGameOver();						// reads the gameover in a txt file.
-void getReadData(int val);
+void getReadData(int val);                  // reads txt files base on stage.
 
 //Detection
-void bossFightCheck();		// Checks if player is on boss.
-void detectChest();         // states what happens when player steps on chest.
-void chestOpen();           // opens the map
-void initiallizePlayerStats();
-void setPlayerChangableStats();
-void initiallizeMonsterStats();
-void setMonsterChangableStats();
+void bossFightCheck();		            // Checks if player is on boss.
+void detectChest();                     // states what happens when player steps on chest.
+void chestOpen();                       // opens the map
+void initiallizePlayerStats();          // player initial stats
+void setPlayerChangableStats();         // player changable stats
+void initiallizeMonsterStats();         // monster initial stats
+void setMonsterChangableStats();        // monster changable stats
+void checkLevelUp();                    // player level up.
+void changePlayerStats();               // change player stats
 
+//Struct name of the player.
 struct Hero
 {
 	int hp;
 	int level;
+    int expCap;
 	int damage;
 	int exp;
 };
+
+//Struct name of the boss.
 struct Boss
 {
 	int hp;
 	int damage;
 	int expgiven;
 };
+
+//Struct name of monsters.
 struct Monster
 {
 	int level;
