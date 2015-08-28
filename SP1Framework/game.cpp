@@ -42,7 +42,7 @@ bool loading = false;
 char loadScrnArray[25][79];
 GameStates currState = G_LoadScreen; // G_Intro
 bool atLoad = false;
-
+int currAtStage;
 //For Battle Scrn & Battle Anim 
 bool battleModeOn = false; // SET TO FALSE LATER
 bool animate = true;
@@ -51,14 +51,6 @@ bool playerInputOn = true;
 int answerIsDifferent;
 string battleAnswer;
 bool locationSaved =  false;
-
-//For Portal End Stage
-bool atPortal = false; //Set To FALSE
-
-//For Game Over Screen
-bool playerDead = false;
-
-//For Boss Fight
 bool animate2 = true;
 bool bossCleared = false; //Set To FALSE
 bool inBossFight = false;
@@ -73,9 +65,10 @@ double waitTime = 0.05;
 bool limiterSet = false;
 int randomNo1;
 int randomNo2;
-int randomsign;
+int randomSign;
+int randSign;
+int ans;
 string answer;
-int currAtStage = 0;
 int stageVal = 21; //Random unrelated value
 
 //For Game Over Screen
@@ -335,30 +328,6 @@ void renderSelection()
 		currState = G_Stage1;
 		}
     }
-	}
-	else if (atPortal == true)
-    {
-		clearScreen();
-        charLocation.X = 100;
-		charLocation.Y = 100;
-		playerInputOn = false;
-		portalrender();
-    }
-    else if (playerDead == true)
-    {
-		clearScreen();
-        charLocation.X = 100;
-		charLocation.Y = 100;
-		playerInputOn = false;
-		renderGameOver();
-    }
-
-    if (renderedChar == false)
-	{
-		charLocation.X = xSpawnCoord;
-		charLocation.Y = ySpawnCoord;
-		renderedChar = true;
-	}
 }
 void renderPrintedText(char toBePrinted ,int j,int i )
 {
@@ -647,14 +616,19 @@ void printMapStats()
 }
 void printBattleStats()
 {
+
 	if (questionMade == false)
 	{
 		srand (elapsedTime);
+		randSign = (rand()%1) + 1;
 		randomNo1 = (rand()%9) + 1;
 		randomNo2 = (rand()%9) + 1;
-		randomsign = (rand()%3) + 1;
 		questionMade = true;
-		int ans = randomNo1 + randomNo2;
+		switch ( randSign )
+		{
+			case 1 : ans = randomNo1 + randomNo2; break;
+			case 2 : ans = randomNo1 * randomNo2; break;
+		}
 		std::ostringstream theAnswer;
 		theAnswer << ans;
 		string qnAnswer = theAnswer.str();
@@ -695,7 +669,11 @@ void printBattleStats()
 	string question;
 	question = "What is ";
 	question += static_cast<char>(randomNo1) + 48;
-	question += " + ";
+	switch (randSign)
+	{
+		case 1 : question += " + "; break;
+		case 2 : question += " x "; break;
+	}
 	question += static_cast<char>(randomNo2) + 48;
 	question += "?";
 	d.X = 24;
@@ -873,74 +851,6 @@ void drawBattleScreen()
 		}
 		i++;
 	}
-	printBattleStats();
-}
-
-void numberinput()
-{
-	if ( keyPressed[K_1] )
-	{
-		answer += ( '1' );
-	}
-	else if ( keyPressed[K_2] )
-	{
-		answer += ( '2' );
-	}
-	else if ( keyPressed[K_3] )
-	{
-		answer += ( '3' );
-	}
-	else if ( keyPressed[K_4] )
-	{
-		answer += ( '4' );
-	}
-	else if ( keyPressed[K_5] )
-	{
-		answer += ( '5' );
-	}
-	else if ( keyPressed[K_6] )
-	{
-		answer += ( '6' );
-	}
-	else if ( keyPressed[K_7] )
-	{
-		answer += ( '7' );
-	}
-	else if ( keyPressed[K_8] )
-	{
-		answer += ( '8' );
-	}
-	else if ( keyPressed[K_9] )
-	{
-		answer += ( '9' );
-	}
-	else if ( keyPressed[K_0] )
-	{
-		answer += ( '0' );
-	}
-	else if ( (keyPressed[K_BACKSPACE]) && (answer.length() > 0) )
-	{
-		answer.erase(answer.length() - 1 ) ;
-	}
-	else if ( keyPressed[K_ENTER] )
-	{
-		if ( answer.compare(battleAnswer) == 0 )
-		{
-			answerIsDifferent = false;
-			playerInputted == true;
-			monsterHP -= 15;
-		}
-		else if ( answer.compare(battleAnswer) != 0 )
-		{
-			answerIsDifferent = true;
-			playerInputted == true;
-			charHP -= 30;
-		}
-	}
-	COORD e;
-	e.X = 20 ;
-	e.Y = 23 ;
-	console.writeToBuffer(e, answer, 0x0C);
 }
 
 void drawBattleScreenALT()
@@ -1152,55 +1062,6 @@ void readPortal()
 
 void portalrender()
 {
-        for (int i = 0; i < 25; ++i)
-	    {
-		        for (int j = 0; j < 78; ++j)
-		        {
-			        char EndScreen = screenArray[i][j];
-			        if (EndScreen == '1')
-			        {
-				        EndScreen = 178; // ▓
-				        console.writeToBuffer(j,i, EndScreen, 0x7F); // White [Walls]
-			        }
-			        else if (EndScreen == 'W')
-			        {
-				        EndScreen = 176; // ░
-				        console.writeToBuffer(j,i, EndScreen, 0x8F); // Grey [Walls]
-			        }
-			        else if (EndScreen == 'S')
-			        {
-				        EndScreen = 176; // ░
-				        console.writeToBuffer(j,i, EndScreen, 0x00); // Blk [Spaces]
-			        }
-			        else
-			        {
-				        console.writeToBuffer(j,i, EndScreen, 0x0B); // Color The Underscores dases and so, Blue.
-			        }
-		        }
-         }
-}
-
-void readGameOver()
-{
-        string mapline;
-        int y2 = 0;
-        ifstream gameOver ("gameover.txt");
-        if (gameOver.is_open())
-        {
-            while (getline (gameOver,mapline))
-            {
-                for ( int x = 0; x < mapline.length(); x++ )
-                {
-                    screenArray[y2][x] = mapline[x];
-                }
-                ++y2;
-            }
-        }
-        gameOver.close();
-}
-
-void renderGameOver()
-{
     for (int i = 0; i < 25; ++i)
 	{
 		for (int j = 0; j < 78; ++j)
@@ -1307,7 +1168,6 @@ void renderLoadScreen()
 //		if ( wait < elapsedTime )
 //		++c;
 //	}
-	
 	/*while (c < 6)
 	{
 		renderLoadScreen();

@@ -8,6 +8,9 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <ctime>
+//        for (time_t t = time(0) + 5; time(0 ) < t; )
+//      {
 
 extern StopWatch g_timer;
 extern bool g_quitGame;
