@@ -5,7 +5,7 @@
 #include "Framework\console.h"
 #include "monsterEncounter.h"
 #include "readFunc.h"
-
+#include "detectionFunc.h"
 // Console object
 Console console(78, 25, "SP1 Framework");
 //Time elapsed
@@ -996,6 +996,7 @@ void bossFightCheck()
         inBossFight = true;
     }
 }
+
 
 //readPortal()
 

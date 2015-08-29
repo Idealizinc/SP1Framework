@@ -107,7 +107,7 @@ void renderLoadScreen();
 //void readBossScreen(string str);			// Read Boss Screen 1
 //void readBossScreen2(string str);			// Read Boss Screen 2
 //void readGameOver();						// reads the gameover in a txt file.
-void getReadData(int val);                  // reads txt files base on stage.
+void getReadData(int val);                  // reads txt files based on stage.
 //void readLoadScreen(string str,char loadScrnArray[25][79]);
 
 //Detection
