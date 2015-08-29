@@ -208,8 +208,8 @@ void getReadData(int val)
 	readMap(stage_Map,mapArray);
 	readBattleScreen(normal_Monster1,battleArray);
 	readBattleScreen2(normal_Monster1ALT,battleArrayALT);
-	readBossScreen(boss_Monster1);
-	readBossScreen2(boss_Monster1ALT);
+	readBossScreen(boss_Monster1,bossArray);
+	readBossScreen2(boss_Monster1ALT,bossArrayALT);
 }
 
 /*
@@ -724,7 +724,7 @@ void printBattleStats()
 	{
 		setPlayerChangableStats();
 		setMonsterChangableStats();
-		foeHP -= player.damage ;//20;
+		foeHP -= player.damage * 100 ;//20 // multiplied by 100 for testing. REMOVE LATER
 		playerInputted = false;
 		
 	}
@@ -765,43 +765,11 @@ void printBattleStats()
 //readBattleScreen2(string str)
 
 
-void readBossScreen(string str)
-{
-    string mapline;
-    int y2 = 0;
-    ifstream mymapfile (str);
-    if (mymapfile.is_open())
-    {
-        while (getline (mymapfile,mapline))
-        {
-            for ( int x = 0; x < mapline.length(); x++ )
-            {
-                bossArray[y2][x] = mapline[x];
-            }
-            ++y2;
-        }
-    }
-    mymapfile.close();
-}
+//readBossScreen(string str)
 
-void readBossScreen2(string str)
-{
-    string mapline;
-    int y2 = 0;
-    ifstream mymapfile (str);
-    if (mymapfile.is_open())
-    {
-        while (getline (mymapfile,mapline))
-        {
-            for ( int x = 0; x < mapline.length(); x++ )
-            {
-                bossArrayALT[y2][x] = mapline[x];
-            }
-            ++y2;
-        }
-    }
-    mymapfile.close();
-}
+
+//readBossScreen2(string str)
+
 
 void drawMap()
 {

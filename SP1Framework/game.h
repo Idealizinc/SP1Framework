@@ -104,8 +104,8 @@ void readLoadScreen(string str);
 //void readPortal();							// Changes stage when player completes current stage.
 //void readBattleScreen(string str);		    // first frame of animation
 //void readBattleScreen2(string str);			// second frame of animation
-void readBossScreen(string str);			// Read Boss Screen 1
-void readBossScreen2(string str);			// Read Boss Screen 2
+//void readBossScreen(string str);			// Read Boss Screen 1
+//void readBossScreen2(string str);			// Read Boss Screen 2
 void readGameOver();						// reads the gameover in a txt file.
 void getReadData(int val);                  // reads txt files base on stage.
 

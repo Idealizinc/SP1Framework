@@ -17,6 +17,7 @@ void readMap(string str,char mapArray[22][79]);
 void readPortal(string str,char screenArray[25][79]);
 void readBattleScreen(string str,char battleArray[20][79]);	
 void readBattleScreen2(string str,char battleArrayALT[20][79]);
-
+void readBossScreen(string str,char bossArray[20][79]);			// Read Boss Screen 1
+void readBossScreen2(string str,char bossArrayALT[20][79]);			// Read Boss Screen 2
 
 #endif
