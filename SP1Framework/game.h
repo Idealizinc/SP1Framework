@@ -62,6 +62,9 @@ enum GameStates
 	G_GameOver,
     G_EndCount
 };
+//organising
+
+
 
 void init();                // initialize your variables, allocate memory, etc
 void getInput();            // get input from player
@@ -97,10 +100,10 @@ void renderLoadScreen();
 void readLoadScreen(string str);
 
 //Reading
-void readMap(string str);					// reads the map in a txt file.
-void readPortal();							// Changes stage when player completes current stage.
-void readBattleScreen(string str);		    // first frame of animation
-void readBattleScreen2(string str);			// second frame of animation
+//void readMap(string str);					// reads the map in a txt file.
+//void readPortal();							// Changes stage when player completes current stage.
+//void readBattleScreen(string str);		    // first frame of animation
+//void readBattleScreen2(string str);			// second frame of animation
 void readBossScreen(string str);			// Read Boss Screen 1
 void readBossScreen2(string str);			// Read Boss Screen 2
 void readGameOver();						// reads the gameover in a txt file.

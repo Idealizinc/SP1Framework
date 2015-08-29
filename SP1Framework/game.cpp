@@ -4,34 +4,33 @@
 #include "game.h"
 #include "Framework\console.h"
 #include "monsterEncounter.h"
-
-
+#include "readFunc.h"
 
 // Console object
 Console console(78, 25, "SP1 Framework");
-
 //Time elapsed
 double elapsedTime;                     //Elapsed time of the game
-double deltaTime;                       //Frame per seconds.
+double deltaTime;
 
 //Key input
 bool keyPressed[K_COUNT];
+char mapArray[22][79];
+char battleArray[20][79];
+char battleArrayALT[20][79];
+char bossArray[20][79];
+char bossArrayALT[20][79];
+char screenArray[25][79];
+char ggArray[25][79];
+int xSpawnCoord = 0, ySpawnCoord = 0;
+int xReturnCoord, yReturnCoord;
+bool renderedChar = false;
+int chest0 = 0;
+int chest1 = 0;
+int playerxp = 0;
+int playerlv = 1;
 
-//2D array of map from text files.
-char mapArray[22][79];                  //Main map array
-char battleArray[20][79];               //Animated Battle screen array 1
-char battleArrayALT[20][79];            //Animated Battle screen array 2
-char bossArray[20][79];                 //Animated Boss screen array 1 
-char bossArrayALT[20][79];              //Animated Boss screen array 2
-char screenArray[25][79];               //Portal screen array
-char ggArray[25][79];                   //Game Over screen Array
-
-//Coordinates of players.
-int xSpawnCoord = 0, ySpawnCoord = 0;   //Initializing spawn coord default 0
-int xReturnCoord, yReturnCoord;         //Return coord when 
-bool renderedChar = false;              //Rendering of character.
-int playerxp = 0;                       //Player's EXP points
-bool randomEncountersOn = true;         //RNG of Monster
+//ENABLE PLAYER ENCOUNTER
+bool randomEncountersOn = false; // SET TO TRUE LATER
 
 //Read Values
 string normal_Monster1;     //store first frame of monster txt
@@ -98,7 +97,7 @@ void init()
 {
     // Set precision for floating point output
     elapsedTime = 0.0;
-	readPortal();
+	readPortal("endscreen.txt",screenArray);
     readGameOver();
 	readLoadScreen("LoadScreen_100%.txt");
 
@@ -206,9 +205,9 @@ void getReadData(int val)
 				stage_Map = "Map2.txt";
 				break;
 	}
-	readMap(stage_Map);
-	readBattleScreen(normal_Monster1);
-	readBattleScreen2(normal_Monster1ALT);
+	readMap(stage_Map,mapArray);
+	readBattleScreen(normal_Monster1,battleArray);
+	readBattleScreen2(normal_Monster1ALT,battleArrayALT);
 	readBossScreen(boss_Monster1);
 	readBossScreen2(boss_Monster1ALT);
 }
@@ -758,63 +757,13 @@ void printBattleStats()
 	}
 }
 
-void readMap(string str)
-{
-    string mapline;
-    int y2 = 0;
-    ifstream mymapfile (str);
+//readMap();
 
-    if (mymapfile.is_open())
-    {
-        while (getline (mymapfile,mapline))
-        {
-            for ( int x = 0; x < mapline.length(); x++ )
-            {
-                mapArray[y2][x] = mapline[x];
-            }
-            ++y2;
-        }
-    }
-    mymapfile.close();
-}
+//readBattleScreen(string str)
 
-void readBattleScreen(string str)
-{
-    string mapline;
-    int y2 = 0;
-    ifstream mymapfile(str);
-    if (mymapfile.is_open())
-    {
-        while (getline (mymapfile,mapline))
-        {
-            for ( int x = 0; x < mapline.length(); x++ )
-            {
-                battleArray[y2][x] = mapline[x];
-            }
-            ++y2;
-        }
-    }
-    mymapfile.close();
-}
 
-void readBattleScreen2(string str)
-{
-    string mapline;
-    int y2 = 0;
-    ifstream mymapfile (str);
-    if (mymapfile.is_open())
-    {
-        while (getline (mymapfile,mapline))
-        {
-            for ( int x = 0; x < mapline.length(); x++ )
-            {
-                battleArrayALT[y2][x] = mapline[x];
-            }
-            ++y2;
-        }
-    }
-    mymapfile.close();
-}
+//readBattleScreen2(string str)
+
 
 void readBossScreen(string str)
 {
@@ -1079,24 +1028,7 @@ void bossFightCheck()
     }
 }
 
-void readPortal()
-{
-        string mapline;
-        int y2 = 0;
-        ifstream stageClr ("endscreen.txt");
-        if (stageClr.is_open())
-        {
-            while (getline (stageClr,mapline))
-            {
-                for ( int x = 0; x < mapline.length(); x++ )
-                {
-                    screenArray[y2][x] = mapline[x];
-                }
-                ++y2;
-            }
-        }
-        stageClr.close();
-}
+//readPortal()
 
 void portalrender()
 {

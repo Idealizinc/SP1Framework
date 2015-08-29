@@ -81,12 +81,14 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="monsterEncounter.cpp" />
+    <ClCompile Include="readFunc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="monsterEncounter.h" />
+    <ClInclude Include="readFunc.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="display.txt" />
