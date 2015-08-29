@@ -750,9 +750,10 @@ void printBattleStats()
         (player.exp) += monsterXP;
 		initializeHP = false;
 	}
-	if (( player.hp <= 0 ) && ((battleModeOn == true) || (inBossFight == true)))
+	if ( player.hp <= 0 )
 	{
 		battleModeOn = false;
+		inBossFight = false;
 		playerDead = true;
 	}
 }
