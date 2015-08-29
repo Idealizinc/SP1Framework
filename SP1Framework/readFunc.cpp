@@ -115,3 +115,42 @@ void readBossScreen2(string str,char bossArrayALT[20][79])
     }
     mymapfile.close();
 }
+
+void readGameOver(string str,char ggArray[25][79])
+{
+    string mapline;
+    int y2 = 0;
+    ifstream gameOver (str);
+    if (gameOver.is_open())
+    {
+        while (getline (gameOver,mapline))
+        {
+            for ( int x = 0; x < mapline.length(); x++ )
+            {
+                ggArray[y2][x] = mapline[x];
+            }
+            ++y2;
+        }
+    }
+    gameOver.close();
+}
+
+void readLoadScreen(string str,char loadScrnArray[25][79])
+{
+	string line;
+    int y = 0;
+	
+    ifstream loadScrn(str);
+    if (loadScrn.is_open())
+    {
+        while (getline (loadScrn, line))
+        {
+            for ( int x = 0; x < line.length(); x++ )
+            {
+                loadScrnArray[y][x] = line[x];
+            }
+            ++y;
+        }
+    }
+    loadScrn.close();
+}

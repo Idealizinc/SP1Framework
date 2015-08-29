@@ -97,7 +97,7 @@ void drawMapRendChar();     // draws the character on map.
 void printFakeChestInfo();  // prints details of fake chest.
 void animateLoading();
 void renderLoadScreen();
-void readLoadScreen(string str);
+
 
 //Reading
 //void readMap(string str);					// reads the map in a txt file.
@@ -106,8 +106,9 @@ void readLoadScreen(string str);
 //void readBattleScreen2(string str);			// second frame of animation
 //void readBossScreen(string str);			// Read Boss Screen 1
 //void readBossScreen2(string str);			// Read Boss Screen 2
-void readGameOver();						// reads the gameover in a txt file.
+//void readGameOver();						// reads the gameover in a txt file.
 void getReadData(int val);                  // reads txt files base on stage.
+//void readLoadScreen(string str,char loadScrnArray[25][79]);
 
 //Detection
 void bossFightCheck();		            // Checks if player is on boss.

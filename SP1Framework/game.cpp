@@ -98,8 +98,8 @@ void init()
     // Set precision for floating point output
     elapsedTime = 0.0;
 	readPortal("endscreen.txt",screenArray);
-    readGameOver();
-	readLoadScreen("LoadScreen_100%.txt");
+    readGameOver("gameover.txt",ggArray);
+	readLoadScreen("LoadScreen_100%.txt",loadScrnArray);
 
     charLocation.X = console.getConsoleSize().X / 2;
     charLocation.Y = console.getConsoleSize().Y / 2;
@@ -1025,24 +1025,7 @@ void portalrender()
 	renderedChar = false;
 }
  
-void readGameOver()
-{
-    string mapline;
-    int y2 = 0;
-    ifstream gameOver ("gameover.txt");
-    if (gameOver.is_open())
-    {
-        while (getline (gameOver,mapline))
-        {
-            for ( int x = 0; x < mapline.length(); x++ )
-            {
-                ggArray[y2][x] = mapline[x];
-            }
-            ++y2;
-        }
-    }
-    gameOver.close();
-}
+// readGameOver()
 
 void renderGameOver()
 {
@@ -1056,25 +1039,8 @@ void renderGameOver()
      }
 }
 
-void readLoadScreen(string str)
-{
-	string line;
-    int y = 0;
-	
-    ifstream loadScrn(str);
-    if (loadScrn.is_open())
-    {
-        while (getline (loadScrn, line))
-        {
-            for ( int x = 0; x < line.length(); x++ )
-            {
-                loadScrnArray[y][x] = line[x];
-            }
-            ++y;
-        }
-    }
-    loadScrn.close();
-}
+// void readLoadScreen(string str,char loadScrnArray[25][79])
+
 
 void renderLoadScreen()
 {
