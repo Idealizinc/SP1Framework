@@ -1,4 +1,4 @@
-#include "detectionFunc.h"
+﻿#include "rendFunc.h"
 
 //void bossFightCheck(extern bool bossCleared ,extern bool inBossFight ,char mapArray[22][79])
 //{

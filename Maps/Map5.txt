@@ -1,22 +1,22 @@
 
 
-  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-  ▓  ▓░░░░░▓▓▓▓▓▓░▓ ▓P▓  ▓H▓▓░░░░░C▓                                       ▓
-  ▓  ▓░RRR░▓░░░░░░▓ ▓░▓  ▓░▓▓░▓▓▓▓▓▓        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-  ▓  ▓░R░C░▓▓▓▓▓▓░▓ ▓░▓▓▓▓░▓▓░▓▓▓▓▓▓▓▓▓▓▓▓▓▓     ▓░░░░░░▓░░░░░░░░░░░░░░░░░C▓
-  ▓  ▓░RRR░▓    ▓░░░░░░░░░░░▓░░░░░░░░░░░▓▓       ▓░▓▓▓░░░░░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-  ▓  ▓░░░░░▓    ▓░▓▓▓░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░▓        ▓░▓  ▓▓▓▓▓▓ ▓░░░░░░░╔════╗▓
-  ▓   ▓▓░▓▓     ▓T▓  ░                ▓░▓        ▓░▓         ▓░▓   ▓░║░░░R║▓
-  ▓    ▓░▓      ▓▓▓▓▓░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░▓▓▓▓▓▓▓▓▓░▓▓▓▓▓▓▓▓▓▓▓░▓   ▓░║▓▓░░║▓
-  ▓    ▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▓░░▓░ ▓
-  ▓    ▓▓▓▓▓▓▓▓▓▓▓░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░▓▓▓▓▓▓▓▓ ▓▓ ░ ▓
-  ▓              ▓░▓                  ▓░▓                  ▓░░░░░░░░░░░░░░░▓
-  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-  ▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▓
-  ▓▓▓▓▓▓▓M▓▓▓▓▓▓▓▓▓╔══░══╦═══▓═══╦══░═╗ ╔══░══╦═══░═══╦══░═╗░▓▓▓▓▓▓▓▓▓▓▓▓  ▓
-  ▓    ▓░░░▓       ║░░░░░║░░░░░░░║░░M░║ ║░░░░░║░░░░░░░║░░░░║░▓▓░░░░░░░░░▓  ▓
-  ▓    ▓░▓░▓       ║░░░░░║░░░░░░░░░░░░║░║░░░░░║░░░░░░░║░░░░║░▓▓░▓▓▓▓▓▓▓░▓  ▓
-  ▓    ▓C▓R▓       ║░░░░░║C░░░░░░║░░░░║X║░░░░C║░░░░░░R║░░░░║░░░░▓     ▓▄▓  ▓
-  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-  ▓                                   ║E║                                  ▓
-  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+1111111111111111111111111111111111111111111111111111111111111111111111111111
+11WWWWGGGGGWWWWWWGWWWPWWWWHWWGGGGGCWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW1
+11WWWWGRRRGWGGGGGGWWWGWWWWGWWGWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW1
+11WWWWGRGCGWWWWWWGWWWGWWWWGWWGWWWWWWWWWWWWWWWWWWWWGGGGGGWGGGGGGGGGGGGGGGGGC1
+11WWWWGRRRGWWWWWWGGGGGGGGGGGWGGGGGGGGGGGWWWWWWWWWWGWWWGGGGGGWWWWWWWWWWWWWWW1
+11WWWWGGGGGWWWWWWGWWWGWWWWWWWWWWWWWWWWWGWWWWWWWWWWGWWWWWWWWWWWGGGGGGG╔════╗1
+11WWWWWWGWWWWWWWWTWWWGWWWWWWWWWWWWWWWWWGWWWWWWWWWWGWWWWWWWWWWWGWWWWWG║GGGR║1
+11WWWWWWGWWWWWWWWWWWWGWWWWWWWWWWWWWWWWGGGWWWWWWWWWGWWWWWWWWWWWGWWWWWG║WWGG║1
+11WWWWWWGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGWGGWGW1
+11WWWWWWWWWWWWWWWWGWWWWWWWWWWWWWWWWWWWGGGWWWWWWWWWWWWWWWWWWWGWWWWWWWWWWWWGW1
+11WWWWWWWWWWWWWWWWGWWWWWWWWWWWWWWWWWWWWGWWWWWWWWWWWWWWWWWWWWGGGGGGGGGGGGGGG1
+11WWWWWWWWWWWWWWWWGWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWGWWWWWWWWWWWWWW1
+11WGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG1
+11WWWWWWWMWWWWWWWWW╔══G══╦═══W═══╦══G═╗W╔══G══╦═══G═══╦══G═╗GWWWWWWWWWWWWWW1
+11WWWWWWGGGWWWWWWWW║GGGGG║GGGGGGG║GGMG║W║GGGGG║GGGGGGG║GGGG║GWWGGGGGGGGGWWW1
+11WWWWWWGWGWWWWWWWW║GGGGG║GGGGGGGGGGGG║G║GGGGG║GGGGGGG║GGGG║GWWGWWWWWWWGWWW1
+11WWWWWWCWRWWWWWWWW║GGGGG║CGGGGGG║GGGG║X║GGGGC║GGGGGGR║GGGG║GGGGWWWWWWW▄WWW1
+11WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW1
+11WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW║E║WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW1
+1111111111111111111111111111111111111111111111111111111111111111111111111111

@@ -1,5 +1,5 @@
-#ifndef _READFUNC_H
-#define _READFUNC_H
+#ifndef _RENDFUNC_H
+#define _RENDFUNC_H
 
 #include <iostream>
 #include <iomanip>
@@ -13,6 +13,6 @@ using std::getline;
 using std::ifstream;
 using std::vector;
 
-//void bossFightCheck(bool bossCleared,bool inBossFight,char mapArray[22][79]);
+void renderPrintedText(char toBePrinted ,int j,int i );
 
 #endif

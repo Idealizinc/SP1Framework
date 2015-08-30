@@ -5,7 +5,6 @@
 #include "Framework\console.h"
 #include "monsterEncounter.h"
 #include "readFunc.h"
-#include "detectionFunc.h"
 // Console object
 Console console(78, 25, "SP1 Framework");
 //Time elapsed
@@ -28,9 +27,9 @@ int chest0 = 0;
 int chest1 = 0;
 int playerxp = 0;
 int playerlv = 1;
-
+int numberOfTries = 4;
 //ENABLE PLAYER ENCOUNTER
-bool randomEncountersOn = false; // SET TO TRUE LATER
+bool randomEncountersOn = true; // SET TO TRUE LATER
 
 //Read Values
 string normal_Monster1;     //store first frame of monster txt
@@ -906,14 +905,6 @@ void renderMap()
 		console.writeToBuffer(c, " °±²Û", colors[i]);
 	}*/
 
-	/*if (battleModeOn == true)
-	{
-		drawBattleScreen();
-	}
-	else if (battleModeOn == false)
-	{
-		drawMap();
-	}*/
 	renderSelection();
 }
 

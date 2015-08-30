@@ -1,0 +1,29 @@
+Instructions:
+
+Keys used:
+(In Map)
+W/ Up key = Move up
+S/ Down Key = Move down
+A/ Left key = Move left
+D/ Right key = Move right
+
+(In a Fight)
+Numbers 1-9 = Inputting numbers 1-9 seperately
+Enter key= Submitting your answer 
+
+(Level up)
+Upon killing monsters, you will gain EXP.  Upon gaining enough EXP, You will Level up.
+Leveling up simply allows you to deal more damage.
+
+(How to fight)
+When you encounter an enemy, you will go into a battle screen.
+A math equation will be presented to you.
+You are simply required to input the answer to deal damage to the enemy
+Should you fail to equate the equation properly YOU will take damage instead
+
+(Chests)
+Chests will provide you with a bigger health pool by adding health. These are placed around the map
+Be warned though.
+
+(Trapped Chests)
+Some chests have traps in them, and instead of healing yourself will damage you instead
