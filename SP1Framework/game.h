@@ -37,6 +37,7 @@ enum Keys
     K_DOWN,
     K_LEFT,
     K_RIGHT,
+	K_DASH,
     K_ESCAPE,
 	K_ENTER,
 	K_BACKSPACE,

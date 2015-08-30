@@ -145,6 +145,7 @@ void getInput()
 		keyPressed[K_9] = ( isKeyPressed(0x39) || isKeyPressed(VK_NUMPAD9));
 		keyPressed[K_0] = ( isKeyPressed(0x30) || isKeyPressed(VK_NUMPAD0));
 		
+		keyPressed[K_DASH] = isKeyPressed(VK_OEM_MINUS);
 		keyPressed[K_BACKSPACE] = isKeyPressed(VK_BACK);
 		keyPressed[K_ENTER] = isKeyPressed(VK_RETURN);
 		keyPressed[K_SPACE] = isKeyPressed(VK_SPACE);
@@ -506,6 +507,7 @@ void numberinput()
 	}
 	if (allowNumInput == true)
 	{
+		
 		for( unsigned int i = K_0; i <= K_9 ; i++  )
 		{
 			if ( (keyPressed[i]) )
@@ -514,6 +516,11 @@ void numberinput()
 				allowNumInput = false;
 			}
 		}
+		if ( keyPressed[K_DASH] )
+		{
+			answer += "-";
+			allowNumInput = false;
+		}
 		if ( (keyPressed[K_BACKSPACE]) && (answer.length() > 0) )
 		{
 			answer.erase(answer.length() - 1 );
@@ -521,6 +528,14 @@ void numberinput()
 		}
 		else if ( keyPressed[K_ENTER] )
 		{
+			/*for ( size_t i = 0; i < 1; ++i  )
+			{
+				if (answer[i] == 0 )
+				{
+					answer.erase(1,i);
+				}
+				cout << answer << endl;
+			}*/
 			if ( answer.compare(battleAnswer) == 0 )
 			{
 				answerIsDifferent = false;
@@ -667,12 +682,20 @@ void printBattleStats()
     checkLevelUp();
 	if (questionMade == false)
 	{
+		float decimalans;
+		int ans;
 		srand (elapsedTime);
 		randomNo1 = (rand()%9) + 1;
 		randomNo2 = (rand()%9) + 1;
-		randomsign = (rand()%3) + 1;
+		randomsign = (rand()%4) + 1;
 		questionMade = true;
-		int ans = randomNo1 + randomNo2;
+		switch (randomsign)
+		{
+			case 1: ans = randomNo1 + randomNo2; break;
+			case 2: ans = randomNo1 * randomNo2; break;
+			case 3: ans = randomNo1 - randomNo2; break;
+			case 4: decimalans = randomNo1 / randomNo2;ans = decimalans; break;
+		}
 		std::ostringstream theAnswer;
 		theAnswer << ans;
 		string qnAnswer = theAnswer.str();
@@ -716,18 +739,28 @@ void printBattleStats()
 	c.X = 16;
 	c.Y = 20;
 	console.writeToBuffer(c, text, 0x79);
-
 	COORD d;
 	string question;
 	question = "What is ";
 	question += static_cast<char>(randomNo1) + 48;
-	question += " + ";
+	switch (randomsign)
+	{
+		case 1: question += " + "; break;
+		case 2: question += " x "; break;
+		case 3: question += " - "; break;
+		case 4: question += " ";question += 246;question += " "; break;
+	}
 	question += static_cast<char>(randomNo2) + 48;
 	question += "?";
 	d.X = 24;
 	d.Y = 21;
 	console.writeToBuffer(d, question, 0x0E);
-
+	string roundoff;
+	roundoff = "All numbers are rounded down to the nearest whole number";
+	switch (randomsign)
+	{
+		case 4: COORD f; f.X = 10; f.Y = 23; console.writeToBuffer(f, roundoff, 0x0E); break;
+	}
 	numberinput();
 
 	if ( (answerIsDifferent == 0) && (playerInputted == true) )
