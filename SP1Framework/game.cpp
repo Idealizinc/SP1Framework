@@ -721,6 +721,7 @@ void createQuestion()
 		float decimalans;
 		int ans;
 		srand (elapsedTime);
+		//srand(time(NULL));
 		randomNo1 = (rand()%9) + 1;
 		randomNo2 = (rand()%9) + 1;
 		randomsign = (rand()%4) + 1;
