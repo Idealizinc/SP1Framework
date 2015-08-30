@@ -42,7 +42,9 @@ string stage_Map;           //store stage level.
 double loadTimer;
 bool loading = false;
 char loadScrnArray[25][79];
-GameStates currState = G_LoadScreen; // G_Intro
+GameStates currState = G_MainMenu; // G_Intro
+bool mainMenu = false;
+char menuArray[25][79];
 
 //For Battle Scrn & Battle Anim 
 bool battleModeOn = false;      // when true, loads battle screen
@@ -63,7 +65,6 @@ bool questionMade = false;      // creates question only when answered.
 bool allowNumInput = true;      // player's num input
 int playerDmg;                  // player dmg
 double storedTime;              // the value of the stored time.
-double waitTime = 0.05;         // waiting time for inputing value.
 bool limiterSet = false;        // prevents players from input value multi time
 int randomNo1;                  // random number for first value
 int randomNo2;                  // random number for second value
@@ -71,6 +72,8 @@ int randomsign;                 // random sign symbols (not coded)
 string answer;                  //answer of player inputted.
 int currAtStage = 0;            // current stage level
 int stageVal = 21;              //Random unrelated value
+
+double waitTime = 0.1;         // waiting time for inputing value.
 
 //For Game Over Screen
 bool playerDead = false;
@@ -99,6 +102,7 @@ void init()
 	readPortal("endscreen.txt",screenArray);
     readGameOver("gameover.txt",ggArray);
 	readLoadScreen("LoadScreen_100%.txt",loadScrnArray);
+	readMenu("menuScreen.txt", menuArray);
 
     charLocation.X = console.getConsoleSize().X / 2;
     charLocation.Y = console.getConsoleSize().Y / 2;
@@ -134,6 +138,8 @@ void getInput()
 		keyPressed[K_LEFT] = isKeyPressed(VK_LEFT) || isKeyPressed(0x41);
 		keyPressed[K_RIGHT] = isKeyPressed(VK_RIGHT) || isKeyPressed(0x44);
 	}
+	if (allowNumInput == true)
+	{
 		keyPressed[K_1] = ( isKeyPressed(0x31) || isKeyPressed(VK_NUMPAD1));
 		keyPressed[K_2] = ( isKeyPressed(0x32) || isKeyPressed(VK_NUMPAD2));
 		keyPressed[K_3] = ( isKeyPressed(0x33) || isKeyPressed(VK_NUMPAD3));
@@ -149,7 +155,7 @@ void getInput()
 		keyPressed[K_BACKSPACE] = isKeyPressed(VK_BACK);
 		keyPressed[K_ENTER] = isKeyPressed(VK_RETURN);
 		keyPressed[K_SPACE] = isKeyPressed(VK_SPACE);
-
+	}
 		keyPressed[K_ESCAPE] = isKeyPressed(VK_ESCAPE);
 }
 
@@ -224,10 +230,10 @@ void render()
 	switch(currState)
 	{
 		case G_Intro:;			//Implemented Later
-		case G_MainMenu:;		//Implemented Later
+		case G_MainMenu: mainMenu = true; renderSelection(); break;
 		case G_Tutorial:;		//Implemented Later
 		case G_StageSelect:;	//Implemented Later
-		case G_LoadScreen: loading = true; drawMapRendChar(); break;
+		case G_LoadScreen: loading = true; renderSelection(); break;
 		case G_Stage1: currAtStage = 1; drawMapRendChar(); break;
 		case G_Stage2: currAtStage = 2; drawMapRendChar(); break;
 		/*case G_Stage3: currAtStage = 3; drawMapRendChar(); break;
@@ -247,12 +253,16 @@ void render()
 void drawMapRendChar()
 {
 	isReadDataNeeded();
-	renderMap();
+	renderSelection();
 	renderCharacter();
 }
 
 void renderSelection()
 {
+	if ((mainMenu == true))
+	{
+		drawMenu();
+	}
 	if ((renderedChar == false) && (loading == false))
 	{
 		drawMap();
@@ -308,7 +318,7 @@ void renderSelection()
 		playerInputOn = false;
 		currState = G_StageCleared;
     }
-    else if ((playerDead == true))
+    else if ((playerDead == true) && (loading == false) && (mainMenu == false))
     {
         charLocation.X = 100;
 		charLocation.Y = 100;
@@ -345,12 +355,12 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 		toBePrinted = 5; // ♣
 		console.writeToBuffer(j,i, toBePrinted, 0x8A); // Green [Trees]
 	}
-	else if (toBePrinted == 'S')
+	else if (toBePrinted == 'D')
 	{
 		toBePrinted = 176; // ░
 		console.writeToBuffer(j,i, toBePrinted, 0x80); // Dark Grey [Walls]
 	}
-	else if (toBePrinted == 'G')
+	else if (toBePrinted == 'V')
 	{
 		toBePrinted = 176; // ░
 		console.writeToBuffer(j,i, toBePrinted, 0x70); // Light Grey [Floor]
@@ -397,6 +407,26 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 		toBePrinted = 176; // ░
 		console.writeToBuffer(j,i, toBePrinted, 0xCB); // Red [LoadBar]
 	}
+	else if (toBePrinted == '3')
+	{
+		toBePrinted = 17; // ◄
+		console.writeToBuffer(j,i, toBePrinted, 0x0E); // [Gold] Triangles
+	}
+	else if (toBePrinted == '2')
+	{
+		toBePrinted = 16; // ►
+		console.writeToBuffer(j,i, toBePrinted, 0x0E); // [Gold] Triangles
+	}
+	else if (toBePrinted == '4')
+	{
+		toBePrinted = 30; // ▲
+		console.writeToBuffer(j,i, toBePrinted, 0x0E); // [Gold] Triangles
+	}
+	else if (toBePrinted == '5')
+	{
+		toBePrinted = 31; // ▼
+		console.writeToBuffer(j,i, toBePrinted, 0x0E); // [Gold] Triangles
+	}
 	else if ((loading == true) || (atPortal == true))
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
@@ -405,15 +435,19 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0F); // Coloration Failed - blk Txt
 	}
-	else if ((player.hp <= 0) && (playerDead == true))
+	else if ((player.hp <= 0) && (playerDead == true) && (mainMenu == false))
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
+	}
+	else if (mainMenu == true)
+	{
+		console.writeToBuffer(j,i, toBePrinted, 0x0F); // Color The Underscores dases and so, Blue.
 	}
 }
 void moveCharacter()
 {
 	checkMove();
-	detectChest();
+	chestOpen();
 	bossFightCheck();
 }
 
@@ -425,7 +459,7 @@ void checkMove()
 	if ((keyPressed[K_UP] || keyPressed[K_W]) && charLocation.Y > 0)
 	{
 		if ((mapArray[Y - 1][X] != 'W') && (mapArray[Y - 1][X] != '1') &&
-			(mapArray[Y - 1][X] != 'T') && (mapArray[Y - 1][X] != 'S'))
+			(mapArray[Y - 1][X] != 'T') && (mapArray[Y - 1][X] != 'D'))
 		{
 			charLocation.Y--;
 			monsterCheck();
@@ -435,7 +469,7 @@ void checkMove()
 	if ((keyPressed[K_LEFT] || keyPressed[K_A]) && charLocation.X > 0)
 	{
 		if ((mapArray[Y][X - 1] != 'W') && (mapArray[Y][X - 1] != '1') &&
-			(mapArray[Y][X - 1] != 'T') && (mapArray[Y][X - 1] != 'S'))
+			(mapArray[Y][X - 1] != 'T') && (mapArray[Y][X - 1] != 'D'))
 		{
 			charLocation.X--;
 			monsterCheck();
@@ -444,7 +478,7 @@ void checkMove()
 	if ((keyPressed[K_DOWN] || keyPressed[K_S]) && charLocation.Y < console.getConsoleSize().Y - 1)
 	{
 		if ((mapArray[Y + 1][X] != 'W') && (mapArray[Y + 1][X] != '1') &&
-			(mapArray[Y + 1][X] != 'T') && (mapArray[Y + 1][X] != 'S'))
+			(mapArray[Y + 1][X] != 'T') && (mapArray[Y + 1][X] != 'D'))
 		{
 			charLocation.Y++;
 			monsterCheck();
@@ -453,7 +487,7 @@ void checkMove()
 	if ((keyPressed[K_RIGHT] || keyPressed[K_D]) && charLocation.X < console.getConsoleSize().X - 1)
 	{
 		if ((mapArray[Y][X + 1] != 'W') && (mapArray[Y][X + 1] != '1') &&
-			(mapArray[Y][X + 1] != 'T') && (mapArray[Y][X + 1] != 'S'))
+			(mapArray[Y][X + 1] != 'T') && (mapArray[Y][X + 1] != 'D'))
 		{
 			charLocation.X++;
 			monsterCheck();
@@ -694,7 +728,7 @@ void printBattleStats()
 			case 1: ans = randomNo1 + randomNo2; break;
 			case 2: ans = randomNo1 * randomNo2; break;
 			case 3: ans = randomNo1 - randomNo2; break;
-			case 4: decimalans = randomNo1 / randomNo2;ans = decimalans; break;
+			case 4: decimalans = randomNo1 / randomNo2; ans = decimalans; break;
 		}
 		std::ostringstream theAnswer;
 		theAnswer << ans;
@@ -759,7 +793,7 @@ void printBattleStats()
 	roundoff = "All numbers are rounded down to the nearest whole number";
 	switch (randomsign)
 	{
-		case 4: COORD f; f.X = 10; f.Y = 23; console.writeToBuffer(f, roundoff, 0x0E); break;
+		case 4: COORD f; f.X = 10; f.Y = 23; console.writeToBuffer(f, roundoff, 0x0D); break;
 	}
 	numberinput();
 
@@ -837,6 +871,19 @@ void drawMap()
         printFakeChestInfo();
         status++;
     }
+}
+
+void drawMenu()
+{
+	for (int i = 0; i < 25;)
+	{
+		for (int j = 0; j < 79; ++j)
+		{
+			char toBePrinted = menuArray[i][j];
+			renderPrintedText(toBePrinted,j,i);
+		}
+		i++;
+	}
 }
 
 void drawBattleScreen()
@@ -921,25 +968,25 @@ void animateBSBoss() // Battle Screen Anims
 	printBattleStats();
 }
 
-void renderMap()
-{
-	// Set up sample colours, and output shadings
-	const WORD stage1colors[] = {
-		0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-	};
-
-	/*COORD c;
-	for (int i = 0; i < 12; ++i)
-	{
-		c.X = 5 * i;
-		c.Y = i + 1;
-		colour(colors[i]);
-		console.writeToBuffer(c, " °±²Û", colors[i]);
-	}*/
-
-	renderSelection();
-}
+//void renderMap()
+//{
+//	// Set up sample colours, and output shadings
+//	const WORD stage1colors[] = {
+//		0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+//		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+//	};
+//
+//	/*COORD c;
+//	for (int i = 0; i < 12; ++i)
+//	{
+//		c.X = 5 * i;
+//		c.Y = i + 1;
+//		colour(colors[i]);
+//		console.writeToBuffer(c, " °±²Û", colors[i]);
+//	}*/
+//
+//	renderSelection();
+//}
 
 void renderCharacter()
 {
@@ -953,17 +1000,17 @@ void renderFramerate()
     // displays the framerate
     std::ostringstream ss;
     ss << std::fixed << std::setprecision(3);
-    ss << 1.0 / deltaTime << "fps";
-    c.X = console.getConsoleSize().X - 9;
+    ss << 1.0 / deltaTime << " FPS";
+    c.X = console.getConsoleSize().X - 10;
     c.Y = 0;
-    console.writeToBuffer(c, ss.str());
+    console.writeToBuffer(c, ss.str(), 0xF0);
 
     // displays the elapsed time
     ss.str("");
-    ss << elapsedTime << "secs";
+    ss << elapsedTime << " Secs";
     c.X = 0;
     c.Y = 0;
-    console.writeToBuffer(c, ss.str(), 0x59);
+    console.writeToBuffer(c, ss.str(), 0xF0);
 }
 
 void renderToScreen()
@@ -973,10 +1020,6 @@ void renderToScreen()
 }
 
 //Checks if player is at the Chest.
-void detectChest()
-{
-    chestOpen();
-}
 
 void chestOpen()
 {

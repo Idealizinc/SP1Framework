@@ -65,7 +65,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="map1.txt" />
-    <None Include="display.txt" />
-    <None Include="stageinfo.txt" />
   </ItemGroup>
 </Project>

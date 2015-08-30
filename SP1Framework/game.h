@@ -98,7 +98,8 @@ void drawMapRendChar();     // draws the character on map.
 void printFakeChestInfo();  // prints details of fake chest.
 void animateLoading();
 void renderLoadScreen();
-
+void renderSelection();		// Decides what is to be rendered
+void drawMenu();
 
 //Reading
 //void readMap(string str);					// reads the map in a txt file.
@@ -113,8 +114,7 @@ void getReadData(int val);                  // reads txt files based on stage.
 
 //Detection
 void bossFightCheck();		            // Checks if player is on boss.
-void detectChest();                     // states what happens when player steps on chest.
-void chestOpen();                       // opens the map
+void chestOpen();                       // states what happens when player steps on chest. opens the map
 void initiallizePlayerStats();          // player initial stats
 void setPlayerChangableStats();         // player changable stats
 void initiallizeMonsterStats();         // monster initial stats

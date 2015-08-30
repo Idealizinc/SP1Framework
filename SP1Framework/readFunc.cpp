@@ -20,6 +20,26 @@ void readMap(string str,char mapArray[22][79])
     }
     mymapfile.close();
 }
+
+void readMenu(string str,char menuArray[22][79])
+{
+	string line;
+    int y2 = 0;
+    ifstream menuFile (str);
+
+    if (menuFile.is_open())
+    {
+        while (getline (menuFile, line))
+        {
+            for ( int x = 0; x < line.length(); x++ )
+            {
+                menuArray[y2][x] = line[x];
+            }
+            ++y2;
+        }
+    }
+    menuFile.close();
+}
  
 void readPortal(string str,char screenArray[25][79])
 {
