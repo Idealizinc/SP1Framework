@@ -441,7 +441,7 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 	}
 	else if (mainMenu == true)
 	{
-		console.writeToBuffer(j,i, toBePrinted, 0x0F); // Color The Underscores dases and so, Blue.
+		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
 	}
 }
 void moveCharacter()
