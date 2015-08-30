@@ -5,13 +5,15 @@
 #include "Framework\console.h"
 #include "monsterEncounter.h"
 #include "readFunc.h"
+
 // Console object
 Console console(78, 25, "SP1 Framework");
+
 //Time elapsed
 double elapsedTime;                     //Elapsed time of the game
 double deltaTime;
 
-//Key input
+//Storage
 bool keyPressed[K_COUNT];
 char mapArray[22][79];
 char battleArray[20][79];
@@ -20,6 +22,8 @@ char bossArray[20][79];
 char bossArrayALT[20][79];
 char screenArray[25][79];
 char ggArray[25][79];
+
+//Impt Variables
 int xSpawnCoord = 0, ySpawnCoord = 0;
 int xReturnCoord, yReturnCoord;
 bool renderedChar = false;
@@ -28,6 +32,7 @@ int chest1 = 0;
 int playerxp = 0;
 int playerlv = 1;
 int numberOfTries = 4;
+
 //ENABLE PLAYER ENCOUNTER
 bool randomEncountersOn = true; // SET TO TRUE LATER
 
@@ -42,7 +47,7 @@ string stage_Map;           //store stage level.
 double loadTimer;
 bool loading = false;
 char loadScrnArray[25][79];
-GameStates currState = G_MainMenu; // G_Intro
+GameStates currState = G_Stage1; // G_Intro
 bool mainMenu = false;
 char menuArray[25][79];
 
@@ -138,8 +143,7 @@ void getInput()
 		keyPressed[K_LEFT] = isKeyPressed(VK_LEFT) || isKeyPressed(0x41);
 		keyPressed[K_RIGHT] = isKeyPressed(VK_RIGHT) || isKeyPressed(0x44);
 	}
-	if (allowNumInput == true)
-	{
+
 		keyPressed[K_1] = ( isKeyPressed(0x31) || isKeyPressed(VK_NUMPAD1));
 		keyPressed[K_2] = ( isKeyPressed(0x32) || isKeyPressed(VK_NUMPAD2));
 		keyPressed[K_3] = ( isKeyPressed(0x33) || isKeyPressed(VK_NUMPAD3));
@@ -150,12 +154,11 @@ void getInput()
 		keyPressed[K_8] = ( isKeyPressed(0x38) || isKeyPressed(VK_NUMPAD8));
 		keyPressed[K_9] = ( isKeyPressed(0x39) || isKeyPressed(VK_NUMPAD9));
 		keyPressed[K_0] = ( isKeyPressed(0x30) || isKeyPressed(VK_NUMPAD0));
-		
+
 		keyPressed[K_DASH] = isKeyPressed(VK_OEM_MINUS);
 		keyPressed[K_BACKSPACE] = isKeyPressed(VK_BACK);
 		keyPressed[K_ENTER] = isKeyPressed(VK_RETURN);
 		keyPressed[K_SPACE] = isKeyPressed(VK_SPACE);
-	}
 		keyPressed[K_ESCAPE] = isKeyPressed(VK_ESCAPE);
 }
 
@@ -273,7 +276,7 @@ void renderSelection()
 		renderedChar = true;
 		
 	}
-	if ((battleModeOn == false) && (inBossFight == false) && (renderedChar == true) && (atPortal == false) && (playerDead == false) && (loading == false))
+	else if ((battleModeOn == false) && (inBossFight == false) && (renderedChar == true) && (atPortal == false) && (playerDead == false) && (loading == false))
 	{
 		drawMap();
 		renderCharacter();  // renders the character into the buffer
@@ -711,9 +714,8 @@ void printMapStats()
 	}
 }
 
-void printBattleStats()
+void createQuestion()
 {
-    checkLevelUp();
 	if (questionMade == false)
 	{
 		float decimalans;
@@ -735,6 +737,51 @@ void printBattleStats()
 		string qnAnswer = theAnswer.str();
 		battleAnswer.assign(qnAnswer);
 	}
+}
+
+void checkPlayerAnswer()
+{
+	if ( (answerIsDifferent == 0) && (playerInputted == true) )
+	{
+		setPlayerChangableStats();
+		setMonsterChangableStats();
+		foeHP -= player.damage * 100 ;//20 // multiplied by 100 for testing. REMOVE LATER
+		playerInputted = false;
+		
+	}
+	else if ( (answerIsDifferent != 0) && (playerInputted == true) )
+	{
+		setPlayerChangableStats();
+		setMonsterChangableStats();
+		player.hp -= MonsterUnit.damage ;
+		playerInputted = false;
+		
+	} 
+	if (foeHP <= 0) //HP2 is monster hp
+	{
+		if (battleModeOn == true)
+		{
+			battleModeOn = false;
+		}
+		if (inBossFight == true)
+		{
+			bossCleared = true;
+			inBossFight = false;
+		}
+        (player.exp) += monsterXP;
+		initializeHP = false;
+	}
+	if ( player.hp <= 0 )
+	{
+		battleModeOn = false;
+		inBossFight = false;
+		playerDead = true;
+	}
+}
+void printBattleStats()
+{
+    checkLevelUp();
+	createQuestion();
 	if (initializeHP == false)
 	{
 		initiallizeMonsterStats();
@@ -796,43 +843,7 @@ void printBattleStats()
 		case 4: COORD f; f.X = 10; f.Y = 23; console.writeToBuffer(f, roundoff, 0x0D); break;
 	}
 	numberinput();
-
-	if ( (answerIsDifferent == 0) && (playerInputted == true) )
-	{
-		setPlayerChangableStats();
-		setMonsterChangableStats();
-		foeHP -= player.damage * 100 ;//20 // multiplied by 100 for testing. REMOVE LATER
-		playerInputted = false;
-		
-	}
-	else if ( (answerIsDifferent != 0) && (playerInputted == true) )
-	{
-		setPlayerChangableStats();
-		setMonsterChangableStats();
-		player.hp -= MonsterUnit.damage ;
-		playerInputted = false;
-		
-	} 
-	if (foeHP <= 0) //HP2 is monster hp
-	{
-		if (battleModeOn == true)
-		{
-			battleModeOn = false;
-		}
-		if (inBossFight == true)
-		{
-			bossCleared = true;
-			inBossFight = false;
-		}
-        (player.exp) += monsterXP;
-		initializeHP = false;
-	}
-	if ( player.hp <= 0 )
-	{
-		battleModeOn = false;
-		inBossFight = false;
-		playerDead = true;
-	}
+	checkPlayerAnswer();
 }
 
 //readMap();
@@ -1026,14 +1037,14 @@ void chestOpen()
     if (mapArray[charLocation.Y][charLocation.X] == 'C')
     {
         //insert item codes
-        mapArray[charLocation.Y][charLocation.X] = 'G';
+        mapArray[charLocation.Y][charLocation.X] = 'V';
         status += 20;
         player.hp += 200;
     }
 	if (mapArray[charLocation.Y][charLocation.X] == 'R')
     {
         //insert item codes
-        mapArray[charLocation.Y][charLocation.X] = 'G';
+        mapArray[charLocation.Y][charLocation.X] = 'V';
         status -= 20;
         player.hp -= 100;
     }
@@ -1092,19 +1103,20 @@ void portalrender()
 	{
 		currState = G_StageCleared;
 	}
-	if (  keyPressed[K_SPACE] )
+
+	if ( keyPressed[K_SPACE] )
 	{
-	if ((currAtStage == 1)  && (atPortal == true) )
-	{
-			currState = G_Stage2;
-			atPortal = false;
+		if ((currAtStage == 1)  && (atPortal == true) )
+		{
+				currState = G_Stage2;
+				atPortal = false;
+		}
+		//currState = G_Stage2;
+		bossCleared = false;
+		battleModeOn = false;
+		renderedChar = false;
 	}
-	}
-	//currState = G_Stage2;
-	bossCleared = false;
-	renderedChar = false;
-}
- 
+} 
 // readGameOver()
 
 void renderGameOver()
@@ -1117,6 +1129,23 @@ void renderGameOver()
 			    renderPrintedText( toBePrinted, j, i );
 		    }
      }
+	if ( keyPressed[K_SPACE] )
+	{
+		switch(currAtStage)
+		{
+			case 1: currState = G_Stage1; break;
+			case 2: currState = G_Stage2; break;
+			/*case 3: currState = G_Stage3; break;
+			case 4: currState = G_Stage4; break;*/
+		}
+		renderedChar = false;
+		currAtStage = 0;
+		bossCleared = false;
+		battleModeOn = false;
+		playerDead = false;
+		drawMapRendChar();
+		locationSaved = false;
+	}
 }
 
 // void readLoadScreen(string str,char loadScrnArray[25][79])
