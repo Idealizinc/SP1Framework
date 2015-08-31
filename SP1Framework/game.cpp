@@ -34,7 +34,7 @@ int playerlv = 1;
 int numberOfTries = 4;
 
 //ENABLE PLAYER ENCOUNTER
-bool randomEncountersOn = false; // SET TO TRUE LATER
+bool randomEncountersOn = true; // SET TO TRUE LATER
 
 //Read Values
 string normal_Monster1;     //store first frame of monster txt
@@ -452,11 +452,11 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0F); // Coloration Failed - blk Txt
 	}
-	else if ((player.hp <= 0) && (playerDead == true) && (mainMenu == false) && (renderedChar == true))
+	else if ((playerDead == true) && (mainMenu == false) && (renderedChar == true))
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
 	}
-    else if ((player.chance <= 0) && (playerDead == true) && (mainMenu == false) && (renderedChar == true))
+    else if ((playerDead == true) && (mainMenu == false))
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
 	}
@@ -790,7 +790,6 @@ void checkPlayerAnswer()
 		setMonsterChangableStats();
 		player.chance -= 1;
 		playerInputted = false;
-		
 	}
     //MonsterUnit.damage
 
@@ -816,8 +815,6 @@ void checkPlayerAnswer()
         player.hp -= MonsterUnit.damage;
         allowEnemyAttk = false;
     }
-
-
 	if (foeHP <= 0) //HP2 is monster hp
 	{
 		if (battleModeOn == true)
@@ -831,11 +828,10 @@ void checkPlayerAnswer()
 			bossCleared = true;
 			inBossFight = false;
 		}
-        (player.exp) += monsterXP;
+        player.exp += monsterXP;
 		initializeHP = false;
 	}
-	if (
-        ((player.hp <= 0) || (player.chance <= 0)) && (mainMenu == false) && (loading == false))
+	if (((player.hp <= 0) || (player.chance <= 0)) && (mainMenu == false) && (loading == false))
 	{
 		battleModeOn = false;
 		inBossFight = false;
@@ -1330,16 +1326,17 @@ void renderGameOver()
 		{
 			case 1: currState = G_Stage1; break;
 			case 2: currState = G_Stage2; break;
+			case 3: currState = G_Stage3; break;
 			/*case 3: currState = G_Stage3; break;
 			case 4: currState = G_Stage4; break;*/
 		}
-		renderedChar = false;
 		currAtStage = 0;
+		renderedChar = false;
 		bossCleared = false;
 		battleModeOn = false;
 		playerDead = false;
-		drawMapRendChar();
 		locationSaved = false;
+		drawMapRendChar();
 	}
 }
 
