@@ -533,10 +533,10 @@ void monsterCheck()
 void processUserInput()
 {
     // quits the game if player hits the escape key
-    if (keyPressed[K_ESCAPE])
-    {
-		g_quitGame = true;
-	}
+ //   if (keyPressed[K_ESCAPE])
+ //   {
+	//	g_quitGame = true;
+	//}
 }
 
 void numberinput()
@@ -1320,6 +1320,7 @@ void renderGameOver()
 	{
 		switch(currAtStage)
 		{
+
 			case 1: currState = G_Stage1; break;
 			case 2: currState = G_Stage2; break;
 			case 3: currState = G_Stage3; break;
@@ -1333,6 +1334,13 @@ void renderGameOver()
 		bossCleared = false;
 		drawMapRendChar();
 	}
+    if ( keyPressed[K_ESCAPE] )
+    {
+        switch(currAtStage)
+        {
+            case 1: currState = G_MainMenu; break;
+        }
+    }
 }
 
 // void readLoadScreen(string str,char loadScrnArray[25][78])

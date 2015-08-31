@@ -16,10 +16,10 @@
 1                                                                            1
 111111111111111111111111111111111111111111111111111111111111111111111111111111
 1                                                                            1
-1                                                                            1
 1                       You have perished in battle,                         1
 1                      suffice weren't your skills...                        1
-1W                                                                          W1
-1WW         You can restart the stage, by pressing the 'space' key.        WW1
+1                                                                            1
+1W          You can restart the stage, by pressing the 'space' key.         W1
+1WW          Or return to main menu, by pressing the 'escape' key.         WW1
 1WWW                                                                      WWW1
 111111111111111111111111111111111111111111111111111111111111111111111111111111
