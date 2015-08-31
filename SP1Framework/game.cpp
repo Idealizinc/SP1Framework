@@ -59,7 +59,7 @@ int monsterFound;               // -
 bool playerInputOn = true;      // toggles movement of player.
 int answerIsDifferent;          // check if player ans is diff.
 string battleAnswer;            // holds value of player ans.
-bool locationSaved =  false;    //// saves player location upon battle.
+bool locationSaved =  false;    // saves player location upon battle.
 bool bossCleared = false;       // when boss cleared, won't meet again.
 bool inBossFight = false;       // toggles inboss fight screen.
 bool initializeHP = false;      // To initialise monster/boss HP
@@ -85,7 +85,6 @@ bool playerDead = false;
 
 //Status
 int status = 0;
-
 
 //For Portal End Stage
 bool atPortal = false; //Set To FALSE
@@ -625,6 +624,7 @@ void initiallizePlayerStats()
 {
 	int rngdamage = rand() % 10 + 50;
 	player.level = 1;
+    player.chance = 3;
     player.exp = 0;
     //player.expCap = 100;
 	player.hp = 1000 + ((player.level) * 100);
@@ -798,6 +798,10 @@ void printBattleStats()
 		initializeHP = true;
 	}
 	COORD c;
+    std::ostringstream  mychance;
+    mychance << player.chance;
+    string myChance = mychance.str(); // string that contains player chance
+
 	std::ostringstream myhp;
 	myhp << player.hp ;
 	string myHP = myhp.str(); // string that contains player hp
@@ -811,14 +815,16 @@ void printBattleStats()
 	string monhp = enemyhp.str(); // string that contains enemy hp
 
 	string text;
-	text = " My HP: ";
+    text = "Chance Left: ";
+    text += myChance;
+	text += "    My HP: ";
 	text += myHP;
     text += "    Enemy Level: ";
     text += enemyLVL;
 	text +=	"    Enemy HP: ";
 	text +=	monhp;
 	text += " ";
-	c.X = 16;
+	c.X = 6;
 	c.Y = 20;
 	console.writeToBuffer(c, text, 0x79);
 	COORD d;
@@ -846,6 +852,116 @@ void printBattleStats()
 	numberinput();
 	checkPlayerAnswer();
 }
+//void printBattleStats()
+//{
+//    checkLevelUp();
+//	if (questionMade == false)
+//	{
+//		srand (elapsedTime);
+//		randomNo1 = (rand()%9) + 1;
+//		randomNo2 = (rand()%9) + 1;
+//		randomsign = (rand()%3) + 1;
+//		questionMade = true;
+//		int ans = randomNo1 + randomNo2;
+//		std::ostringstream theAnswer;
+//		theAnswer << ans;
+//		string qnAnswer = theAnswer.str();
+//		battleAnswer.assign(qnAnswer);
+//	}
+//	if (initializeHP == false)
+//	{
+//		initiallizeMonsterStats();
+//		if (battleModeOn == true)
+//		{
+//			//problem was here
+//			foeHP = monsterHP;
+//		}
+//		if (inBossFight == true)
+//		{
+//			monsterHP = BossUnit.hp;
+//		}
+//		initializeHP = true;
+//	}
+//	COORD c;
+//	std::ostringstream myhp;
+//	myhp << player.hp ;
+//	string myHP = myhp.str(); // string that contains player hp
+//
+//    std::ostringstream enemylvl;
+//    enemylvl << foeLVL;
+//    string enemyLVL = enemylvl.str(); // string that contains enemy lvl
+//
+//	std::ostringstream enemyhp;
+//	enemyhp << foeHP ;
+//	string monhp = enemyhp.str(); // string that contains enemy hp
+//
+//	string text;
+//	text = " My HP: ";
+//	text += myHP;
+//    text += "    Enemy Level: ";
+//    text += enemyLVL;
+//	text +=	"    Enemy HP: ";
+//	text +=	monhp;
+//	text += " ";
+//	c.X = 16;
+//	c.Y = 20;
+//	console.writeToBuffer(c, text, 0x79);
+//
+//	COORD d;
+//	string question;
+//	question = "What is ";
+//	question += static_cast<char>(randomNo1) + 48;
+//	question += " + ";
+//	question += static_cast<char>(randomNo2) + 48;
+//	question += "?";
+//	d.X = 24;
+//	d.Y = 21;
+//	console.writeToBuffer(d, question, 0x0E);
+//
+//	numberinput();
+//
+//	if ( (answerIsDifferent == 0) && (playerInputted == true) )
+//	{
+//		setPlayerChangableStats();
+//		setMonsterChangableStats();
+//		foeHP -= player.damage * 100 ;//20 // multiplied by 100 for testing. REMOVE LATER
+//		playerInputted = false;
+//		
+//	}
+//	else if ( (answerIsDifferent != 0) && (playerInputted == true) )
+//	{
+//		setPlayerChangableStats();
+//		setMonsterChangableStats();
+//		player.hp -= MonsterUnit.damage;
+//        //player.chance -= 1;
+//		playerInputted = false;
+//		
+//	} 
+//	if (foeHP <= 0) //HP2 is monster hp
+//	{
+//		if (battleModeOn == true)
+//		{
+//			battleModeOn = false;
+//		}
+//		if (inBossFight == true)
+//		{
+//			bossCleared = true;
+//			inBossFight = false;
+//		}
+//        (player.exp) += monsterXP;
+//		initializeHP = false;
+//	}
+//	if (( player.hp <= 0 ) && ((battleModeOn == true) || (inBossFight == true)))
+//	{
+//		battleModeOn = false;
+//		playerDead = true;
+//	}
+//	if (( player.chance <= 0 ) && ((battleModeOn == true) || (inBossFight == true)))
+//	{
+//		battleModeOn = false;
+//		playerDead = true;
+//	}
+//}
 
 //readMap();
 

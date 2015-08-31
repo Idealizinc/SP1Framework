@@ -129,6 +129,7 @@ struct Hero
 	int level;
     int expCap;
 	int damage;
+    int chance;
 	int exp;
 };
 
