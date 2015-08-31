@@ -15,13 +15,13 @@ double deltaTime;
 
 //Storage
 bool keyPressed[K_COUNT];
-char mapArray[22][79];
-char battleArray[20][79];
-char battleArrayALT[20][79];
-char bossArray[20][79];
-char bossArrayALT[20][79];
-char screenArray[25][79];
-char ggArray[25][79];
+char mapArray[22][78];
+char battleArray[20][78];
+char battleArrayALT[20][78];
+char bossArray[20][78];
+char bossArrayALT[20][78];
+char screenArray[25][78];
+char ggArray[25][78];
 
 //Impt Variables
 int xSpawnCoord = 0, ySpawnCoord = 0;
@@ -34,7 +34,7 @@ int playerlv = 1;
 int numberOfTries = 4;
 
 //ENABLE PLAYER ENCOUNTER
-bool randomEncountersOn = false; // SET TO TRUE LATER
+bool randomEncountersOn = true; // SET TO TRUE LATER
 
 //Read Values
 string normal_Monster1;     //store first frame of monster txt
@@ -46,10 +46,10 @@ string stage_Map;           //store stage level.
 //Game State
 double loadTimer;
 bool loading = false;
-char loadScrnArray[25][79];
-GameStates currState = G_Stage1; // G_Intro
+char loadScrnArray[25][78];
+GameStates currState = G_MainMenu; // G_Intro
 bool mainMenu = false;
-char menuArray[25][79];
+char menuArray[25][78];
 
 //For Battle Scrn & Battle Anim 
 bool battleModeOn = false;      // when true, loads battle screen
@@ -82,7 +82,7 @@ bool potata = false;
 double attkTime;                // Attkspeed of enemy
 double enemyAttk = 3.00;        // player to attk.
 
-double waitTime = 0.1;         // waiting time for inputing value.
+double waitTime = 0.075;         // waiting time for inputing value.
 
 //For Game Over Screen
 bool playerDead = false;
@@ -158,7 +158,7 @@ void getInput()
 		keyPressed[K_9] = ( isKeyPressed(0x39) || isKeyPressed(VK_NUMPAD9));
 		keyPressed[K_0] = ( isKeyPressed(0x30) || isKeyPressed(VK_NUMPAD0));
 
-		keyPressed[K_DASH] = isKeyPressed(VK_OEM_MINUS);
+		keyPressed[K_DASH] = ( isKeyPressed(VK_OEM_MINUS) || isKeyPressed(VK_SUBTRACT) );
 		keyPressed[K_BACKSPACE] = isKeyPressed(VK_BACK);
 		keyPressed[K_ENTER] = isKeyPressed(VK_RETURN);
 		keyPressed[K_SPACE] = isKeyPressed(VK_SPACE);
@@ -910,10 +910,10 @@ void printBattleStats()
 		case 1: question += " + "; break;
 		case 2: question += " x "; break;
 		case 3: question += " - "; break;
-		case 4: question += " ";question += 246;question += " "; break;
+		case 4: question += " / "; break;
 	}
 	question += static_cast<char>(randomNo2) + 48;
-	question += "?";
+	question += " ?";
 	d.X = 24;
 	d.Y = 21;
 	console.writeToBuffer(d, question, 0x0E);
@@ -979,7 +979,7 @@ void printBattleStats()
 //	text += " ";
 //	c.X = 16;
 //	c.Y = 20;
-//	console.writeToBuffer(c, text, 0x79);
+//	console.writeToBuffer(c, text, 0x78);
 //
 //	COORD d;
 //	string question;
@@ -1055,7 +1055,7 @@ void drawMap()
 {
 	for (int i = 0; i < 22;)
 	{
-		for (int j = 0; j < 79; ++j)
+		for (int j = 0; j < 78; ++j)
 		{
 			char toBePrinted = mapArray[i][j];
 			renderPrintedText(toBePrinted,j,i);
@@ -1079,7 +1079,7 @@ void drawBattleScreen()
 {
 	for (int i = 0; i < 20;)
 	{
-		for (int j = 0; j < 79; ++j)
+		for (int j = 0; j < 78; ++j)
 		{
 			char toBePrinted = battleArray[i][j];
 			renderPrintedText(toBePrinted,j,i);
@@ -1092,7 +1092,7 @@ void drawBattleScreenALT()
 {
 	for (int i = 0; i < 20;)
 	{
-		for (int j = 0; j < 79; ++j)
+		for (int j = 0; j < 78; ++j)
 		{
 			char toBePrinted = battleArrayALT[i][j];
 			renderPrintedText(toBePrinted,j,i);
@@ -1120,7 +1120,7 @@ void drawBattleScreenBoss()
 {
 	for (int i = 0; i < 20;)
 	{
-		for (int j = 0; j < 79; ++j)
+		for (int j = 0; j < 78; ++j)
 		{
 			char toBePrinted = bossArray[i][j];
 			renderPrintedText( toBePrinted,j,i );
@@ -1133,7 +1133,7 @@ void drawBattleScreenBossALT()
 {
 	for (int i = 0; i < 20;)
 	{
-		for (int j = 0; j < 79; ++j)
+		for (int j = 0; j < 78; ++j)
 		{
 			char toBePrinted = bossArrayALT[i][j];
 			renderPrintedText( toBePrinted,j,i );
@@ -1189,14 +1189,14 @@ void renderFramerate()
     // displays the framerate
     std::ostringstream ss;
     ss << std::fixed << std::setprecision(3);
-    ss << 1.0 / deltaTime << " FPS";
-    c.X = console.getConsoleSize().X - 10;
+    ss << 1.0 / deltaTime << "FPS";
+    c.X = console.getConsoleSize().X - 9;
     c.Y = 0;
     console.writeToBuffer(c, ss.str(), 0xF0);
 
     // displays the elapsed time
     ss.str("");
-    ss << elapsedTime << " Secs";
+    ss << elapsedTime << "Secs";
     c.X = 0;
     c.Y = 0;
     console.writeToBuffer(c, ss.str(), 0xF0);
@@ -1334,7 +1334,7 @@ void renderGameOver()
 	}
 }
 
-// void readLoadScreen(string str,char loadScrnArray[25][79])
+// void readLoadScreen(string str,char loadScrnArray[25][78])
 
 
 void renderLoadScreen()
@@ -1353,7 +1353,7 @@ void drawMenu()
 {
 	for (int i = 0; i < 25;)
 	{
-		for (int j = 0; j < 79; ++j)
+		for (int j = 0; j < 78; ++j)
 		{
 			char toBePrinted = menuArray[i][j];
 			renderPrintedText(toBePrinted,j,i);

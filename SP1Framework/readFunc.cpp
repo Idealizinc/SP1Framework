@@ -1,7 +1,7 @@
 #include "readFunc.h"
 
 
-void readMap(string str,char mapArray[22][79])
+void readMap(string str,char mapArray[22][78])
 {
 	string mapline;
     int y2 = 0;
@@ -21,7 +21,7 @@ void readMap(string str,char mapArray[22][79])
     mymapfile.close();
 }
 
-void readMenu(string str,char menuArray[22][79])
+void readMenu(string str,char menuArray[22][78])
 {
 	string line;
     int y2 = 0;
@@ -41,7 +41,7 @@ void readMenu(string str,char menuArray[22][79])
     menuFile.close();
 }
  
-void readPortal(string str,char screenArray[25][79])
+void readPortal(string str,char screenArray[25][78])
 {
         string mapline;
         int y2 = 0;
@@ -60,7 +60,7 @@ void readPortal(string str,char screenArray[25][79])
         stageClr.close();
 }
 
-void readBattleScreen(string str,char battleArray[20][79])
+void readBattleScreen(string str,char battleArray[20][78])
 {
     string mapline;
     int y2 = 0;
@@ -79,7 +79,7 @@ void readBattleScreen(string str,char battleArray[20][79])
     mymapfile.close();
 }
 
-void readBattleScreen2(string str,char battleArrayALT[20][79])
+void readBattleScreen2(string str,char battleArrayALT[20][78])
 {
     string mapline;
     int y2 = 0;
@@ -98,7 +98,7 @@ void readBattleScreen2(string str,char battleArrayALT[20][79])
     mymapfile.close();
 }
 
-void readBossScreen(string str,char bossArray[20][79])
+void readBossScreen(string str,char bossArray[20][78])
 {
     string mapline;
     int y2 = 0;
@@ -117,7 +117,7 @@ void readBossScreen(string str,char bossArray[20][79])
     mymapfile.close();
 }
 
-void readBossScreen2(string str,char bossArrayALT[20][79])
+void readBossScreen2(string str,char bossArrayALT[20][78])
 {
     string mapline;
     int y2 = 0;
@@ -136,7 +136,7 @@ void readBossScreen2(string str,char bossArrayALT[20][79])
     mymapfile.close();
 }
 
-void readGameOver(string str,char ggArray[25][79])
+void readGameOver(string str,char ggArray[25][78])
 {
     string mapline;
     int y2 = 0;
@@ -155,7 +155,7 @@ void readGameOver(string str,char ggArray[25][79])
     gameOver.close();
 }
 
-void readLoadScreen(string str,char loadScrnArray[25][79])
+void readLoadScreen(string str,char loadScrnArray[25][78])
 {
 	string line;
     int y = 0;
