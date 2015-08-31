@@ -22,6 +22,7 @@ char bossArray[20][78];
 char bossArrayALT[20][78];
 char screenArray[25][78];
 char ggArray[25][78];
+char instructionArray[25][78];
 
 //Impt Variables
 int xSpawnCoord = 0, ySpawnCoord = 0;
@@ -111,6 +112,7 @@ void init()
     readGameOver("gameover.txt",ggArray);
 	readLoadScreen("LoadScreen_100%.txt",loadScrnArray);
 	readMenu("menuScreen.txt", menuArray);
+	readTutorial("controls.txt", instructionArray);
 
     charLocation.X = console.getConsoleSize().X / 2;
     charLocation.Y = console.getConsoleSize().Y / 2;
@@ -243,7 +245,7 @@ void render()
 	{
 		case G_Intro:;			//Implemented Later
 		case G_MainMenu: mainMenu = true; renderSelection(); break;
-		case G_Tutorial:;		//Implemented Later
+		case G_Tutorial: renderTutorialScreen(); break;
 		case G_Options:;	//Implemented Later
 		case G_LoadScreen: loading = true; drawMapRendChar(); break;
 		case G_Stage1: currAtStage = 1; drawMapRendChar(); break;
@@ -271,6 +273,10 @@ void drawMapRendChar()
 
 void renderSelection()
 {
+	if ((mainMenu == true))
+	{
+		drawMenu();
+	}
 	if ((mainMenu == true))
 	{
 		drawMenu();
@@ -1268,6 +1274,18 @@ void renderLoadScreen()
 		    for (int j = 0; j < 78; ++j)
 		    {
 			   char toBePrinted = loadScrnArray[i][j];
+			   renderPrintedText( toBePrinted, j, i );
+		    }
+    }
+}
+
+void renderTutorialScreen()
+{
+	for (int i = 0; i < 25; ++i)
+	{
+		    for (int j = 0; j < 78; ++j)
+		    {
+			   char toBePrinted = instructionArray[i][j];
 			   renderPrintedText( toBePrinted, j, i );
 		    }
     }

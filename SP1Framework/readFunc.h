@@ -22,5 +22,6 @@ void readBossScreen2(string str,char bossArrayALT[20][78]);			// Read Boss Scree
 void readGameOver(string str,char ggArray[25][78]);		// reads the gameover in a txt file.
 void readLoadScreen(string str,char loadScrnArray[25][78]);
 void readMenu(string str,char menuArray[22][78]);
+void readTutorial(string str,char instructionArray[22][78]);
 
 #endif

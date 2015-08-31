@@ -100,6 +100,7 @@ void animateLoading();
 void renderLoadScreen();
 void renderSelection();		// Decides what is to be rendered
 void drawMenu();
+void renderTutorialScreen();
 
 //Reading
 //void readMap(string str);					// reads the map in a txt file.
