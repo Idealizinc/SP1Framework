@@ -104,9 +104,9 @@ void createQuestion();
 //void renderSelection();		// Decides what is to be rendered
 void animateLoading();
 //void renderLoadScreen();
-void renderSelection();		// Decides what is to be rendered
+//void renderSelection();		// Decides what is to be rendered
 void drawMenu();
-void renderTutorialScreen();
+//void renderTutorialScreen();
 
 //Reading
 //void readMap(string str);					// reads the map in a txt file.

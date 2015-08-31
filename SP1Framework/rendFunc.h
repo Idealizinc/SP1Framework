@@ -36,5 +36,6 @@ void drawBattleScreenBoss();
 void drawBattleScreenBossALT();
 void renderLoadScreen();
 void drawMenu();
+void renderTutorialScreen();
 
 #endif

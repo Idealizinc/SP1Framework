@@ -522,102 +522,102 @@ void checkPlayerAnswer()
 		playerDead = true;
 	}
 }
-void printBattleStats()
-{
-    //attkTime - elapsedTime = time left to attk.
-    checkLevelUp();
-	createQuestion();
-	if (initializeHP == false)
-	{
-		initiallizeMonsterStats();
-		if (battleModeOn == true)
-		{
-			//problem was here
-			foeHP = monsterHP;
-		}
-		if (inBossFight == true)
-		{
-			monsterHP = BossUnit.hp;
-		}
-		initializeHP = true;
-	}
-	COORD c;
-    std::ostringstream  mychance;
-    mychance << player.chance;
-    string myChance = mychance.str(); // string that contains player chance
-
-	std::ostringstream myhp;
-	myhp << player.hp ;
-	string myHP = myhp.str(); // string that contains player hp
-
-    std::ostringstream enemylvl;
-    enemylvl << foeLVL;
-    string enemyLVL = enemylvl.str(); // string that contains enemy lvl
-
-	std::ostringstream enemyhp;
-	enemyhp << foeHP ;
-	string monhp = enemyhp.str(); // string that contains enemy hp
-
-	string text;
-
-	text = " My HP: ";
-	text += myHP;
-    text += "    Chance Left: ";
-    text += myChance;
-	text += " ";
-	c.X = 23;
-	c.Y = 19;
-	console.writeToBuffer(c, text, 0xF9);
-
-    //0xF0 (blak txt wite bg)
-
-    //attk speed.
-    double attackSpeed = attkTime - elapsedTime;
-    COORD enemyStats;
-    string Time;
-    std::ostringstream attktime;
-    attktime << std::fixed << std::setprecision(0);
-    attktime << attackSpeed;
-    Time = attktime.str();
-
-    string textEnemyStat;
-    textEnemyStat = " Enemy Level: ";
-    textEnemyStat += enemyLVL;
-	textEnemyStat +=	"    Enemy HP: ";
-	textEnemyStat +=	monhp;
-    textEnemyStat += "    Time till Attack: ";
-    textEnemyStat += Time;
-    textEnemyStat += " ";
-    enemyStats.X = 12;
-    enemyStats.Y = 20;
-    console.writeToBuffer(enemyStats, textEnemyStat, 0xF4);
-
-
-	COORD d;
-	string question;
-	question = "What is ";
-	question += static_cast<char>(randomNo1) + 48;
-	switch (randomsign)
-	{
-		case 1: question += " + "; break;
-		case 2: question += " x "; break;
-		case 3: question += " - "; break;
-		case 4: question += " / "; break;
-	}
-	question += static_cast<char>(randomNo2) + 48;
-	question += " ?";
-	d.X = 24;
-	d.Y = 21;
-	console.writeToBuffer(d, question, 0x0E);
-	string roundoff;
-	roundoff = "All numbers are rounded down to the nearest whole number";
-	switch (randomsign)
-	{
-		case 4: COORD f; f.X = 10; f.Y = 23; console.writeToBuffer(f, roundoff, 0x0D); break;
-	}
-	numberinput();
-	checkPlayerAnswer();
-}
+//void printBattleStats()
+//{
+//    //attkTime - elapsedTime = time left to attk.
+//    checkLevelUp();
+//	createQuestion();
+//	if (initializeHP == false)
+//	{
+//		initiallizeMonsterStats();
+//		if (battleModeOn == true)
+//		{
+//			//problem was here
+//			foeHP = monsterHP;
+//		}
+//		if (inBossFight == true)
+//		{
+//			monsterHP = BossUnit.hp;
+//		}
+//		initializeHP = true;
+//	}
+//	COORD c;
+//    std::ostringstream  mychance;
+//    mychance << player.chance;
+//    string myChance = mychance.str(); // string that contains player chance
+//
+//	std::ostringstream myhp;
+//	myhp << player.hp ;
+//	string myHP = myhp.str(); // string that contains player hp
+//
+//    std::ostringstream enemylvl;
+//    enemylvl << foeLVL;
+//    string enemyLVL = enemylvl.str(); // string that contains enemy lvl
+//
+//	std::ostringstream enemyhp;
+//	enemyhp << foeHP ;
+//	string monhp = enemyhp.str(); // string that contains enemy hp
+//
+//	string text;
+//
+//	text = " My HP: ";
+//	text += myHP;
+//    text += "    Chance Left: ";
+//    text += myChance;
+//	text += " ";
+//	c.X = 23;
+//	c.Y = 19;
+//	console.writeToBuffer(c, text, 0xF9);
+//
+//    //0xF0 (blak txt wite bg)
+//
+//    //attk speed.
+//    double attackSpeed = attkTime - elapsedTime;
+//    COORD enemyStats;
+//    string Time;
+//    std::ostringstream attktime;
+//    attktime << std::fixed << std::setprecision(0);
+//    attktime << attackSpeed;
+//    Time = attktime.str();
+//
+//    string textEnemyStat;
+//    textEnemyStat = " Enemy Level: ";
+//    textEnemyStat += enemyLVL;
+//	textEnemyStat +=	"    Enemy HP: ";
+//	textEnemyStat +=	monhp;
+//    textEnemyStat += "    Time till Attack: ";
+//    textEnemyStat += Time;
+//    textEnemyStat += " ";
+//    enemyStats.X = 12;
+//    enemyStats.Y = 20;
+//    console.writeToBuffer(enemyStats, textEnemyStat, 0xF4);
+//
+//
+//	COORD d;
+//	string question;
+//	question = "What is ";
+//	question += static_cast<char>(randomNo1) + 48;
+//	switch (randomsign)
+//	{
+//		case 1: question += " + "; break;
+//		case 2: question += " x "; break;
+//		case 3: question += " - "; break;
+//		case 4: question += " / "; break;
+//	}
+//	question += static_cast<char>(randomNo2) + 48;
+//	question += " ?";
+//	d.X = 24;
+//	d.Y = 21;
+//	console.writeToBuffer(d, question, 0x0E);
+//	string roundoff;
+//	roundoff = "All numbers are rounded down to the nearest whole number";
+//	switch (randomsign)
+//	{
+//		case 4: COORD f; f.X = 10; f.Y = 23; console.writeToBuffer(f, roundoff, 0x0D); break;
+//	}
+//	numberinput();
+//	checkPlayerAnswer();
+//}
 
 //readMap();
 

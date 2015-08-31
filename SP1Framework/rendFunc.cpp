@@ -6,7 +6,7 @@ extern bool playerDead, mainMenu, loading, inBossFight, bossCleared, battleModeO
 extern COORD charLocation;
 extern enum GameStates currState;
 extern int xSpawnCoord, ySpawnCoord, xReturnCoord, yReturnCoord, status, randomsign, randomNo2, randomNo1, currAtStage, monsterHP, foeHP, foeLVL;
-extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78];
+extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], instructionArray[25][78];
 extern struct Hero player;
 extern struct Boss BossUnit;
 extern double deltaTime, elapsedTime, attkTime;
@@ -406,7 +406,6 @@ void printBattleStats()
 	numberinput();
 	checkPlayerAnswer();
 }
-
 void printChestReward()
 {
 		COORD chestNotif;
@@ -641,4 +640,20 @@ void drawMenu()
 	{
 		g_quitGame = true;
 	}
+}
+
+void renderTutorialScreen()
+{
+	for (int i = 0; i < 25; ++i)
+	{
+		    for (int j = 0; j < 78; ++j)
+		    {
+			   char toBePrinted = instructionArray[i][j];
+			   renderPrintedText( toBePrinted, j, i );
+		    }
+    }
+	if ( keyPressed[K_ESCAPE] )
+    {
+        currState = G_MainMenu;
+    }
 }
