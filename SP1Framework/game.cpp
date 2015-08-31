@@ -34,7 +34,7 @@ int playerlv = 1;
 int numberOfTries = 4;
 
 //ENABLE PLAYER ENCOUNTER
-bool randomEncountersOn = true; // SET TO TRUE LATER
+bool randomEncountersOn = false; // SET TO TRUE LATER
 
 //Read Values
 string normal_Monster1;     //store first frame of monster txt
@@ -47,7 +47,7 @@ string stage_Map;           //store stage level.
 double loadTimer;
 bool loading = false;
 char loadScrnArray[25][79];
-GameStates currState = G_MainMenu; // G_Intro
+GameStates currState = G_Stage3; // G_Intro
 bool mainMenu = false;
 char menuArray[25][79];
 
@@ -216,6 +216,12 @@ void getReadData(int val)
 				boss_Monster1ALT = "MOB_Spider2.txt";
 				stage_Map = "Map2.txt";
 				break;
+		case 3:	normal_Monster1 = "MOB_BAT1.txt";
+				normal_Monster1ALT = "MOB_BAT2.txt";
+				boss_Monster1 = "MOB_Spider1.txt"; 
+				boss_Monster1ALT = "MOB_Spider2.txt";
+				stage_Map = "Map3.txt";
+				break;
 	}
 	readMap(stage_Map,mapArray);
 	readBattleScreen(normal_Monster1,battleArray);
@@ -242,8 +248,8 @@ void render()
 		case G_LoadScreen: loading = true; renderSelection(); break;
 		case G_Stage1: currAtStage = 1; drawMapRendChar(); break;
 		case G_Stage2: currAtStage = 2; drawMapRendChar(); break;
-		/*case G_Stage3: currAtStage = 3; drawMapRendChar(); break;
-		case G_Stage4: currAtStage = 4; drawMapRendChar(); break;
+		case G_Stage3: currAtStage = 3; drawMapRendChar(); break;
+		/*case G_Stage4: currAtStage = 4; drawMapRendChar(); break;
 		case G_Stage5: currAtStage = 5; drawMapRendChar(); break;
 		case G_Stage6: currAtStage = 6; drawMapRendChar(); break;*/
 		case G_StageCleared: portalrender(); break;
@@ -408,6 +414,11 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 		toBePrinted = 176; // ░
 		console.writeToBuffer(j,i, toBePrinted, 0x80); // Grey [Walls]
 	}
+	else if (toBePrinted == 'Z')
+	{
+		toBePrinted = 176; // ░
+		console.writeToBuffer(j,i, toBePrinted, 0x84); // Reddish Brown [Cave Walls]
+	}
 	else if (toBePrinted == '=')
 	{
 		toBePrinted = 176; // ░
@@ -469,7 +480,8 @@ void checkMove()
 	if ((keyPressed[K_UP] || keyPressed[K_W]) && charLocation.Y > 0)
 	{
 		if ((mapArray[Y - 1][X] != 'W') && (mapArray[Y - 1][X] != '1') &&
-			(mapArray[Y - 1][X] != 'T') && (mapArray[Y - 1][X] != 'D'))
+			(mapArray[Y - 1][X] != 'T') && (mapArray[Y - 1][X] != 'D') && 
+			(mapArray[Y - 1][X] != 'Z'))
 		{
 			charLocation.Y--;
 			monsterCheck();
@@ -479,7 +491,8 @@ void checkMove()
 	if ((keyPressed[K_LEFT] || keyPressed[K_A]) && charLocation.X > 0)
 	{
 		if ((mapArray[Y][X - 1] != 'W') && (mapArray[Y][X - 1] != '1') &&
-			(mapArray[Y][X - 1] != 'T') && (mapArray[Y][X - 1] != 'D'))
+			(mapArray[Y][X - 1] != 'T') && (mapArray[Y][X - 1] != 'D') && 
+			(mapArray[Y][X - 1] != 'Z'))
 		{
 			charLocation.X--;
 			monsterCheck();
@@ -488,7 +501,8 @@ void checkMove()
 	if ((keyPressed[K_DOWN] || keyPressed[K_S]) && charLocation.Y < console.getConsoleSize().Y - 1)
 	{
 		if ((mapArray[Y + 1][X] != 'W') && (mapArray[Y + 1][X] != '1') &&
-			(mapArray[Y + 1][X] != 'T') && (mapArray[Y + 1][X] != 'D'))
+			(mapArray[Y + 1][X] != 'T') && (mapArray[Y + 1][X] != 'D') && 
+			(mapArray[Y + 1][X] != 'Z'))
 		{
 			charLocation.Y++;
 			monsterCheck();
@@ -497,7 +511,8 @@ void checkMove()
 	if ((keyPressed[K_RIGHT] || keyPressed[K_D]) && charLocation.X < console.getConsoleSize().X - 1)
 	{
 		if ((mapArray[Y][X + 1] != 'W') && (mapArray[Y][X + 1] != '1') &&
-			(mapArray[Y][X + 1] != 'T') && (mapArray[Y][X + 1] != 'D'))
+			(mapArray[Y][X + 1] != 'T') && (mapArray[Y][X + 1] != 'D') && 
+			(mapArray[Y][X + 1] != 'Z'))
 		{
 			charLocation.X++;
 			monsterCheck();
@@ -527,7 +542,9 @@ void processUserInput()
 {
     // quits the game if player hits the escape key
     if (keyPressed[K_ESCAPE])
-        g_quitGame = true;
+    {
+		g_quitGame = true;
+	}
 }
 
 void numberinput()
@@ -637,7 +654,7 @@ void initiallizePlayerStats()
     player.exp = 0;
     //player.expCap = 100;
 	player.hp = 1000 + ((player.level) * 100);
-	player.damage = 1;
+	player.damage = 1 * 1337;
 	player.expCap = 50 * player.level;
 	limitEXP = player.expCap;
     playerDmg = player.damage;
@@ -782,9 +799,9 @@ void checkPlayerAnswer()
     {
         if (potata == false)
         {
-		attkTime = elapsedTime + enemyAttk;
-        potata = true;
-		attkTime += 4;
+			attkTime = elapsedTime + enemyAttk;
+			potata = true;
+			attkTime += 4;
         }
         if (elapsedTime >= attkTime)
         {
@@ -868,7 +885,7 @@ void printBattleStats()
     text += "    Chance Left: ";
     text += myChance;
 	text += " ";
-	c.X = 22;
+	c.X = 23;
 	c.Y = 19;
 	console.writeToBuffer(c, text, 0xF9);
 
@@ -1272,7 +1289,7 @@ void portalrender()
 			renderPrintedText( toBePrinted,j,i );
 		}
      }
-	if ((currAtStage == 2) && (atPortal == true))
+	if ((currAtStage == 3) && (atPortal == true))
 	{
 		currState = G_StageCleared;
 	}
@@ -1282,6 +1299,11 @@ void portalrender()
 		if ((currAtStage == 1)  && (atPortal == true) )
 		{
 				currState = G_Stage2;
+				atPortal = false;
+		}
+		if ((currAtStage == 2)  && (atPortal == true) )
+		{
+				currState = G_Stage3;
 				atPortal = false;
 		}
 		//currState = G_Stage2;
@@ -1365,7 +1387,6 @@ void drawMenu()
 	{
 		g_quitGame = true;
 	}
-	
 }
 //void animateLoading()
 //{

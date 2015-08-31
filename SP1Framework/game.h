@@ -55,8 +55,8 @@ enum GameStates
 	G_LoadScreen,
 	G_Stage1,
 	G_Stage2,
-	/*G_Stage3,
-	G_Stage4,
+	G_Stage3,
+	/*G_Stage4,
 	G_Stage5,
 	G_Stage6,*/
 	G_StageCleared,
