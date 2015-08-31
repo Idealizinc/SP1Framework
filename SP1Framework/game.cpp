@@ -245,7 +245,7 @@ void render()
 		case G_MainMenu: mainMenu = true; renderSelection(); break;
 		case G_Tutorial:;		//Implemented Later
 		case G_Options:;	//Implemented Later
-		case G_LoadScreen: loading = true; renderSelection(); break;
+		case G_LoadScreen: loading = true; drawMapRendChar(); break;
 		case G_Stage1: currAtStage = 1; drawMapRendChar(); break;
 		case G_Stage2: currAtStage = 2; drawMapRendChar(); break;
 		case G_Stage3: currAtStage = 3; drawMapRendChar(); break;
@@ -275,7 +275,7 @@ void renderSelection()
 	{
 		drawMenu();
 	}
-	if ((renderedChar == false) && (loading == false))
+	else if ((renderedChar == false) && (loading == false))
 	{
 		drawMap();
 		renderCharacter();  // renders the character into the buffer
@@ -330,7 +330,7 @@ void renderSelection()
 		playerInputOn = false;
 		currState = G_StageCleared;
     }
-    else if ((playerDead == true) && (loading == false) && (mainMenu == false))
+    else if ((playerDead == true) && (loading == false) && (mainMenu == false) && (renderedChar == true))
     {
         charLocation.X = 100;
 		charLocation.Y = 100;
