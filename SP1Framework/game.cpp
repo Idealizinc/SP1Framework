@@ -78,7 +78,7 @@ string answer;                  //answer of player inputted.
 int currAtStage = 0;            // current stage level
 int stageVal = 21;              //Random unrelated value
 bool allowEnemyAttk = false;    // enemy to attack.
-bool potata = false;
+bool enemyAttkTime = false;
 double attkTime;                // Attkspeed of enemy
 double enemyAttk = 3.00;        // player to attk.
 
@@ -788,22 +788,23 @@ void checkPlayerAnswer()
     //Attack Speed of enemy.
     if (allowEnemyAttk == false)
     {
-        if (potata == false)
+        if (enemyAttkTime == false)
         {
-			attkTime = elapsedTime + enemyAttk;
-			potata = true;
-			attkTime += 4;
+		attkTime = elapsedTime + enemyAttk;
+        enemyAttkTime = true;
+		attkTime += 4;
         }
         if (elapsedTime >= attkTime)
         {
             allowEnemyAttk = true;
             questionMade = false;
-            potata = false;
+            enemyAttkTime = false;
         }
     }
     //Enemy Strikes
     if (allowEnemyAttk == true)
     {
+        answer.erase();
         player.hp -= MonsterUnit.damage;
         allowEnemyAttk = false;
     }
