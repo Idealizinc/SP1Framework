@@ -47,7 +47,7 @@ string stage_Map;           //store stage level.
 double loadTimer;
 bool loading = false;
 char loadScrnArray[25][79];
-GameStates currState = G_Stage1; // G_Intro
+GameStates currState = G_MainMenu; // G_Intro
 bool mainMenu = false;
 char menuArray[25][79];
 
@@ -235,7 +235,7 @@ void render()
 		case G_Intro:;			//Implemented Later
 		case G_MainMenu: mainMenu = true; renderSelection(); break;
 		case G_Tutorial:;		//Implemented Later
-		case G_StageSelect:;	//Implemented Later
+		case G_Options:;	//Implemented Later
 		case G_LoadScreen: loading = true; renderSelection(); break;
 		case G_Stage1: currAtStage = 1; drawMapRendChar(); break;
 		case G_Stage2: currAtStage = 2; drawMapRendChar(); break;
@@ -438,7 +438,7 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0F); // Coloration Failed - blk Txt
 	}
-	else if ((player.hp <= 0) && (playerDead == true) && (mainMenu == false))
+	else if ((player.hp <= 0) && (playerDead == true) && (mainMenu == false) && (renderedChar == true))
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
 	}
@@ -772,7 +772,7 @@ void checkPlayerAnswer()
         (player.exp) += monsterXP;
 		initializeHP = false;
 	}
-	if ( player.hp <= 0 )
+	if ((player.hp <= 0) && (mainMenu == false) && (loading == false))
 	{
 		battleModeOn = false;
 		inBossFight = false;
@@ -883,19 +883,6 @@ void drawMap()
         printFakeChestInfo();
         status++;
     }
-}
-
-void drawMenu()
-{
-	for (int i = 0; i < 25;)
-	{
-		for (int j = 0; j < 79; ++j)
-		{
-			char toBePrinted = menuArray[i][j];
-			renderPrintedText(toBePrinted,j,i);
-		}
-		i++;
-	}
 }
 
 void drawBattleScreen()
@@ -1164,6 +1151,37 @@ void renderLoadScreen()
     }
 }
 
+void drawMenu()
+{
+	for (int i = 0; i < 25;)
+	{
+		for (int j = 0; j < 79; ++j)
+		{
+			char toBePrinted = menuArray[i][j];
+			renderPrintedText(toBePrinted,j,i);
+		}
+		i++;
+	}
+	if (keyPressed[K_1])
+	{
+		currState = G_LoadScreen;
+		loading = true;
+		mainMenu = false;
+	}
+	else if (keyPressed[K_2])
+	{
+		currState = G_Tutorial;
+	}
+	else if (keyPressed[K_3])
+	{
+		currState = G_Options;
+	}
+	else if (keyPressed[K_4])
+	{
+		g_quitGame = true;
+	}
+	
+}
 //void animateLoading()
 //{
 //	
