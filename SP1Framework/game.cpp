@@ -77,6 +77,10 @@ int randomsign;                 // random sign symbols (not coded)
 string answer;                  //answer of player inputted.
 int currAtStage = 0;            // current stage level
 int stageVal = 21;              //Random unrelated value
+bool allowEnemyAttk = false;    // enemy to attack.
+bool potata = false;
+double attkTime;                // Attkspeed of enemy
+double enemyAttk = 3.00;        // player to attk.
 
 double waitTime = 0.1;         // waiting time for inputing value.
 
@@ -441,6 +445,10 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
 	}
+    else if ((player.chance <= 0) && (playerDead == true) && (mainMenu == false) && (renderedChar == true))
+	{
+		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
+	}
 	else if (mainMenu == true)
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
@@ -534,6 +542,7 @@ void numberinput()
 			{
 				storedTime += 0.5;
 			}
+
 		}
 		if (elapsedTime >= storedTime)
 		{
@@ -639,6 +648,7 @@ void setPlayerChangableStats()
 	int rngdamage = rand() % 10 + 50;
 	//player.hp = 1000 + ((player.level) * 100);
 	player.damage = 1;
+    //player.chance = 3;
 	player.expCap = 50 * player.level;
     playerDmg = player.damage;
 }
@@ -712,6 +722,12 @@ void printMapStats()
 		inBossFight = false;
 		playerDead = true;
 	}
+	if ( player.chance <= 0 )
+	{
+		battleModeOn = false;
+		inBossFight = false;
+		playerDead = true;
+	}
 }
 
 void createQuestion()
@@ -746,7 +762,8 @@ void checkPlayerAnswer()
 	{
 		setPlayerChangableStats();
 		setMonsterChangableStats();
-		foeHP -= player.damage * 100 ;//20 // multiplied by 100 for testing. REMOVE LATER
+        attkTime += 2;
+		foeHP -= player.damage ;//20 // multiplied by 100 for testing. REMOVE LATER
 		playerInputted = false;
 		
 	}
@@ -754,15 +771,43 @@ void checkPlayerAnswer()
 	{
 		setPlayerChangableStats();
 		setMonsterChangableStats();
-		player.hp -= MonsterUnit.damage ;
+		player.chance -= 1;
 		playerInputted = false;
 		
-	} 
+	}
+    //MonsterUnit.damage
+
+    //Attack Speed of enemy.
+    if (allowEnemyAttk == false)
+    {
+        if (potata == false)
+        {
+		attkTime = elapsedTime + enemyAttk;
+        potata = true;
+		attkTime += 4;
+        }
+        if (elapsedTime >= attkTime)
+        {
+            allowEnemyAttk = true;
+            questionMade = false;
+            potata = false;
+        }
+    }
+    //Enemy Strikes
+    if (allowEnemyAttk == true)
+    {
+        player.hp -= MonsterUnit.damage;
+        allowEnemyAttk = false;
+    }
+
+
 	if (foeHP <= 0) //HP2 is monster hp
 	{
 		if (battleModeOn == true)
 		{
 			battleModeOn = false;
+            player.chance = 3; //resets chance
+            attkTime = elapsedTime + enemyAttk;
 		}
 		if (inBossFight == true)
 		{
@@ -772,7 +817,8 @@ void checkPlayerAnswer()
         (player.exp) += monsterXP;
 		initializeHP = false;
 	}
-	if ((player.hp <= 0) && (mainMenu == false) && (loading == false))
+	if (
+        ((player.hp <= 0) || (player.chance <= 0)) && (mainMenu == false) && (loading == false))
 	{
 		battleModeOn = false;
 		inBossFight = false;
@@ -781,6 +827,7 @@ void checkPlayerAnswer()
 }
 void printBattleStats()
 {
+    //attkTime - elapsedTime = time left to attk.
     checkLevelUp();
 	createQuestion();
 	if (initializeHP == false)
@@ -815,18 +862,40 @@ void printBattleStats()
 	string monhp = enemyhp.str(); // string that contains enemy hp
 
 	string text;
-    text = "Chance Left: ";
-    text += myChance;
-	text += "    My HP: ";
+
+	text = " My HP: ";
 	text += myHP;
-    text += "    Enemy Level: ";
-    text += enemyLVL;
-	text +=	"    Enemy HP: ";
-	text +=	monhp;
+    text += "    Chance Left: ";
+    text += myChance;
 	text += " ";
-	c.X = 6;
-	c.Y = 20;
-	console.writeToBuffer(c, text, 0x79);
+	c.X = 22;
+	c.Y = 19;
+	console.writeToBuffer(c, text, 0xF9);
+
+    //0xF0 (blak txt wite bg)
+
+    //attk speed.
+    double attackSpeed = attkTime - elapsedTime;
+    COORD enemyStats;
+    string Time;
+    std::ostringstream attktime;
+    attktime << std::fixed << std::setprecision(0);
+    attktime << attackSpeed;
+    Time = attktime.str();
+
+    string textEnemyStat;
+    textEnemyStat = " Enemy Level: ";
+    textEnemyStat += enemyLVL;
+	textEnemyStat +=	"    Enemy HP: ";
+	textEnemyStat +=	monhp;
+    textEnemyStat += "    Time till Attack: ";
+    textEnemyStat += Time;
+    textEnemyStat += " ";
+    enemyStats.X = 12;
+    enemyStats.Y = 20;
+    console.writeToBuffer(enemyStats, textEnemyStat, 0xF4);
+
+
 	COORD d;
 	string question;
 	question = "What is ";
