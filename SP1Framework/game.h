@@ -10,6 +10,9 @@
 #include <vector>
 #include <ctime>
 #include "detectionFunc.h"
+#include "rendFunc.h"
+#include "readFunc.h"
+
 extern StopWatch g_timer;
 extern bool g_quitGame;
 
@@ -79,25 +82,28 @@ void checkMove();           // checks the path it took. collision detection, phy
 void monsterCheck();        // checks for monster
 void processUserInput();    // checks if you should change states or do something else with the game, e.g. pause, exit
 void clearScreen();         // clears the current screen and draw from scratch 
+void checkPlayerAnswer();
+void createQuestion();
 
 //Rendering
-void renderMap();           // renders the map to the buffer first
-void renderCharacter();     // renders the character into the buffer
-void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
-void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
-void animateBSNorm();		// swaps between and prints diff battle screens.
-void animateBSBoss();		// same As Above Just For Boss Fights
-void portalrender();        // renders the portal.
-void printMapStats();       // stats of player
-void printBattleStats();    // stats of enemy and player.
-void printChestReward();    // shows bonus of the player.
-void portalrender();        // renders the portal.
-void renderGameOver();      // renders Game Over screen.
-void drawMap();             // draws the game map.
-void drawMapRendChar();     // draws the character on map.
-void printFakeChestInfo();  // prints details of fake chest.
+//void renderMap();           // renders the map to the buffer first THIS IS NOT EVEN USED
+//void renderCharacter();     // renders the character into the buffer
+//void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
+//void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
+//void animateBSNorm();		// swaps between and prints diff battle screens.
+//void animateBSBoss();		// same As Above Just For Boss Fights
+//void portalrender();        // renders the portal.
+//void renderGameOver();      // renders Game Over screen.
+//void printMapStats();       // stats of player
+//void printBattleStats();    // stats of enemy and player.
+//void printChestReward();    // shows bonus of the player.
+//void printFakeChestInfo();  // prints details of fake chest.
+//void portalrender();        // renders the portal.
+//void drawMap();             // draws the game map.
+//void drawMapRendChar();     // draws the character on map.
+//void renderSelection();		// Decides what is to be rendered
 void animateLoading();
-void renderLoadScreen();
+//void renderLoadScreen();
 void renderSelection();		// Decides what is to be rendered
 void drawMenu();
 void renderTutorialScreen();
