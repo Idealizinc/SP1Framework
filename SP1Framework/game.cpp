@@ -407,7 +407,7 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 	}
 	else if (toBePrinted == 'X')
 	{
-		toBePrinted = 15; // Θ
+		toBePrinted = 21; 
 		console.writeToBuffer(j,i, toBePrinted, 0x8C); // Red [Boss]
 	}
 	else if (toBePrinted == '1')
@@ -871,116 +871,6 @@ void printBattleStats()
 	numberinput();
 	checkPlayerAnswer();
 }
-//void printBattleStats()
-//{
-//    checkLevelUp();
-//	if (questionMade == false)
-//	{
-//		srand (elapsedTime);
-//		randomNo1 = (rand()%9) + 1;
-//		randomNo2 = (rand()%9) + 1;
-//		randomsign = (rand()%3) + 1;
-//		questionMade = true;
-//		int ans = randomNo1 + randomNo2;
-//		std::ostringstream theAnswer;
-//		theAnswer << ans;
-//		string qnAnswer = theAnswer.str();
-//		battleAnswer.assign(qnAnswer);
-//	}
-//	if (initializeHP == false)
-//	{
-//		initiallizeMonsterStats();
-//		if (battleModeOn == true)
-//		{
-//			//problem was here
-//			foeHP = monsterHP;
-//		}
-//		if (inBossFight == true)
-//		{
-//			monsterHP = BossUnit.hp;
-//		}
-//		initializeHP = true;
-//	}
-//	COORD c;
-//	std::ostringstream myhp;
-//	myhp << player.hp ;
-//	string myHP = myhp.str(); // string that contains player hp
-//
-//    std::ostringstream enemylvl;
-//    enemylvl << foeLVL;
-//    string enemyLVL = enemylvl.str(); // string that contains enemy lvl
-//
-//	std::ostringstream enemyhp;
-//	enemyhp << foeHP ;
-//	string monhp = enemyhp.str(); // string that contains enemy hp
-//
-//	string text;
-//	text = " My HP: ";
-//	text += myHP;
-//    text += "    Enemy Level: ";
-//    text += enemyLVL;
-//	text +=	"    Enemy HP: ";
-//	text +=	monhp;
-//	text += " ";
-//	c.X = 16;
-//	c.Y = 20;
-//	console.writeToBuffer(c, text, 0x78);
-//
-//	COORD d;
-//	string question;
-//	question = "What is ";
-//	question += static_cast<char>(randomNo1) + 48;
-//	question += " + ";
-//	question += static_cast<char>(randomNo2) + 48;
-//	question += "?";
-//	d.X = 24;
-//	d.Y = 21;
-//	console.writeToBuffer(d, question, 0x0E);
-//
-//	numberinput();
-//
-//	if ( (answerIsDifferent == 0) && (playerInputted == true) )
-//	{
-//		setPlayerChangableStats();
-//		setMonsterChangableStats();
-//		foeHP -= player.damage * 100 ;//20 // multiplied by 100 for testing. REMOVE LATER
-//		playerInputted = false;
-//		
-//	}
-//	else if ( (answerIsDifferent != 0) && (playerInputted == true) )
-//	{
-//		setPlayerChangableStats();
-//		setMonsterChangableStats();
-//		player.hp -= MonsterUnit.damage;
-//        //player.chance -= 1;
-//		playerInputted = false;
-//		
-//	} 
-//	if (foeHP <= 0) //HP2 is monster hp
-//	{
-//		if (battleModeOn == true)
-//		{
-//			battleModeOn = false;
-//		}
-//		if (inBossFight == true)
-//		{
-//			bossCleared = true;
-//			inBossFight = false;
-//		}
-//        (player.exp) += monsterXP;
-//		initializeHP = false;
-//	}
-//	if (( player.hp <= 0 ) && ((battleModeOn == true) || (inBossFight == true)))
-//	{
-//		battleModeOn = false;
-//		playerDead = true;
-//	}
-//	if (( player.chance <= 0 ) && ((battleModeOn == true) || (inBossFight == true)))
-//	{
-//		battleModeOn = false;
-//		playerDead = true;
-//	}
-//}
 
 //readMap();
 
@@ -1257,10 +1147,7 @@ void renderGameOver()
 	}
     if ( keyPressed[K_ESCAPE] )
     {
-        switch(currAtStage)
-        {
-            case 1: currState = G_MainMenu; break;
-        }
+        currState = G_MainMenu;
     }
 }
 
@@ -1277,6 +1164,10 @@ void renderLoadScreen()
 			   renderPrintedText( toBePrinted, j, i );
 		    }
     }
+	if ( keyPressed[K_ESCAPE] )
+    {
+        currState = G_MainMenu;
+    }
 }
 
 void renderTutorialScreen()
@@ -1288,6 +1179,10 @@ void renderTutorialScreen()
 			   char toBePrinted = instructionArray[i][j];
 			   renderPrintedText( toBePrinted, j, i );
 		    }
+    }
+	if ( keyPressed[K_ESCAPE] )
+    {
+        currState = G_MainMenu;
     }
 }
 
