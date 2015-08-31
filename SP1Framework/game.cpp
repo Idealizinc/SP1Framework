@@ -34,7 +34,7 @@ int playerlv = 1;
 int numberOfTries = 4;
 
 //ENABLE PLAYER ENCOUNTER
-bool randomEncountersOn = true; // SET TO TRUE LATER
+bool randomEncountersOn = false; // SET TO TRUE LATER
 
 //Read Values
 string normal_Monster1;     //store first frame of monster txt
@@ -47,7 +47,7 @@ string stage_Map;           //store stage level.
 double loadTimer;
 bool loading = false;
 char loadScrnArray[25][79];
-GameStates currState = G_MainMenu; // G_Intro
+GameStates currState = G_Stage1; // G_Intro
 bool mainMenu = false;
 char menuArray[25][79];
 
@@ -59,7 +59,7 @@ int monsterFound;               // -
 bool playerInputOn = true;      // toggles movement of player.
 int answerIsDifferent;          // check if player ans is diff.
 string battleAnswer;            // holds value of player ans.
-bool locationSaved =  false;    //// saves player location upon battle.
+bool locationSaved =  false;    // saves player location upon battle.
 bool bossCleared = false;       // when boss cleared, won't meet again.
 bool inBossFight = false;       // toggles inboss fight screen.
 bool initializeHP = false;      // To initialise monster/boss HP
@@ -77,6 +77,10 @@ int randomsign;                 // random sign symbols (not coded)
 string answer;                  //answer of player inputted.
 int currAtStage = 0;            // current stage level
 int stageVal = 21;              //Random unrelated value
+bool allowEnemyAttk = false;    // enemy to attack.
+bool potata = false;
+double attkTime;                // Attkspeed of enemy
+double enemyAttk = 3.00;        // player to attk.
 
 double waitTime = 0.1;         // waiting time for inputing value.
 
@@ -85,7 +89,6 @@ bool playerDead = false;
 
 //Status
 int status = 0;
-
 
 //For Portal End Stage
 bool atPortal = false; //Set To FALSE
@@ -213,6 +216,12 @@ void getReadData(int val)
 				boss_Monster1ALT = "MOB_Spider2.txt";
 				stage_Map = "Map2.txt";
 				break;
+		case 3:	normal_Monster1 = "MOB_BAT1.txt";
+				normal_Monster1ALT = "MOB_BAT2.txt";
+				boss_Monster1 = "MOB_Spider1.txt"; 
+				boss_Monster1ALT = "MOB_Spider2.txt";
+				stage_Map = "Map3.txt";
+				break;
 	}
 	readMap(stage_Map,mapArray);
 	readBattleScreen(normal_Monster1,battleArray);
@@ -239,8 +248,8 @@ void render()
 		case G_LoadScreen: loading = true; renderSelection(); break;
 		case G_Stage1: currAtStage = 1; drawMapRendChar(); break;
 		case G_Stage2: currAtStage = 2; drawMapRendChar(); break;
-		/*case G_Stage3: currAtStage = 3; drawMapRendChar(); break;
-		case G_Stage4: currAtStage = 4; drawMapRendChar(); break;
+		case G_Stage3: currAtStage = 3; drawMapRendChar(); break;
+		/*case G_Stage4: currAtStage = 4; drawMapRendChar(); break;
 		case G_Stage5: currAtStage = 5; drawMapRendChar(); break;
 		case G_Stage6: currAtStage = 6; drawMapRendChar(); break;*/
 		case G_StageCleared: portalrender(); break;
@@ -334,7 +343,7 @@ void renderSelection()
         charLocation.X = 100;
 		charLocation.Y = 100;
 		playerInputOn = false;
-		if(  keyPressed[K_SPACE] )
+		if(keyPressed[K_SPACE])
 		{
 		loading = false;
 		currState = G_Stage1;
@@ -395,7 +404,7 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 		toBePrinted = 15; // Θ
 		console.writeToBuffer(j,i, toBePrinted, 0x8C); // Red [Boss]
 	}
-	if (toBePrinted == '1')
+	else if (toBePrinted == '1')
 	{
 		toBePrinted = 178; // ▓
 		console.writeToBuffer(j,i, toBePrinted, 0x7F); // White [Walls]
@@ -404,6 +413,11 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 	{
 		toBePrinted = 176; // ░
 		console.writeToBuffer(j,i, toBePrinted, 0x80); // Grey [Walls]
+	}
+	else if (toBePrinted == 'Z')
+	{
+		toBePrinted = 176; // ░
+		console.writeToBuffer(j,i, toBePrinted, 0x84); // Reddish Brown [Cave Walls]
 	}
 	else if (toBePrinted == '=')
 	{
@@ -430,21 +444,17 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 		toBePrinted = 31; // ▼
 		console.writeToBuffer(j,i, toBePrinted, 0x0E); // [Gold] Triangles
 	}
-	else if ((loading == true) || (atPortal == true))
+	else if ((loading == true) || (atPortal == true) || (mainMenu == true))
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
 	}
-	else if (battleModeOn == true || inBossFight == true)
+	else if ((battleModeOn == true) || ((inBossFight == true)) && (bossCleared == false))
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0F); // Coloration Failed - blk Txt
 	}
-	else if ((player.hp <= 0) && (playerDead == true) && (mainMenu == false) && (renderedChar == true))
+    else if ((playerDead == true))
 	{
-		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
-	}
-	else if (mainMenu == true)
-	{
-		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
+		console.writeToBuffer(j,i, toBePrinted, 0x0C); // Color The Underscores dashes RED.
 	}
 }
 void moveCharacter()
@@ -462,35 +472,39 @@ void checkMove()
 	if ((keyPressed[K_UP] || keyPressed[K_W]) && charLocation.Y > 0)
 	{
 		if ((mapArray[Y - 1][X] != 'W') && (mapArray[Y - 1][X] != '1') &&
-			(mapArray[Y - 1][X] != 'T') && (mapArray[Y - 1][X] != 'D'))
+			(mapArray[Y - 1][X] != 'T') && (mapArray[Y - 1][X] != 'D') && 
+			(mapArray[Y - 1][X] != 'Z'))
 		{
 			charLocation.Y--;
 			monsterCheck();
 		}
 	}
 
-	if ((keyPressed[K_LEFT] || keyPressed[K_A]) && charLocation.X > 0)
+	else if ((keyPressed[K_LEFT] || keyPressed[K_A]) && charLocation.X > 0)
 	{
 		if ((mapArray[Y][X - 1] != 'W') && (mapArray[Y][X - 1] != '1') &&
-			(mapArray[Y][X - 1] != 'T') && (mapArray[Y][X - 1] != 'D'))
+			(mapArray[Y][X - 1] != 'T') && (mapArray[Y][X - 1] != 'D') && 
+			(mapArray[Y][X - 1] != 'Z'))
 		{
 			charLocation.X--;
 			monsterCheck();
 		}
 	}
-	if ((keyPressed[K_DOWN] || keyPressed[K_S]) && charLocation.Y < console.getConsoleSize().Y - 1)
+	else if ((keyPressed[K_DOWN] || keyPressed[K_S]) && charLocation.Y < console.getConsoleSize().Y - 1)
 	{
 		if ((mapArray[Y + 1][X] != 'W') && (mapArray[Y + 1][X] != '1') &&
-			(mapArray[Y + 1][X] != 'T') && (mapArray[Y + 1][X] != 'D'))
+			(mapArray[Y + 1][X] != 'T') && (mapArray[Y + 1][X] != 'D') && 
+			(mapArray[Y + 1][X] != 'Z'))
 		{
 			charLocation.Y++;
 			monsterCheck();
 		}
 	}
-	if ((keyPressed[K_RIGHT] || keyPressed[K_D]) && charLocation.X < console.getConsoleSize().X - 1)
+	else if ((keyPressed[K_RIGHT] || keyPressed[K_D]) && charLocation.X < console.getConsoleSize().X - 1)
 	{
 		if ((mapArray[Y][X + 1] != 'W') && (mapArray[Y][X + 1] != '1') &&
-			(mapArray[Y][X + 1] != 'T') && (mapArray[Y][X + 1] != 'D'))
+			(mapArray[Y][X + 1] != 'T') && (mapArray[Y][X + 1] != 'D') && 
+			(mapArray[Y][X + 1] != 'Z'))
 		{
 			charLocation.X++;
 			monsterCheck();
@@ -520,7 +534,9 @@ void processUserInput()
 {
     // quits the game if player hits the escape key
     if (keyPressed[K_ESCAPE])
-        g_quitGame = true;
+    {
+		g_quitGame = true;
+	}
 }
 
 void numberinput()
@@ -535,6 +551,7 @@ void numberinput()
 			{
 				storedTime += 0.5;
 			}
+
 		}
 		if (elapsedTime >= storedTime)
 		{
@@ -625,10 +642,11 @@ void initiallizePlayerStats()
 {
 	int rngdamage = rand() % 10 + 50;
 	player.level = 1;
+    player.chance = 3;
     player.exp = 0;
     //player.expCap = 100;
 	player.hp = 1000 + ((player.level) * 100);
-	player.damage = 1;
+	player.damage = 1 * 1337;
 	player.expCap = 50 * player.level;
 	limitEXP = player.expCap;
     playerDmg = player.damage;
@@ -639,6 +657,7 @@ void setPlayerChangableStats()
 	int rngdamage = rand() % 10 + 50;
 	//player.hp = 1000 + ((player.level) * 100);
 	player.damage = 1;
+    //player.chance = 3;
 	player.expCap = 50 * player.level;
     playerDmg = player.damage;
 }
@@ -712,6 +731,12 @@ void printMapStats()
 		inBossFight = false;
 		playerDead = true;
 	}
+	if ( player.chance <= 0 )
+	{
+		battleModeOn = false;
+		inBossFight = false;
+		playerDead = true;
+	}
 }
 
 void createQuestion()
@@ -746,7 +771,8 @@ void checkPlayerAnswer()
 	{
 		setPlayerChangableStats();
 		setMonsterChangableStats();
-		foeHP -= player.damage * 100 ;//20 // multiplied by 100 for testing. REMOVE LATER
+        attkTime += 2;
+		foeHP -= player.damage ;//20 // multiplied by 100 for testing. REMOVE LATER
 		playerInputted = false;
 		
 	}
@@ -754,25 +780,50 @@ void checkPlayerAnswer()
 	{
 		setPlayerChangableStats();
 		setMonsterChangableStats();
-		player.hp -= MonsterUnit.damage ;
+		player.chance -= 1;
 		playerInputted = false;
-		
-	} 
+	}
+    //MonsterUnit.damage
+
+    //Attack Speed of enemy.
+    if (allowEnemyAttk == false)
+    {
+        if (potata == false)
+        {
+			attkTime = elapsedTime + enemyAttk;
+			potata = true;
+			attkTime += 4;
+        }
+        if (elapsedTime >= attkTime)
+        {
+            allowEnemyAttk = true;
+            questionMade = false;
+            potata = false;
+        }
+    }
+    //Enemy Strikes
+    if (allowEnemyAttk == true)
+    {
+        player.hp -= MonsterUnit.damage;
+        allowEnemyAttk = false;
+    }
 	if (foeHP <= 0) //HP2 is monster hp
 	{
 		if (battleModeOn == true)
 		{
 			battleModeOn = false;
+            player.chance = 3; //resets chance
+            attkTime = elapsedTime + enemyAttk;
 		}
 		if (inBossFight == true)
 		{
 			bossCleared = true;
 			inBossFight = false;
 		}
-        (player.exp) += monsterXP;
+        player.exp += monsterXP;
 		initializeHP = false;
 	}
-	if ((player.hp <= 0) && (mainMenu == false) && (loading == false))
+	if (((player.hp <= 0) || (player.chance <= 0)) && (mainMenu == false) && (loading == false))
 	{
 		battleModeOn = false;
 		inBossFight = false;
@@ -781,6 +832,7 @@ void checkPlayerAnswer()
 }
 void printBattleStats()
 {
+    //attkTime - elapsedTime = time left to attk.
     checkLevelUp();
 	createQuestion();
 	if (initializeHP == false)
@@ -798,6 +850,10 @@ void printBattleStats()
 		initializeHP = true;
 	}
 	COORD c;
+    std::ostringstream  mychance;
+    mychance << player.chance;
+    string myChance = mychance.str(); // string that contains player chance
+
 	std::ostringstream myhp;
 	myhp << player.hp ;
 	string myHP = myhp.str(); // string that contains player hp
@@ -811,16 +867,40 @@ void printBattleStats()
 	string monhp = enemyhp.str(); // string that contains enemy hp
 
 	string text;
+
 	text = " My HP: ";
 	text += myHP;
-    text += "    Enemy Level: ";
-    text += enemyLVL;
-	text +=	"    Enemy HP: ";
-	text +=	monhp;
+    text += "    Chance Left: ";
+    text += myChance;
 	text += " ";
-	c.X = 16;
-	c.Y = 20;
-	console.writeToBuffer(c, text, 0x79);
+	c.X = 23;
+	c.Y = 19;
+	console.writeToBuffer(c, text, 0xF9);
+
+    //0xF0 (blak txt wite bg)
+
+    //attk speed.
+    double attackSpeed = attkTime - elapsedTime;
+    COORD enemyStats;
+    string Time;
+    std::ostringstream attktime;
+    attktime << std::fixed << std::setprecision(0);
+    attktime << attackSpeed;
+    Time = attktime.str();
+
+    string textEnemyStat;
+    textEnemyStat = " Enemy Level: ";
+    textEnemyStat += enemyLVL;
+	textEnemyStat +=	"    Enemy HP: ";
+	textEnemyStat +=	monhp;
+    textEnemyStat += "    Time till Attack: ";
+    textEnemyStat += Time;
+    textEnemyStat += " ";
+    enemyStats.X = 12;
+    enemyStats.Y = 20;
+    console.writeToBuffer(enemyStats, textEnemyStat, 0xF4);
+
+
 	COORD d;
 	string question;
 	question = "What is ";
@@ -846,6 +926,116 @@ void printBattleStats()
 	numberinput();
 	checkPlayerAnswer();
 }
+//void printBattleStats()
+//{
+//    checkLevelUp();
+//	if (questionMade == false)
+//	{
+//		srand (elapsedTime);
+//		randomNo1 = (rand()%9) + 1;
+//		randomNo2 = (rand()%9) + 1;
+//		randomsign = (rand()%3) + 1;
+//		questionMade = true;
+//		int ans = randomNo1 + randomNo2;
+//		std::ostringstream theAnswer;
+//		theAnswer << ans;
+//		string qnAnswer = theAnswer.str();
+//		battleAnswer.assign(qnAnswer);
+//	}
+//	if (initializeHP == false)
+//	{
+//		initiallizeMonsterStats();
+//		if (battleModeOn == true)
+//		{
+//			//problem was here
+//			foeHP = monsterHP;
+//		}
+//		if (inBossFight == true)
+//		{
+//			monsterHP = BossUnit.hp;
+//		}
+//		initializeHP = true;
+//	}
+//	COORD c;
+//	std::ostringstream myhp;
+//	myhp << player.hp ;
+//	string myHP = myhp.str(); // string that contains player hp
+//
+//    std::ostringstream enemylvl;
+//    enemylvl << foeLVL;
+//    string enemyLVL = enemylvl.str(); // string that contains enemy lvl
+//
+//	std::ostringstream enemyhp;
+//	enemyhp << foeHP ;
+//	string monhp = enemyhp.str(); // string that contains enemy hp
+//
+//	string text;
+//	text = " My HP: ";
+//	text += myHP;
+//    text += "    Enemy Level: ";
+//    text += enemyLVL;
+//	text +=	"    Enemy HP: ";
+//	text +=	monhp;
+//	text += " ";
+//	c.X = 16;
+//	c.Y = 20;
+//	console.writeToBuffer(c, text, 0x79);
+//
+//	COORD d;
+//	string question;
+//	question = "What is ";
+//	question += static_cast<char>(randomNo1) + 48;
+//	question += " + ";
+//	question += static_cast<char>(randomNo2) + 48;
+//	question += "?";
+//	d.X = 24;
+//	d.Y = 21;
+//	console.writeToBuffer(d, question, 0x0E);
+//
+//	numberinput();
+//
+//	if ( (answerIsDifferent == 0) && (playerInputted == true) )
+//	{
+//		setPlayerChangableStats();
+//		setMonsterChangableStats();
+//		foeHP -= player.damage * 100 ;//20 // multiplied by 100 for testing. REMOVE LATER
+//		playerInputted = false;
+//		
+//	}
+//	else if ( (answerIsDifferent != 0) && (playerInputted == true) )
+//	{
+//		setPlayerChangableStats();
+//		setMonsterChangableStats();
+//		player.hp -= MonsterUnit.damage;
+//        //player.chance -= 1;
+//		playerInputted = false;
+//		
+//	} 
+//	if (foeHP <= 0) //HP2 is monster hp
+//	{
+//		if (battleModeOn == true)
+//		{
+//			battleModeOn = false;
+//		}
+//		if (inBossFight == true)
+//		{
+//			bossCleared = true;
+//			inBossFight = false;
+//		}
+//        (player.exp) += monsterXP;
+//		initializeHP = false;
+//	}
+//	if (( player.hp <= 0 ) && ((battleModeOn == true) || (inBossFight == true)))
+//	{
+//		battleModeOn = false;
+//		playerDead = true;
+//	}
+//	if (( player.chance <= 0 ) && ((battleModeOn == true) || (inBossFight == true)))
+//	{
+//		battleModeOn = false;
+//		playerDead = true;
+//	}
+//}
 
 //readMap();
 
@@ -1087,7 +1277,7 @@ void portalrender()
 			renderPrintedText( toBePrinted,j,i );
 		}
      }
-	if ((currAtStage == 2) && (atPortal == true))
+	if ((currAtStage == 3) && (atPortal == true))
 	{
 		currState = G_StageCleared;
 	}
@@ -1099,10 +1289,16 @@ void portalrender()
 				currState = G_Stage2;
 				atPortal = false;
 		}
+		if ((currAtStage == 2)  && (atPortal == true) )
+		{
+				currState = G_Stage3;
+				atPortal = false;
+		}
 		//currState = G_Stage2;
 		bossCleared = false;
 		battleModeOn = false;
 		renderedChar = false;
+		playerDead = false;
 	}
 } 
 // readGameOver()
@@ -1116,23 +1312,25 @@ void renderGameOver()
 			    char toBePrinted = ggArray[i][j];
 			    renderPrintedText( toBePrinted, j, i );
 		    }
-     }
+    }
+	battleModeOn = false;
+	inBossFight = false;
 	if ( keyPressed[K_SPACE] )
 	{
 		switch(currAtStage)
 		{
 			case 1: currState = G_Stage1; break;
 			case 2: currState = G_Stage2; break;
+			case 3: currState = G_Stage3; break;
 			/*case 3: currState = G_Stage3; break;
 			case 4: currState = G_Stage4; break;*/
 		}
-		renderedChar = false;
 		currAtStage = 0;
-		bossCleared = false;
-		battleModeOn = false;
-		playerDead = false;
-		drawMapRendChar();
+		renderedChar = false;
 		locationSaved = false;
+		playerDead = false;
+		bossCleared = false;
+		drawMapRendChar();
 	}
 }
 
@@ -1180,7 +1378,6 @@ void drawMenu()
 	{
 		g_quitGame = true;
 	}
-	
 }
 //void animateLoading()
 //{
