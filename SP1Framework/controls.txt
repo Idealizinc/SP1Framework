@@ -21,5 +21,5 @@
 1      each battle. Upon running out of chances, you will lose the game,     1
 1      because he'll get brain damage. If you take too long, the enemy will  1
 1W     attack you, and reset the question , so be faster than the enemy!    W1
-1WW              press 'escape' to return to the main menu                 WW1
+1WW                                                                        WW1
 111111111111111111111111111111111111111111111111111111111111111111111111111111

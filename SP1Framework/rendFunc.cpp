@@ -609,6 +609,10 @@ void renderLoadScreen()
 			   renderPrintedText( toBePrinted, j, i );
 		    }
     }
+	if ( keyPressed[K_ESCAPE] )
+    {
+        currState = G_MainMenu;
+    }
 }
 
 void drawMenu()
@@ -656,4 +660,9 @@ void renderTutorialScreen()
     {
         currState = G_MainMenu;
     }
+	COORD X;
+	X.X = 17;
+	X.Y = 24;
+	string text = "Press 'escape' to return to the main menu.";
+	console.writeToBuffer(X, text, 0xFC);
 }
