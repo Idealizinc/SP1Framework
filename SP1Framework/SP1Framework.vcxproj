@@ -76,6 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="detectionFunc.cpp" />
     <ClCompile Include="rendFunc.cpp" />
     <ClCompile Include="Framework\console.cpp" />
     <ClCompile Include="Framework\timer.cpp" />
@@ -85,6 +86,7 @@
     <ClCompile Include="readFunc.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="detectionFunc.h" />
     <ClInclude Include="rendFunc.h" />
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />

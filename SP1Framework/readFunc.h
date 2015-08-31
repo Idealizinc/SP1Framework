@@ -7,7 +7,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
-
+#include "game.h"
 using std::string;
 using std::getline;
 using std::ifstream;

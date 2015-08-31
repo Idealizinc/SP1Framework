@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 #include <ctime>
-
+#include "detectionFunc.h"
 extern StopWatch g_timer;
 extern bool g_quitGame;
 
@@ -113,14 +113,13 @@ void getReadData(int val);                  // reads txt files based on stage.
 //void readLoadScreen(string str,char loadScrnArray[25][79]);
 
 //Detection
-void bossFightCheck();		            // Checks if player is on boss.
-void chestOpen();                       // states what happens when player steps on chest. opens the map
-void initiallizePlayerStats();          // player initial stats
-void setPlayerChangableStats();         // player changable stats
-void initiallizeMonsterStats();         // monster initial stats
-void setMonsterChangableStats();        // monster changable stats
-void checkLevelUp();                    // player level up.
-void changePlayerStats();               // change player stats
+//void bossFightCheck();		            // Checks if player is on boss.
+//void initiallizePlayerStats();          // player initial stats
+//void setPlayerChangableStats();         // player changable stats
+//void initiallizeMonsterStats();         // monster initial stats
+//void setMonsterChangableStats();        // monster changable stats
+//void checklevelup();                    // player level up.
+//void changeplayerstats();               // change player stats
 
 //Struct name of the player.
 struct Hero
