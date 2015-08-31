@@ -1,0 +1,25 @@
+111111111111111111111111111111111111111111111111111111111111111111111111111111
+1WWW                            Instruction                               WWW1
+1WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW1
+1W     3Movement4                       3Battle Controls4                   W1
+1      W / Up key    = Move Up          Numbers 1 - 9 = Input Numbers        1
+1      S / Down key  = Move Down        Enter key     = Submit Answer        1
+1      A / Left key  = Move Left        Dash key      = Negative Sign        1
+1      D / Right key = Move Right                                            1
+1                                       3Chests4 - C                         1
+1      3Bosses4 - X                     There are Chests around the map.     1
+1      What's a game without bosses?    They contain good or bad things.     1
+1      They guard the portal of the area                                     1
+1      defeat them to get pass!         3Portals4 - P                        1
+1                                       They warp you to other places        1
+1      3How to Fight4                                                        1
+1      A Monster will appear at random.                                      1
+1      As Lord Goliatho's Power is weird, you have to solve math equations   1
+1      to defeat the monsters. You have to input the correct answers to      1
+1      damage them. You have up to 3 Chance to make mistakes in each battle  1
+1      Making 3 mistakes will make you lose the game, because he'll get      1
+1      brain damage. Taking too long to attack will cause the enemy to       1
+1W     attack you, and resets the question. So be faster than the enemy!    W1
+1WW                                                                        WW1
+1WWW                                                                      WWW1
+111111111111111111111111111111111111111111111111111111111111111111111111111111
