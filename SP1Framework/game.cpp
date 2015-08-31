@@ -34,7 +34,7 @@ int playerlv = 1;
 int numberOfTries = 4;
 
 //ENABLE PLAYER ENCOUNTER
-bool randomEncountersOn = true; // SET TO TRUE LATER
+bool randomEncountersOn = false; // SET TO TRUE LATER
 
 //Read Values
 string normal_Monster1;     //store first frame of monster txt
@@ -47,7 +47,7 @@ string stage_Map;           //store stage level.
 double loadTimer;
 bool loading = false;
 char loadScrnArray[25][79];
-GameStates currState = G_Stage3; // G_Intro
+GameStates currState = G_Stage1; // G_Intro
 bool mainMenu = false;
 char menuArray[25][79];
 
@@ -343,7 +343,7 @@ void renderSelection()
         charLocation.X = 100;
 		charLocation.Y = 100;
 		playerInputOn = false;
-		if(  keyPressed[K_SPACE] )
+		if(keyPressed[K_SPACE])
 		{
 		loading = false;
 		currState = G_Stage1;
@@ -404,7 +404,7 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 		toBePrinted = 15; // Θ
 		console.writeToBuffer(j,i, toBePrinted, 0x8C); // Red [Boss]
 	}
-	if (toBePrinted == '1')
+	else if (toBePrinted == '1')
 	{
 		toBePrinted = 178; // ▓
 		console.writeToBuffer(j,i, toBePrinted, 0x7F); // White [Walls]
@@ -444,25 +444,17 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 		toBePrinted = 31; // ▼
 		console.writeToBuffer(j,i, toBePrinted, 0x0E); // [Gold] Triangles
 	}
-	else if ((loading == true) || (atPortal == true))
+	else if ((loading == true) || (atPortal == true) || (mainMenu == true))
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
 	}
-	else if (battleModeOn == true || inBossFight == true)
+	else if ((battleModeOn == true) || ((inBossFight == true)) && (bossCleared == false))
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0F); // Coloration Failed - blk Txt
 	}
-	else if ((playerDead == true) && (mainMenu == false) && (renderedChar == true))
+    else if ((playerDead == true))
 	{
-		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
-	}
-    else if ((playerDead == true) && (mainMenu == false))
-	{
-		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
-	}
-	else if (mainMenu == true)
-	{
-		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
+		console.writeToBuffer(j,i, toBePrinted, 0x0C); // Color The Underscores dashes RED.
 	}
 }
 void moveCharacter()
@@ -488,7 +480,7 @@ void checkMove()
 		}
 	}
 
-	if ((keyPressed[K_LEFT] || keyPressed[K_A]) && charLocation.X > 0)
+	else if ((keyPressed[K_LEFT] || keyPressed[K_A]) && charLocation.X > 0)
 	{
 		if ((mapArray[Y][X - 1] != 'W') && (mapArray[Y][X - 1] != '1') &&
 			(mapArray[Y][X - 1] != 'T') && (mapArray[Y][X - 1] != 'D') && 
@@ -498,7 +490,7 @@ void checkMove()
 			monsterCheck();
 		}
 	}
-	if ((keyPressed[K_DOWN] || keyPressed[K_S]) && charLocation.Y < console.getConsoleSize().Y - 1)
+	else if ((keyPressed[K_DOWN] || keyPressed[K_S]) && charLocation.Y < console.getConsoleSize().Y - 1)
 	{
 		if ((mapArray[Y + 1][X] != 'W') && (mapArray[Y + 1][X] != '1') &&
 			(mapArray[Y + 1][X] != 'T') && (mapArray[Y + 1][X] != 'D') && 
@@ -508,7 +500,7 @@ void checkMove()
 			monsterCheck();
 		}
 	}
-	if ((keyPressed[K_RIGHT] || keyPressed[K_D]) && charLocation.X < console.getConsoleSize().X - 1)
+	else if ((keyPressed[K_RIGHT] || keyPressed[K_D]) && charLocation.X < console.getConsoleSize().X - 1)
 	{
 		if ((mapArray[Y][X + 1] != 'W') && (mapArray[Y][X + 1] != '1') &&
 			(mapArray[Y][X + 1] != 'T') && (mapArray[Y][X + 1] != 'D') && 
@@ -1306,6 +1298,7 @@ void portalrender()
 		bossCleared = false;
 		battleModeOn = false;
 		renderedChar = false;
+		playerDead = false;
 	}
 } 
 // readGameOver()
@@ -1319,7 +1312,9 @@ void renderGameOver()
 			    char toBePrinted = ggArray[i][j];
 			    renderPrintedText( toBePrinted, j, i );
 		    }
-     }
+    }
+	battleModeOn = false;
+	inBossFight = false;
 	if ( keyPressed[K_SPACE] )
 	{
 		switch(currAtStage)
@@ -1332,10 +1327,9 @@ void renderGameOver()
 		}
 		currAtStage = 0;
 		renderedChar = false;
-		bossCleared = false;
-		battleModeOn = false;
-		playerDead = false;
 		locationSaved = false;
+		playerDead = false;
+		bossCleared = false;
 		drawMapRendChar();
 	}
 }
