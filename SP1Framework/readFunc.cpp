@@ -132,6 +132,7 @@ void readBattleScreen2(string str,char battleArrayALT[20][78])
             {
                 battleArrayALT[y2][x] = mapline[x];
             }
+
             ++y2;
         }
     }

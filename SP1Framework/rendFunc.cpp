@@ -245,7 +245,7 @@ void animateBSNorm() // Battle Screen Anims
 		if (keyPressed[K_SPACE])
 		{
 			mobDown = false;
-			inBossFight = false;
+			battleModeOn = false;
 		}
 	}
 }
@@ -307,6 +307,13 @@ void portalrender()
 		renderedChar = false;
 		playerDead = false;
 	}
+	if ( keyPressed[K_ESCAPE] )
+    {
+        switch(currAtStage)
+        {
+            case 1: currState = G_MainMenu; break;
+        }
+    }
 } 
 // readGameOver()
 
@@ -314,11 +321,11 @@ void renderGameOver()
 {
     for (int i = 0; i < 25; ++i)
 	{
-		    for (int j = 0; j < 78; ++j)
-		    {
-			    char toBePrinted = ggArray[i][j];
-			    renderPrintedText( toBePrinted, j, i );
-		    }
+		for (int j = 0; j < 78; ++j)
+		{
+			char toBePrinted = ggArray[i][j];
+			renderPrintedText( toBePrinted, j, i );
+		}
     }
 	battleModeOn = false;
 	inBossFight = false;
@@ -326,11 +333,10 @@ void renderGameOver()
 	{
 		switch(currAtStage)
 		{
-
 			case 1: currState = G_Stage1; break;
 			case 2: currState = G_Stage2; break;
 			case 3: currState = G_Stage3; break;
-			case 4: currState = G_Stage4; break;
+			case 4: currState = G_StageCleared; break;
 		}
 		currAtStage = 0;
 		renderedChar = false;
