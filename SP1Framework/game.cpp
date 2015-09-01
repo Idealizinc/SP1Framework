@@ -23,6 +23,8 @@ char bossArrayALT[20][78];
 char screenArray[25][78];
 char ggArray[25][78];
 char instructionArray[25][78];
+char battleArray2[20][78];
+char battleArray2ALT[20][78];
 
 //Impt Variables
 int xSpawnCoord = 0, ySpawnCoord = 0;
@@ -35,11 +37,13 @@ int playerlv = 1;
 int numberOfTries = 4;
 
 //ENABLE PLAYER ENCOUNTER
-bool randomEncountersOn = false; // SET TO TRUE LATER
+bool randomEncountersOn = true; // SET TO TRUE LATER
 
 //Read Values
 string normal_Monster1;     //store first frame of monster txt
 string normal_Monster1ALT;  //store second frame of monster txt
+string normal_Monster2;     //store first frame of another monster txt
+string normal_Monster2ALT;  //store second frame of another monster txt
 string boss_Monster1;       //store first frame of boss txt
 string boss_Monster1ALT;    //store second frame of boss txt
 string stage_Map;           //store stage level.
@@ -48,7 +52,7 @@ string stage_Map;           //store stage level.
 double loadTimer;
 bool loading = false;
 char loadScrnArray[25][78];
-GameStates currState = G_MainMenu; // G_Intro
+GameStates currState = G_Stage3;// G_MainMenu;
 bool mainMenu = false;
 char menuArray[25][78];
 
@@ -64,6 +68,8 @@ bool locationSaved =  false;    // saves player location upon battle.
 bool bossCleared = false;       // when boss cleared, won't meet again.
 bool inBossFight = false;       // toggles inboss fight screen.
 bool initializeHP = false;      // To initialise monster/boss HP
+bool selectionMade = false;
+int selection;
 
 //For Battle Systems
 bool playerInputted = false;    // check if player got put answer.
@@ -208,26 +214,34 @@ void getReadData(int val)
 	{
 		case 1:	normal_Monster1 = "MOB_DEVIL1.txt";
 				normal_Monster1ALT = "MOB_DEVIL2.txt";
+				normal_Monster2 = "MOB_CAT1.txt";
+				normal_Monster2ALT = "MOB_CAT2.txt";
 				boss_Monster1 = "MOB_BAT1.txt"; 
 				boss_Monster1ALT = "MOB_BAT2.txt";
 				stage_Map = "Map1.txt";
 				break;
 		case 2:	normal_Monster1 = "MOB_BAT1.txt";
 				normal_Monster1ALT = "MOB_BAT2.txt";
+				normal_Monster2 = "MOB_DEVIL1.txt";
+				normal_Monster2ALT = "MOB_DEVIL2.txt";
 				boss_Monster1 = "MOB_Spider1.txt"; 
 				boss_Monster1ALT = "MOB_Spider2.txt";
 				stage_Map = "Map2.txt";
 				break;
 		case 3:	normal_Monster1 = "MOB_BAT1.txt";
 				normal_Monster1ALT = "MOB_BAT2.txt";
-				boss_Monster1 = "MOB_Spider1.txt"; 
-				boss_Monster1ALT = "MOB_Spider2.txt";
+				normal_Monster2 = "MOB_Spider1.txt";
+				normal_Monster2ALT = "MOB_Spider2.txt";
+				boss_Monster1 = "MOB_SLIME1.txt"; 
+				boss_Monster1ALT = "MOB_SLIME2.txt";
 				stage_Map = "Map3.txt";
 				break;
 	}
 	readMap(stage_Map,mapArray);
 	readBattleScreen(normal_Monster1,battleArray);
 	readBattleScreen2(normal_Monster1ALT,battleArrayALT);
+	read2ndBattleScreen(normal_Monster2,battleArray2);
+	read2ndBattleScreen2(normal_Monster2ALT,battleArray2ALT);
 	readBossScreen(boss_Monster1,bossArray);
 	readBossScreen2(boss_Monster1ALT,bossArrayALT);
 }
@@ -339,11 +353,11 @@ void monsterCheck()
 
 void processUserInput()
 {
-    // quits the game if player hits the escape key
- //   if (keyPressed[K_ESCAPE])
- //   {
-	//	g_quitGame = true;
-	//}
+     //quits the game if player hits the escape key
+    if (keyPressed[K_ESCAPE])
+    {
+		g_quitGame = true;
+	}
 }
 
 void numberinput()
@@ -504,6 +518,7 @@ void checkPlayerAnswer()
 		if (battleModeOn == true)
 		{
 			battleModeOn = false;
+			selectionMade = false;
             player.chance = 3; //resets chance
             attkTime = elapsedTime + enemyAttk;
 		}
@@ -519,6 +534,7 @@ void checkPlayerAnswer()
 	{
 		battleModeOn = false;
 		inBossFight = false;
+		selectionMade = false;
 		playerDead = true;
 	}
 }

@@ -23,5 +23,7 @@ void readGameOver(string str,char ggArray[25][78]);		// reads the gameover in a 
 void readLoadScreen(string str,char loadScrnArray[25][78]);
 void readMenu(string str,char menuArray[22][78]);
 void readTutorial(string str,char instructionArray[22][78]);
+void read2ndBattleScreen(string str,char battleArray2[20][78]);	
+void read2ndBattleScreen2(string str,char battleArray2ALT[20][78]);
 
 #endif

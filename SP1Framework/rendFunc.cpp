@@ -6,10 +6,12 @@ extern bool playerDead, mainMenu, loading, inBossFight, bossCleared, battleModeO
 extern COORD charLocation;
 extern enum GameStates currState;
 extern int xSpawnCoord, ySpawnCoord, xReturnCoord, yReturnCoord, status, randomsign, randomNo2, randomNo1, currAtStage, monsterHP, foeHP, foeLVL;
-extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], instructionArray[25][78];
+extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], instructionArray[25][78], battleArray2[20][78], battleArray2ALT[20][78];
 extern struct Hero player;
 extern struct Boss BossUnit;
 extern double deltaTime, elapsedTime, attkTime;
+extern bool selectionMade;
+extern int selection;
 
 void renderPrintedText(char toBePrinted ,int j,int i )
 {
@@ -152,16 +154,41 @@ void renderToScreen()
 
 void animateBSNorm() // Battle Screen Anims
 {
-	if (animate == false)
-    {
-        drawBattleScreen();
-        animate = true;
-    }
-    else
-    {
-        drawBattleScreenALT();
-        animate = false;
-    }
+	if (selectionMade == false)
+	{
+		srand(elapsedTime);
+		selection = rand()%2 + 1;
+		selectionMade = true;
+	}
+	if (selection == 1)
+	{
+		std::cout << "CAT" << std::endl;
+		if (animate == false)
+		{
+			drawBattleScreen2();
+			animate = true;
+		}
+		else
+		{
+			drawBattleScreen2ALT();
+			animate = false;
+		}
+	}
+	else if (selection == 2)
+	{
+		std::cout << "DEVIL" << std::endl;
+		if (animate == false)
+		{
+			drawBattleScreen();
+			animate = true;
+		}
+		else
+		{
+			drawBattleScreenALT();
+			animate = false;
+		}
+	}
+		
 	printBattleStats();
 }
 
@@ -478,6 +505,32 @@ void drawBattleScreenALT()
 		for (int j = 0; j < 78; ++j)
 		{
 			char toBePrinted = battleArrayALT[i][j];
+			renderPrintedText(toBePrinted,j,i);
+		}
+		i++;
+	}
+}
+
+void drawBattleScreen2()
+{
+	for (int i = 0; i < 20;)
+	{
+		for (int j = 0; j < 78; ++j)
+		{
+			char toBePrinted = battleArray2[i][j];
+			renderPrintedText(toBePrinted,j,i);
+		}
+		i++;
+	}
+}
+
+void drawBattleScreen2ALT()
+{
+	for (int i = 0; i < 20;)
+	{
+		for (int j = 0; j < 78; ++j)
+		{
+			char toBePrinted = battleArray2ALT[i][j];
 			renderPrintedText(toBePrinted,j,i);
 		}
 		i++;

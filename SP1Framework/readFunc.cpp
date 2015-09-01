@@ -118,6 +118,44 @@ void readBattleScreen2(string str,char battleArrayALT[20][78])
     mymapfile.close();
 }
 
+void read2ndBattleScreen(string str,char battleArray2[20][78])
+{
+    string mapline;
+    int y2 = 0;
+    ifstream mymapfile(str);
+    if (mymapfile.is_open())
+    {
+        while (getline (mymapfile,mapline))
+        {
+            for ( int x = 0; x < mapline.length(); x++ )
+            {
+                battleArray2[y2][x] = mapline[x];
+            }
+            ++y2;
+        }
+    }
+    mymapfile.close();
+}
+
+void read2ndBattleScreen2(string str,char battleArray2ALT[20][78])
+{
+    string mapline;
+    int y2 = 0;
+    ifstream mymapfile (str);
+    if (mymapfile.is_open())
+    {
+        while (getline (mymapfile,mapline))
+        {
+            for ( int x = 0; x < mapline.length(); x++ )
+            {
+                battleArray2ALT[y2][x] = mapline[x];
+            }
+            ++y2;
+        }
+    }
+    mymapfile.close();
+}
+
 void readBossScreen(string str,char bossArray[20][78])
 {
     string mapline;
