@@ -75,7 +75,7 @@ void setPlayerChangableStats()
 void initiallizeMonsterStats()
 {
 	srand((unsigned)time(0));
-	MonsterUnit.level = (rand()%(currAtStage * 12 + (player.level))) + currAtStage;
+	MonsterUnit.level = (rand()% 5 + (currAtStage * 12 + (player.level)  + currAtStage ));
 	MonsterUnit.hp = (MonsterUnit.level);   // Got x2
 	MonsterUnit.expgiven = ((rand()%3) + 1) * MonsterUnit.level;
 	BossUnit.hp = 300 + (MonsterUnit.level * 100);
@@ -96,7 +96,7 @@ void initiallizeMonsterStats()
 
 void setMonsterChangableStats()
 {
-	int monsterDamage = rand() % 20 + (20 * currAtStage * player.level);
+	int monsterDamage = rand() % 20 + 50 /*(20 * (currAtStage + 1) * player.level)*/;
 	int bossDamage = rand() % 50 + (100 * ((currAtStage + 1) / 2 ));
 	MonsterUnit.damage = 10 + monsterDamage;
 	BossUnit.damage = bossDamage;

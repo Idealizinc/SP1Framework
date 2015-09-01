@@ -33,8 +33,6 @@ int xSpawnCoord = 0, ySpawnCoord = 0;
 int xGateCoord = 0, yGateCoord = 0;
 int xReturnCoord, yReturnCoord;
 bool renderedChar = false;
-int chest0 = 0;
-int chest1 = 0;
 int playerxp = 0;
 int playerlv = 1;
 int numberOfTries = 4;
@@ -533,7 +531,7 @@ void checkPlayerAnswer()
     //Enemy Strikes
     if (allowEnemyAttk == true)
     {
-        if ((attkTime - elapsedTime) > 0)
+        if ((attkTime - elapsedTime) < 0)
         {
             answer.erase();
             player.hp -= MonsterUnit.damage;
