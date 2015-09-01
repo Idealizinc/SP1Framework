@@ -10,7 +10,7 @@ extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapAr
 extern struct Hero player;
 extern struct Boss BossUnit;
 extern double deltaTime, elapsedTime, attkTime;
-extern bool selectionMade, mobDown;
+extern bool selectionMade, mobDown, hpInitiallized;
 extern int selection;
 
 void renderPrintedText(char toBePrinted ,int j,int i )
@@ -336,6 +336,7 @@ void renderGameOver()
 		playerDead = false;
 		bossCleared = false;
 		drawMapRendChar();
+		hpInitiallized = false;
 	}
     if ( keyPressed[K_ESCAPE] )
     {

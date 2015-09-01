@@ -56,6 +56,7 @@ char loadScrnArray[25][78];
 GameStates currState = G_MainMenu;// G_MainMenu;
 bool mainMenu = false;
 char menuArray[25][78];
+bool hpInitiallized = false;
 
 //For Battle Scrn & Battle Anim 
 bool battleModeOn = false;      // when true, loads battle screen
@@ -204,10 +205,14 @@ void isReadDataNeeded()
 	{
 		getReadData(currAtStage);
 		stageVal = currAtStage;
-		initiallizePlayerStats();
 		initiallizeMonsterStats();
 		setPlayerChangableStats();
 		setMonsterChangableStats();
+	}
+	if (hpInitiallized == false)
+	{
+		initiallizePlayerStats();
+		hpInitiallized = true;
 	}
 }
 
