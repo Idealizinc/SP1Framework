@@ -1,0 +1,22 @@
+111111111111111111111111111111111111111111111111111111111111111111111111111111
+11     W CL  L  L                   WXW                      L  L  LC W     11
+11     W                 WWWWWWWWWWWW WWWWWWWWWWWW                    W     11
+11     W  L  L  L        W   W      W W      W   W           L  L  L  W     11
+11     W                 W W W  L  L   L  L  W W W                    W     11
+11     W  L  L  L        W W W               W W W           L  L  L  W     11
+11     W                 W W W  L  L   L  L  W W W                    W     11
+11     W  L  L  L        W W W      W W      W W W           L  L  L  W     11
+11     W                 W W WWWWWWWWCWWWWWWWW W W                    W     11
+11     W  L  L  L        W W                   W W           L  L  L  W     11
+11     W                 W WWWWWWWWWWWWWWWWWWWWW W                    W     11
+11     W  L  L  L        W          T T          W           L  L  L  W     11
+11     W                 WWWWWWWWWW     WWWWWWWWWW                    W     11
+11     W  L  L  L                   T T                      L  L  L  W     11
+11     W                                                              W     11
+11     W  L  L  L                   T T                      L  L  L  W     11
+11     W                                                              W     11
+11     WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWCWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW     11
+11                                  W W                                     11
+11                                  WPW                                     11
+11                                  WWW                                     11
+111111111111111111111111111111111111111111111111111111111111111111111111111111
