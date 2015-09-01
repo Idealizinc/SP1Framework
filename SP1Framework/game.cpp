@@ -378,10 +378,10 @@ void monsterCheck()
 void processUserInput()
 {
      //quits the game if player hits the escape key
-    /*if (keyPressed[K_ESCAPE])
-    {
-		g_quitGame = true;
-	}*/
+ //   if (keyPressed[K_ESCAPE])
+ //   {
+	//	g_quitGame = true;
+	//}
 }
 
 void numberinput()
@@ -512,13 +512,13 @@ void checkPlayerAnswer()
 		player.chance -= 1;
 		playerInputted = false;
 	}
-    //MonsterUnit.damage
 
     //Attack Speed of enemy.
     if (allowEnemyAttk == false)
     {
         if (enemyAttkTime == false)
         {
+            //attk time is time left to attk.
 		attkTime = elapsedTime + enemyAttk;
         enemyAttkTime = true;
 		attkTime += 4;
@@ -533,10 +533,15 @@ void checkPlayerAnswer()
     //Enemy Strikes
     if (allowEnemyAttk == true)
     {
-        answer.erase();
-        player.hp -= MonsterUnit.damage;
+        if ((attkTime - elapsedTime) > 0)
+        {
+            answer.erase();
+            player.hp -= MonsterUnit.damage;
+            allowEnemyAttk = false;
+        }
         allowEnemyAttk = false;
     }
+
 	if (foeHP <= 0) //HP2 is monster hp
 	{
 		if (battleModeOn == true)
@@ -552,6 +557,8 @@ void checkPlayerAnswer()
 		player.chance = 3; //resets chance
         player.exp += monsterXP;
 		initializeHP = false;
+        attkTime = elapsedTime + enemyAttk;
+        player.chance = 3; //resets chance
 	}
 	if (((player.hp <= 0) || (player.chance <= 0)) && (mainMenu == false) && (loading == false))
 	{

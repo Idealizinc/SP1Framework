@@ -142,6 +142,7 @@ struct Hero
 //Struct name of the boss.
 struct Boss
 {
+    int level;
 	int hp;
 	int damage;
 	int expgiven;

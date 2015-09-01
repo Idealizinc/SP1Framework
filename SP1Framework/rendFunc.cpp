@@ -359,10 +359,12 @@ void renderGameOver()
 	}
     if ( keyPressed[K_ESCAPE] )
     {
-        switch(currAtStage)
-        {
-            case 1: currState = G_MainMenu; break;
-        }
+        currState = G_MainMenu;
+		currAtStage = 0;
+		renderedChar = false;
+		locationSaved = false;
+		playerDead = false;
+		bossCleared = false;
     }
 }
 
@@ -422,6 +424,7 @@ void printMapStats()
 
 void printBattleStats()
 {
+    double attackSpeed = attkTime - elapsedTime;
     //attkTime - elapsedTime = time left to attk.
     checkLevelUp();
 	createQuestion();
@@ -467,7 +470,6 @@ void printBattleStats()
 	console.writeToBuffer(c, text, 0xF9);
 
     //attk speed.
-    double attackSpeed = attkTime - elapsedTime;
     COORD enemyStats;
     string Time;
     std::ostringstream attktime;
