@@ -813,7 +813,7 @@ void renderOptionsMenu()
 	console.writeToBuffer(20,20, "Press 8 for a Black Character ", 0xF0 );
 	
 	int playerchoice = 0;
-	for (unsigned int i = K_1; i <= K_9 ; i++ )
+	for (unsigned int i = K_1; i <= K_8 ; i++ )
 	{
 		if ( (keyPressed[i]) )
 		{
