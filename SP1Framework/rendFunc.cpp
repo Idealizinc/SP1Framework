@@ -190,7 +190,7 @@ void printEndScreenText(int XP)
 	endstats1 += "      Current EXP: ";
 	endstats1 += currplayerxp.str();
 	endstats2 += "You have gained: ";
-	endstats2 += endxpgiven.str();
+	endstats2 += endxpgiven.str();  
 	endstats2 += " EXP!";
 	endstats3 += "Remaining EXP to the next Level: ";
 	endstats3 += xpremaining.str();
@@ -381,6 +381,10 @@ void printMapStats()
 	myhp << player.hp;
 	string myHP = myhp.str(); //string that contains player hp
 
+    std::ostringstream mydmg;
+    mydmg << player.damage;
+    string myDMG = mydmg.str(); // string that contains player dmg
+
 	std::ostringstream enemyhp; 
 	enemyhp << foeHP ;
 	string monhp = enemyhp.str(); //string that contains monster hp
@@ -396,14 +400,16 @@ void printMapStats()
 	string text;
     text = " My Level: ";
     text +=  myLvl;
-	text += "    My HP: "; 
+	text += "    My HP: ";
 	text += myHP;
+    text += "    Damage: ";
+    text += myDMG;
 	text += "    Exp: ";
 	text += playerExp;
 	text += " / ";
     text += mylvlCap;
 	//charHP++; testing if changeable 
-	c.X = 17;
+	c.X = 13;
 	c.Y = 21;
 	//console.writeToBuffer(c,text.str());
 	console.writeToBuffer(c, text, 0xF9);
@@ -451,21 +457,19 @@ void printBattleStats()
 	myhp << player.hp ;
 	string myHP = myhp.str(); // string that contains player hp
 
-    std::ostringstream enemylvl;
-    enemylvl << foeLVL;
-    string enemyLVL = enemylvl.str(); // string that contains enemy lvl
-
-	std::ostringstream enemyhp;
-	enemyhp << foeHP ;
-	string monhp = enemyhp.str(); // string that contains enemy hp
+    std::ostringstream mydmg;
+    mydmg << player.damage;
+    string myDMG = mydmg.str(); // string that contains player dmg
 
 	string text;
 	text = " My HP: ";
 	text += myHP;
+    text += "    My DMG: ";
+    text += myDMG;
     text += "    Chance Left: ";
     text += myChance;
 	text += " ";
-	c.X = 23;
+	c.X = 20;
 	c.Y = 19;
 	console.writeToBuffer(c, text, 0xF9);
 
@@ -476,6 +480,15 @@ void printBattleStats()
     attktime << std::fixed << std::setprecision(0);
     attktime << attackSpeed;
     Time = attktime.str();
+
+    std::ostringstream enemylvl;
+    enemylvl << foeLVL;
+    string enemyLVL = enemylvl.str(); // string that contains enemy lvl
+
+	std::ostringstream enemyhp;
+	enemyhp << foeHP ;
+	string monhp = enemyhp.str(); // string that contains enemy hp
+
 
     string textEnemyStat;
     textEnemyStat = " Enemy Level: ";

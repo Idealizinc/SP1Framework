@@ -50,7 +50,7 @@ void initiallizePlayerStats()
     player.chance = 3;
     player.exp = 0;
     //player.expCap = 100;
-	player.hp = 1000 + ((player.level) * 100);
+	player.hp = 1000;
 	player.damage = 2;
 	player.expCap = 50 * player.level;
 	limitEXP = player.expCap;
@@ -76,11 +76,15 @@ void initiallizeMonsterStats()
 {
 	srand((unsigned)time(0));
 	MonsterUnit.level = (rand()% 5 + (currAtStage * (player.level + 5) + currAtStage ));
-	MonsterUnit.hp = (MonsterUnit.level);   // Got x2
+	MonsterUnit.hp = (MonsterUnit.level * 2);   // Got x2
 	MonsterUnit.expgiven = ((rand()%3) + 1) * MonsterUnit.level;
-    BossUnit.level = 20 + (currAtStage * (player.level * 2));
-	BossUnit.hp = BossUnit.level * 2;
-	BossUnit.expgiven = 5000;
+
+
+    BossUnit.level = 20 + ((currAtStage + 1) * (player.level * 5));
+	BossUnit.hp = BossUnit.level * 3;
+	BossUnit.expgiven = 100 * (currAtStage + 4);
+
+
 	monsterHP = MonsterUnit.hp;
 	if ( battleModeOn == true )
 	{
@@ -114,8 +118,14 @@ void checkLevelUp()
 
 void changePlayerStats()
 {
-    player.damage += (7 - currAtStage);
+    player.damage += ((currAtStage + player.level) * 5) / (player.level * 2);
     player.level += 1;
     player.exp -= player.expCap;
     player.expCap = 50 * player.level;
+    player.hp += 300;
+
+    // 10 / 2 = 5.0 (lvl 1) 3.75 3.12
+    //200 / 78 = 2.5 (lvl 36)
+    //1 2 3 4 5 6
+    //2 7 10
 }
