@@ -38,7 +38,7 @@ int playerlv = 1;
 int numberOfTries = 4;
 
 //ENABLE PLAYER ENCOUNTER
-bool randomEncountersOn = true; // SET TO TRUE LATER
+bool randomEncountersOn = false; // SET TO TRUE LATER
 
 //Read Values
 string normal_Monster1;     //store first frame of monster txt
@@ -531,13 +531,9 @@ void checkPlayerAnswer()
     //Enemy Strikes
     if (allowEnemyAttk == true)
     {
-        if ((attkTime - elapsedTime) < 0)
-        {
             answer.erase();
             player.hp -= MonsterUnit.damage;
             allowEnemyAttk = false;
-        }
-        allowEnemyAttk = false;
     }
 
 	if (foeHP <= 0) //HP2 is monster hp

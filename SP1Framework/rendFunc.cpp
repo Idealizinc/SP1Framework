@@ -205,7 +205,7 @@ void printEndScreenText(int XP)
 	{
 		console.writeToBuffer(18,18, "Congratulations! You have levelled UP!", 0x0E);
 	}
-	string text = "<Press 'space' to return to the main menu>";
+	string text = "<Press 'space' to return to the game map>";
 	console.writeToBuffer(17,20, text, 0x0D);
 }
 
