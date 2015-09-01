@@ -1,16 +1,16 @@
 ﻿#include "rendFunc.h"
 #include "Framework\console.h"
-
+#include "game.h"
 extern class Console console;
 extern bool playerDead, mainMenu, loading, inBossFight, bossCleared, battleModeOn, atPortal, renderedChar, playerInputOn, locationSaved, animate, animate2, keyPressed[K_COUNT], initializeHP;
 extern COORD charLocation;
 extern enum GameStates currState;
-extern int xSpawnCoord, ySpawnCoord, xReturnCoord, yReturnCoord, status, randomsign, randomNo2, randomNo1, currAtStage, monsterHP, foeHP, foeLVL;
-extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], instructionArray[25][78], battleArray2[20][78], battleArray2ALT[20][78];
+extern int xSpawnCoord, ySpawnCoord, xReturnCoord, yReturnCoord, status, randomsign, randomNo2, randomNo1, currAtStage, monsterHP, foeHP, foeLVL, playerlv, monsterXP;
+extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], instructionArray[25][78], battleArray2[20][78], battleArray2ALT[20][78], endBattleArray[25][78];
 extern struct Hero player;
 extern struct Boss BossUnit;
 extern double deltaTime, elapsedTime, attkTime;
-extern bool selectionMade;
+extern bool selectionMade, mobDown;
 extern int selection;
 
 void renderPrintedText(char toBePrinted ,int j,int i )
@@ -152,59 +152,131 @@ void renderToScreen()
     console.flushBufferToConsole();
 }
 
+void printEndScreenText(int XP)
+{
+	std::ostringstream endStat;
+	int lvl = player.level;
+	endStat << lvl;
+	std::ostringstream currplayerxp;
+	std::ostringstream endxpgiven;
+	int monxp = XP;
+	endxpgiven << monxp;
+	std::ostringstream xpremaining;
+	int xpleft = player.expCap - player.exp;
+	xpremaining << xpleft;
+	string endstats1;
+	string endstats2;
+	string endstats3;
+	int currentxp = player.exp;
+	if ( xpleft <= 0 )
+	{
+		++currentxp;
+	}
+	currplayerxp << currentxp;
+	endstats1 = "Current Level: ";
+	endstats1 += endStat.str();
+	endstats1 += "      Current EXP: ";
+	endstats1 += currplayerxp.str();
+	endstats2 += "You have gained: ";
+	endstats2 += endxpgiven.str();
+	endstats2 += " EXP!";
+	endstats3 += "Remaining EXP to the next Level: ";
+	endstats3 += xpremaining.str();
+
+	console.writeToBuffer(18,14, endstats1, 0x0B);
+	console.writeToBuffer(18,16, endstats2, 0x0A);
+	if ( xpleft > 0 )
+	{
+		console.writeToBuffer(18,18, endstats3, 0x0E);
+	}
+	if ( xpleft <= 0 )
+	{
+		console.writeToBuffer(18,18, "Congratulations! You have levelled UP!", 0x0E);
+	}
+}
+
 void animateBSNorm() // Battle Screen Anims
 {
-	if (selectionMade == false)
+	if (mobDown == false)
 	{
-		srand(elapsedTime);
-		selection = rand()%2 + 1;
-		selectionMade = true;
-	}
-	if (selection == 1)
-	{
-		std::cout << "CAT" << std::endl;
-		if (animate == false)
+		if (selectionMade == false)
 		{
-			drawBattleScreen2();
-			animate = true;
+			srand(elapsedTime);
+			selection = rand()%2 + 1;
+			selectionMade = true;
 		}
-		else
+		if (selection == 1)
 		{
-			drawBattleScreen2ALT();
-			animate = false;
+			if (animate == false)
+			{
+				drawBattleScreen2();
+				animate = true;
+			}
+			else
+			{
+				drawBattleScreen2ALT();
+				animate = false;
+			}
 		}
-	}
-	else if (selection == 2)
-	{
-		std::cout << "DEVIL" << std::endl;
-		if (animate == false)
+		else if (selection == 2)
 		{
-			drawBattleScreen();
-			animate = true;
+			if (animate == false)
+			{
+				drawBattleScreen();
+				animate = true;
+			}
+			else
+			{
+				drawBattleScreenALT();
+				animate = false;
+			}
 		}
-		else
-		{
-			drawBattleScreenALT();
-			animate = false;
-		}
-	}
 		
-	printBattleStats();
+		printBattleStats();
+	}
+	if (mobDown == true)
+	{
+		int XP = monsterXP;
+		drawEndBattleScreen();
+		
+		printEndScreenText(XP);
+		if (keyPressed[K_SPACE])
+		{
+			mobDown = false;
+			inBossFight = false;
+		}
+	}
 }
 
 void animateBSBoss() // Battle Screen Anims
 {
-	if (animate2 == false)
-    {
-        drawBattleScreenBoss();
-        animate2 = true;
-    }
-    else
-    {
-        drawBattleScreenBossALT();
-        animate2 = false;
-    }
-	printBattleStats();
+	if (mobDown == false)
+	{
+		if (animate2 == false)
+		{
+			drawBattleScreenBoss();
+			animate2 = true;
+		}
+		else
+		{
+			drawBattleScreenBossALT();
+			animate2 = false;
+		}
+		printBattleStats();
+	}
+	if (mobDown == true)
+	{
+		int XP = BossUnit.expgiven;
+		drawEndBattleScreen();
+		
+		printEndScreenText(XP);
+		if (keyPressed[K_SPACE])
+		{
+			mobDown = false;
+			inBossFight = false;
+			bossCleared = true;
+		}
+	}
 }
 
 void portalrender()
@@ -477,6 +549,19 @@ void drawMap()
     }
 }
 
+void drawEndBattleScreen()
+{
+	for (int i = 0; i < 25;)
+	{
+		for (int j = 0; j < 78; ++j)
+		{
+			char toBePrinted = endBattleArray[i][j];
+			renderPrintedText(toBePrinted,j,i);
+		}
+		i++;
+	}
+}
+
 void drawBattleScreen()
 {
 	for (int i = 0; i < 20;)
@@ -710,4 +795,8 @@ void renderTutorialScreen()
 	X.Y = 24;
 	string text = "Press 'escape' to return to the main menu.";
 	console.writeToBuffer(X, text, 0xFC);
+	if ( keyPressed[K_ESCAPE] )
+    {
+        currState = G_MainMenu;
+    }
 }

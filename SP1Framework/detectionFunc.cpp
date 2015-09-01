@@ -1,6 +1,6 @@
 #include "detectionFunc.h"
 
-extern bool bossCleared, inBossFight;
+extern bool bossCleared, inBossFight, battleModeOn;
 extern char mapArray[22][78];
 extern COORD charLocation;
 extern int limitEXP, playerDmg, status, currAtStage, foeHP, foeLVL, monsterHP, monsterXP;
@@ -42,7 +42,7 @@ void initiallizePlayerStats()
     player.exp = 0;
     //player.expCap = 100;
 	player.hp = 1000 + ((player.level) * 100);
-	player.damage = 1 * 1337;
+	player.damage = 1;
 	player.expCap = 50 * player.level;
 	limitEXP = player.expCap;
     playerDmg = player.damage;
@@ -66,10 +66,18 @@ void initiallizeMonsterStats()
 	MonsterUnit.expgiven = ((rand()%3) + 1) * MonsterUnit.level;
 	BossUnit.hp = 300 + (MonsterUnit.level * 100);
 	BossUnit.expgiven = 5000;
-	monsterXP = MonsterUnit.expgiven;
 	monsterHP = MonsterUnit.hp;
-	foeHP = monsterHP;
-    foeLVL = MonsterUnit.level;
+	if ( battleModeOn == true )
+	{
+		monsterXP = MonsterUnit.expgiven;
+		foeHP = monsterHP;
+	}
+	else if ( inBossFight == true )
+	{
+		monsterXP = BossUnit.expgiven;
+		foeHP = BossUnit.hp;
+	}
+	foeLVL = MonsterUnit.level;
 }
 
 void setMonsterChangableStats()

@@ -25,6 +25,7 @@ char ggArray[25][78];
 char instructionArray[25][78];
 char battleArray2[20][78];
 char battleArray2ALT[20][78];
+char endBattleArray[25][78];
 
 //Impt Variables
 int xSpawnCoord = 0, ySpawnCoord = 0;
@@ -52,7 +53,7 @@ string stage_Map;           //store stage level.
 double loadTimer;
 bool loading = false;
 char loadScrnArray[25][78];
-GameStates currState = G_Stage4;// G_MainMenu;
+GameStates currState = G_MainMenu;// G_MainMenu;
 bool mainMenu = false;
 char menuArray[25][78];
 
@@ -70,6 +71,7 @@ bool inBossFight = false;       // toggles inboss fight screen.
 bool initializeHP = false;      // To initialise monster/boss HP
 bool selectionMade = false;
 int selection;
+bool mobDown = false;
 
 //For Battle Systems
 bool playerInputted = false;    // check if player got put answer.
@@ -119,6 +121,7 @@ void init()
 	readLoadScreen("LoadScreen_100%.txt",loadScrnArray);
 	readMenu("menuScreen.txt", menuArray);
 	readTutorial("controls.txt", instructionArray);
+	readEndBattleStats("endBattleScreen.txt", endBattleArray);
 
     charLocation.X = console.getConsoleSize().X / 2;
     charLocation.Y = console.getConsoleSize().Y / 2;
@@ -362,10 +365,10 @@ void monsterCheck()
 void processUserInput()
 {
      //quits the game if player hits the escape key
-    if (keyPressed[K_ESCAPE])
+    /*if (keyPressed[K_ESCAPE])
     {
 		g_quitGame = true;
-	}
+	}*/
 }
 
 void numberinput()
@@ -391,7 +394,7 @@ void numberinput()
 	if (allowNumInput == true)
 	{
 		
-		for( unsigned int i = K_0; i <= K_9 ; i++  )
+		for (unsigned int i = K_0; i <= K_9 ; i++ )
 		{
 			if ( (keyPressed[i]) )
 			{
@@ -399,17 +402,17 @@ void numberinput()
 				allowNumInput = false;
 			}
 		}
-		if ( keyPressed[K_DASH] )
+		if (keyPressed[K_DASH])
 		{
 			answer += "-";
 			allowNumInput = false;
 		}
-		if ( (keyPressed[K_BACKSPACE]) && (answer.length() > 0) )
+		if ((keyPressed[K_BACKSPACE]) && (answer.length() > 0))
 		{
 			answer.erase(answer.length() - 1 );
 			allowNumInput = false;
 		}
-		else if ( keyPressed[K_ENTER] )
+		else if (keyPressed[K_ENTER])
 		{
 			/*for ( size_t i = 0; i < 1; ++i  )
 			{
@@ -525,73 +528,25 @@ void checkPlayerAnswer()
 	{
 		if (battleModeOn == true)
 		{
-			battleModeOn = false;
+			mobDown = true;
 			selectionMade = false;
-            player.chance = 3; //resets chance
             attkTime = elapsedTime + enemyAttk;
 		}
 		if (inBossFight == true)
 		{
-			bossCleared = true;
-			inBossFight = false;
+			mobDown = true;
 		}
+		player.chance = 3; //resets chance
         player.exp += monsterXP;
 		initializeHP = false;
 	}
 	if (((player.hp <= 0) || (player.chance <= 0)) && (mainMenu == false) && (loading == false))
 	{
-		battleModeOn = false;
-		inBossFight = false;
+		mobDown = true;
 		selectionMade = false;
 		playerDead = true;
 	}
 }
-
-//readMap();
-
-//readBattleScreen(string str)
-
-
-//readBattleScreen2(string str)
-
-
-//readBossScreen(string str)
-
-
-//readBossScreen2(string str)
-
-//void renderMap()
-//{
-//	// Set up sample colours, and output shadings
-//	const WORD stage1colors[] = {
-//		0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-//		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-//	};
-//
-//	/*COORD c;
-//	for (int i = 0; i < 12; ++i)
-//	{
-//		c.X = 5 * i;
-//		c.Y = i + 1;
-//		colour(colors[i]);
-//		console.writeToBuffer(c, " °±²Û", colors[i]);
-//	}*/
-//
-//	renderSelection();
-//}
-
-
-//Checks if player is at the Chest.
-
-
-
-
-
-
-//readPortal()
-
-
-// void readLoadScreen(string str,char loadScrnArray[25][78])
 
 
 //void animateLoading()

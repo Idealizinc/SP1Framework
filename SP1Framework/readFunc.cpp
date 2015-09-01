@@ -21,6 +21,26 @@ void readMap(string str,char mapArray[22][78])
     mymapfile.close();
 }
 
+void readEndBattleStats(string str,char endBattleArray[25][78])
+{
+	string mapline;
+    int y2 = 0;
+    ifstream mymapfile (str);
+
+    if (mymapfile.is_open())
+    {
+        while (getline (mymapfile,mapline))
+        {
+            for ( int x = 0; x < mapline.length(); x++ )
+            {
+                endBattleArray[y2][x] = mapline[x];
+            }
+            ++y2;
+        }
+    }
+    mymapfile.close();
+}
+
 void readTutorial(string str,char instructionArray[22][78])
 {
 	string line;
