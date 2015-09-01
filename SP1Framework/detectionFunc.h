@@ -19,5 +19,6 @@ void initiallizeMonsterStats();         // monster initial stats
 void setMonsterChangableStats();        // monster changable stats
 void checkLevelUp();                    // player level up.
 void changePlayerStats();               // change player stats
+void leverpull();
 
 #endif

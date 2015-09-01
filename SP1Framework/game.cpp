@@ -29,6 +29,7 @@ char endBattleArray[25][78];
 
 //Impt Variables
 int xSpawnCoord = 0, ySpawnCoord = 0;
+int xGateCoord = 0, yGateCoord = 0;
 int xReturnCoord, yReturnCoord;
 bool renderedChar = false;
 int chest0 = 0;
@@ -96,6 +97,9 @@ double waitTime = 0.065;         // waiting time for inputing value.
 
 //For Game Over Screen
 bool playerDead = false;
+
+// Keys
+bool onlever = false ; // Set to FALSE
 
 //Status
 int status = 0;
@@ -299,6 +303,7 @@ void moveCharacter()
 	checkMove();
 	chestOpen();
 	bossFightCheck();
+	leverpull();
 }
 
 void checkMove()
@@ -310,7 +315,7 @@ void checkMove()
 	{
 		if ((mapArray[Y - 1][X] != 'W') && (mapArray[Y - 1][X] != '1') &&
 			(mapArray[Y - 1][X] != 'T') && (mapArray[Y - 1][X] != 'D') && 
-			(mapArray[Y - 1][X] != 'Z'))
+			(mapArray[Y - 1][X] != 'Z') && (mapArray[Y - 1][X] != 'M'))
 		{
 			charLocation.Y--;
 			monsterCheck();
@@ -321,7 +326,7 @@ void checkMove()
 	{
 		if ((mapArray[Y][X - 1] != 'W') && (mapArray[Y][X - 1] != '1') &&
 			(mapArray[Y][X - 1] != 'T') && (mapArray[Y][X - 1] != 'D') && 
-			(mapArray[Y][X - 1] != 'Z'))
+			(mapArray[Y][X - 1] != 'Z') && (mapArray[Y][X - 1] != 'M'))
 		{
 			charLocation.X--;
 			monsterCheck();
@@ -331,7 +336,7 @@ void checkMove()
 	{
 		if ((mapArray[Y + 1][X] != 'W') && (mapArray[Y + 1][X] != '1') &&
 			(mapArray[Y + 1][X] != 'T') && (mapArray[Y + 1][X] != 'D') && 
-			(mapArray[Y + 1][X] != 'Z'))
+			(mapArray[Y + 1][X] != 'Z') && (mapArray[Y + 1][X] != 'M'))
 		{
 			charLocation.Y++;
 			monsterCheck();
@@ -341,7 +346,7 @@ void checkMove()
 	{
 		if ((mapArray[Y][X + 1] != 'W') && (mapArray[Y][X + 1] != '1') &&
 			(mapArray[Y][X + 1] != 'T') && (mapArray[Y][X + 1] != 'D') && 
-			(mapArray[Y][X + 1] != 'Z'))
+			(mapArray[Y][X + 1] != 'Z') && (mapArray[Y][X + 1] != 'M'))
 		{
 			charLocation.X++;
 			monsterCheck();

@@ -5,7 +5,7 @@ extern class Console console;
 extern bool playerDead, mainMenu, loading, inBossFight, bossCleared, battleModeOn, atPortal, renderedChar, playerInputOn, locationSaved, animate, animate2, keyPressed[K_COUNT], initializeHP;
 extern COORD charLocation;
 extern enum GameStates currState;
-extern int xSpawnCoord, ySpawnCoord, xReturnCoord, yReturnCoord, status, randomsign, randomNo2, randomNo1, currAtStage, monsterHP, foeHP, foeLVL, playerlv, monsterXP;
+extern int xSpawnCoord, ySpawnCoord, xReturnCoord, yReturnCoord, status, randomsign, randomNo2, randomNo1, currAtStage, monsterHP, foeHP, foeLVL, playerlv, monsterXP, xGateCoord, yGateCoord;
 extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], instructionArray[25][78], battleArray2[20][78], battleArray2ALT[20][78], endBattleArray[25][78];
 extern struct Hero player;
 extern struct Boss BossUnit;
@@ -106,6 +106,18 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 	{
 		toBePrinted = 31; // ▼
 		console.writeToBuffer(j,i, toBePrinted, 0x0E); // [Gold] Triangles
+	}
+	else if (toBePrinted == 'K')
+	{
+		toBePrinted = 92; // "/"
+		console.writeToBuffer(j, i, toBePrinted, 0x8E); 
+	}
+	else if (toBePrinted == 'M')
+	{
+		xGateCoord = i;
+		yGateCoord = j;
+		toBePrinted = 93; // "]"
+		console.writeToBuffer(j, i, toBePrinted, 0x8E); 
 	}
 	else if ((loading == true) || (atPortal == true) || (mainMenu == true))
 	{

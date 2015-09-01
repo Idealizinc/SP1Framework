@@ -7,6 +7,7 @@ extern int limitEXP, playerDmg, status, currAtStage, foeHP, foeLVL, monsterHP, m
 extern struct Hero player;
 extern struct Boss BossUnit;
 extern struct Monster MonsterUnit;
+extern int yGateCoord, xGateCoord;
 
 void bossFightCheck()
 {
@@ -14,6 +15,14 @@ void bossFightCheck()
     {
         inBossFight = true;
     }
+}
+
+void leverpull()
+{
+	if (mapArray[charLocation.Y][charLocation.X] == 'K')
+	{
+		mapArray[yGateCoord][xGateCoord] = 'V';
+	}
 }
 
 void chestOpen()
