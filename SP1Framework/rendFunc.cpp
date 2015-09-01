@@ -217,23 +217,16 @@ void portalrender()
 			renderPrintedText( toBePrinted,j,i );
 		}
      }
-	if ((currAtStage == 3) && (atPortal == true))
+	if (keyPressed[K_SPACE])
 	{
-		currState = G_StageCleared;
-	}
-
-	if ( keyPressed[K_SPACE] )
-	{
-		if ((currAtStage == 1)  && (atPortal == true) )
+		switch(currAtStage)
 		{
-				currState = G_Stage2;
-				atPortal = false;
+			case 1: currState = G_Stage2; break;
+			case 2: currState = G_Stage3; break;
+			case 3: currState = G_Stage4; break;
+			case 4: currState = G_StageCleared; break;
 		}
-		if ((currAtStage == 2)  && (atPortal == true) )
-		{
-				currState = G_Stage3;
-				atPortal = false;
-		}
+		atPortal = false;
 		//currState = G_Stage2;
 		bossCleared = false;
 		battleModeOn = false;
@@ -263,8 +256,7 @@ void renderGameOver()
 			case 1: currState = G_Stage1; break;
 			case 2: currState = G_Stage2; break;
 			case 3: currState = G_Stage3; break;
-			/*case 3: currState = G_Stage3; break;
-			case 4: currState = G_Stage4; break;*/
+			case 4: currState = G_Stage4; break;
 		}
 		currAtStage = 0;
 		renderedChar = false;

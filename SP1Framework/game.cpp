@@ -37,7 +37,7 @@ int playerlv = 1;
 int numberOfTries = 4;
 
 //ENABLE PLAYER ENCOUNTER
-bool randomEncountersOn = true; // SET TO TRUE LATER
+bool randomEncountersOn = false; // SET TO TRUE LATER
 
 //Read Values
 string normal_Monster1;     //store first frame of monster txt
@@ -52,7 +52,7 @@ string stage_Map;           //store stage level.
 double loadTimer;
 bool loading = false;
 char loadScrnArray[25][78];
-GameStates currState = G_Stage3;// G_MainMenu;
+GameStates currState = G_Stage4;// G_MainMenu;
 bool mainMenu = false;
 char menuArray[25][78];
 
@@ -236,6 +236,14 @@ void getReadData(int val)
 				boss_Monster1ALT = "MOB_SLIME2.txt";
 				stage_Map = "Map3.txt";
 				break;
+		case 4:	normal_Monster1 = "MOB_DEVIL1.txt";
+				normal_Monster1ALT = "MOB_DEVIL2.txt";
+				normal_Monster2 = "MOB_Spider1.txt";
+				normal_Monster2ALT = "MOB_Spider2.txt";
+				boss_Monster1 = "MOB_SLIME1.txt"; 
+				boss_Monster1ALT = "MOB_SLIME2.txt";
+				stage_Map = "Map4.txt";
+				break;
 	}
 	readMap(stage_Map,mapArray);
 	readBattleScreen(normal_Monster1,battleArray);
@@ -265,8 +273,8 @@ void render()
 		case G_Stage1: currAtStage = 1; drawMapRendChar(); break;
 		case G_Stage2: currAtStage = 2; drawMapRendChar(); break;
 		case G_Stage3: currAtStage = 3; drawMapRendChar(); break;
-		/*case G_Stage4: currAtStage = 4; drawMapRendChar(); break;
-		case G_Stage5: currAtStage = 5; drawMapRendChar(); break;
+		case G_Stage4: currAtStage = 4; drawMapRendChar(); break;
+		/*case G_Stage5: currAtStage = 5; drawMapRendChar(); break;
 		case G_Stage6: currAtStage = 6; drawMapRendChar(); break;*/
 		case G_StageCleared: portalrender(); break;
 		case G_GameOver: renderGameOver(); break; 

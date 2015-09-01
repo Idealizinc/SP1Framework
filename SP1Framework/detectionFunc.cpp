@@ -52,7 +52,7 @@ void setPlayerChangableStats()
 {
 	int rngdamage = rand() % 10 + 50;
 	//player.hp = 1000 + ((player.level) * 100);
-	player.damage = 1;
+	player.damage = 1 * 1337;
     //player.chance = 3;
 	player.expCap = 50 * player.level;
     playerDmg = player.damage;
