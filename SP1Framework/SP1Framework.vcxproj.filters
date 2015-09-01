@@ -72,5 +72,8 @@
   <ItemGroup>
     <None Include="map1.txt" />
     <None Include="endBattleScreen.txt" />
+    <None Include="optionScreen.txt">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

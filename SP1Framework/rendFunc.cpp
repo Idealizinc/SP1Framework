@@ -6,13 +6,13 @@ extern bool playerDead, mainMenu, loading, inBossFight, bossCleared, battleModeO
 extern COORD charLocation;
 extern enum GameStates currState;
 extern int xSpawnCoord, ySpawnCoord, xReturnCoord, yReturnCoord, status, randomsign, randomNo2, randomNo1, currAtStage, monsterHP, foeHP, foeLVL, playerlv, monsterXP, xGateCoord, yGateCoord;
-extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], instructionArray[25][78], battleArray2[20][78], battleArray2ALT[20][78], endBattleArray[25][78];
+extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], instructionArray[25][78], battleArray2[20][78], battleArray2ALT[20][78], endBattleArray[25][78], optionArray[25][78];
 extern struct Hero player;
 extern struct Boss BossUnit;
 extern double deltaTime, elapsedTime, attkTime;
 extern bool selectionMade, mobDown, hpInitiallized;
 extern int selection;
-
+extern WORD playercolour;
 void renderPrintedText(char toBePrinted ,int j,int i )
 {
 	if (toBePrinted == 'A')
@@ -136,7 +136,7 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 void renderCharacter()
 {
     // Draw the location of the character
-    console.writeToBuffer(charLocation, (char)2, 0x7F);
+    console.writeToBuffer(charLocation, (char)2, playercolour);
 }
 
 void renderFramerate()
@@ -795,6 +795,50 @@ void drawMenu()
 	{
 		g_quitGame = true;
 	}
+}
+
+void renderOptionsMenu()
+{
+	for (int i = 0; i < 25; ++i)
+	{
+		    for (int j = 0; j < 78; ++j)
+		    {
+			   char toBePrinted = optionArray[i][j];
+			   renderPrintedText( toBePrinted, j, i );
+		    }
+    }
+
+	//console.writeToBuffer(  )
+	int playerchoice = 0;
+	for (unsigned int i = K_1; i <= K_9 ; i++ )
+	{
+		if ( (keyPressed[i]) )
+		{
+			playerchoice = i;
+			switch ( playerchoice )
+			{
+				case  1  : playercolour = 0x7C; break;
+				case  2  : playercolour = 0x79; break;
+				case  3  : playercolour = 0x7A; break;
+				case  4  : playercolour = 0x7B; break;
+				case  5  : playercolour = 0x7E; break;
+				case  6  : playercolour = 0x7D; break;
+				case  7  : playercolour = 0x7F; break;
+				case  8  : playercolour = 0x70; break;
+				default : playercolour = 0x7F; break;
+			}
+		}
+	}
+	
+	COORD X;
+	X.X = 17;
+	X.Y = 24;
+	string text = "Press 'escape' to return to the main menu.";
+	console.writeToBuffer(X, text, 0xFC);
+	if ( keyPressed[K_ESCAPE] )
+    {
+        currState = G_MainMenu;
+    }
 }
 
 void renderTutorialScreen()

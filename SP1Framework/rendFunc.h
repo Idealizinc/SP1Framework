@@ -41,5 +41,5 @@ void drawBattleScreen2();
 void drawBattleScreen2ALT();
 void drawBattleScreenBoss();
 void drawEndBattleScreen();
-
+void renderOptionsMenu();
 #endif

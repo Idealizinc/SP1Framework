@@ -26,6 +26,7 @@ char instructionArray[25][78];
 char battleArray2[20][78];
 char battleArray2ALT[20][78];
 char endBattleArray[25][78];
+char optionArray[25][78];
 
 //Impt Variables
 int xSpawnCoord = 0, ySpawnCoord = 0;
@@ -109,6 +110,7 @@ bool atPortal = false; //Set To FALSE
 
 // Game specific variables here
 COORD charLocation;
+WORD playercolour = 0x7F;
 
 Hero player;
 Monster MonsterUnit;
@@ -126,6 +128,7 @@ void init()
 	readLoadScreen("LoadScreen_100%.txt",loadScrnArray);
 	readMenu("menuScreen.txt", menuArray);
 	readTutorial("controls.txt", instructionArray);
+	readOptionsMenu("optionScreen.txt", optionArray);
 	readEndBattleStats("endBattleScreen.txt", endBattleArray);
 
     charLocation.X = console.getConsoleSize().X / 2;
@@ -280,7 +283,7 @@ void render()
 		case G_Intro:;			//Implemented Later
 		case G_MainMenu: mainMenu = true; renderSelection(); break;
 		case G_Tutorial: renderTutorialScreen(); break;
-		case G_Options:;	//Implemented Later
+		case G_Options: renderOptionsMenu(); break;	//Implemented Later
 		case G_LoadScreen: loading = true; drawMapRendChar(); break;
 		case G_Stage1: currAtStage = 1; drawMapRendChar(); break;
 		case G_Stage2: currAtStage = 2; drawMapRendChar(); break;

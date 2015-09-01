@@ -41,26 +41,6 @@ void readEndBattleStats(string str,char endBattleArray[25][78])
     mymapfile.close();
 }
 
-void readTutorial(string str,char instructionArray[22][78])
-{
-	string line;
-    int y2 = 0;
-    ifstream controlfile (str);
-
-    if (controlfile.is_open())
-    {
-        while (getline (controlfile, line))
-        {
-            for ( int x = 0; x < line.length(); x++ )
-            {
-                instructionArray[y2][x] = line[x];
-            }
-            ++y2;
-        }
-    }
-    controlfile.close();
-}
-
 void readMenu(string str,char menuArray[22][78])
 {
 	string line;
@@ -81,6 +61,45 @@ void readMenu(string str,char menuArray[22][78])
     menuFile.close();
 }
  
+void readTutorial(string str,char instructionArray[22][78])
+{
+	string line;
+    int y2 = 0;
+    ifstream controlfile (str);
+
+    if (controlfile.is_open())
+    {
+        while (getline (controlfile, line))
+        {
+            for ( int x = 0; x < line.length(); x++ )
+            {
+                instructionArray[y2][x] = line[x];
+            }
+            ++y2;
+        }
+    }
+    controlfile.close();
+}
+
+void readOptionsMenu(string str,char optionArray[22][78])
+{
+	string line;
+    int y2 = 0;
+    ifstream controlfile (str);
+
+    if (controlfile.is_open())
+    {
+        while (getline (controlfile, line))
+        {
+            for ( int x = 0; x < line.length(); x++ )
+            {
+                optionArray[y2][x] = line[x];
+            }
+            ++y2;
+        }
+    }
+    controlfile.close();
+}
 void readPortal(string str,char screenArray[25][78])
 {
         string mapline;
