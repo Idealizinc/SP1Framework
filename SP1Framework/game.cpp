@@ -99,7 +99,7 @@ double attkTime;                // Attkspeed of enemy
 double enemyAttk = 7.00;        // player to attk.
 
 
-double waitTime = 0.065;         // waiting time for inputing value.
+double waitTime = 0.085;         // waiting time for inputing value.
 
 //For Game Over Screen
 bool playerDead = false;
@@ -405,10 +405,10 @@ void monsterCheck()
 void processUserInput()
 {
     //quits the game if player hits the escape key
-    //if (keyPressed[K_ESCAPE])
-    //{
-	//	g_quitGame = true;
-	//}
+    if (keyPressed[K_ESCAPE])
+    {
+		g_quitGame = true;
+	}
 }
 
 void numberinput()
@@ -500,9 +500,7 @@ void createQuestion()
 {
 	if (questionMade == false)
 	{
-		int Dans;
 		int ans;
-		int d;
 		srand (elapsedTime);
 		//srand(time(NULL));
 		randomNo1 = (rand()%9) + 1;
@@ -538,9 +536,9 @@ void createQuestion()
 		switch (randomsign)
 		{
 			case 1: ans = randomNo1 + randomNo2; break;
-			case 2: ans =  randomNo1 - randomNo2; break;
-			case 3: ans =randomNo1 * randomNo2; break;
-			case 4: DrandomNo3 = DrandomNo1 * DrandomNo2; ans = DrandomNo1; break;//  D1(3) * D2(5) = D3(15)  [ what is 15 / 5? ans 3 ] 
+			case 2: ans = randomNo1 - randomNo2; break;
+			case 3: ans = randomNo1 * randomNo2; break;
+			case 4: DrandomNo3 = DrandomNo1 * DrandomNo2; ans= DrandomNo3 / DrandomNo2; break;//  D1(3) * D2(5) = D3(15)  [ what is 15 / 5? ans 3 ] 
 		}
 		std::ostringstream theAnswer;
 		theAnswer << ans;
@@ -603,10 +601,11 @@ void checkPlayerAnswer()
 		{
 			mobDown = true;
 		}
+		enemyAttkTime = false;
 		player.chance = 3; //resets chance
         player.exp += monsterXP;
 		initializeHP = false;
-        attkTime = elapsedTime + enemyAttk;
+        //attkTime = elapsedTime + enemyAttk;
         player.chance = 3; //resets chance
 	}
 	if (((player.hp <= 0) || (player.chance <= 0)) && (mainMenu == false) && (loading == false))

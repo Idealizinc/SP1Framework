@@ -24,7 +24,8 @@ extern WORD playercolour;
 int selectionPointer = 1;
 bool canpress = false;
 extern bool allowNumInput, limiterSet;
-double storedTime2;
+double storedTime2, storedtime3;
+bool timeSet = false;
 
 void renderPrintedText(char toBePrinted ,int j,int i )
 {
@@ -234,28 +235,54 @@ void animateBSNorm() // Battle Screen Anims
 		}
 		if (selection == 1)
 		{
+			if (timeSet == false)
+			{
+				storedtime3 = elapsedTime + 0.75;
+				timeSet = true;
+			}
 			if (animate == false)
 			{
 				drawBattleScreen2();
-				animate = true;
+				if (elapsedTime >= storedtime3) 
+				{
+					timeSet = false;
+					animate = true;
+				}
 			}
-			else
+			if (animate == true)
 			{
 				drawBattleScreen2ALT();
-				animate = false;
+				if (elapsedTime >= storedtime3) 
+				{
+					timeSet = false;
+					animate = false;
+				}
 			}
 		}
 		else if (selection == 2)
 		{
+			if (timeSet == false)
+			{
+				storedtime3 = elapsedTime + 0.75;
+				timeSet = true;
+			}
 			if (animate == false)
 			{
 				drawBattleScreen();
-				animate = true;
+				if (elapsedTime >= storedtime3) 
+				{
+					timeSet = false;
+					animate = true;
+				}
 			}
-			else
+			if (animate == true)
 			{
 				drawBattleScreenALT();
-				animate = false;
+				if (elapsedTime >= storedtime3) 
+				{
+					timeSet = false;
+					animate = false;
+				}
 			}
 		}
 		
@@ -279,15 +306,28 @@ void animateBSBoss() // Battle Screen Anims
 {
 	if (mobDown == false)
 	{
-		if (animate2 == false)
+		if (timeSet == false)
+		{
+			storedtime3 = elapsedTime + 0.75;
+			timeSet = true;
+		}
+		if (animate == false)
 		{
 			drawBattleScreenBoss();
-			animate2 = true;
+			if (elapsedTime >= storedtime3) 
+			{
+				timeSet = false;
+				animate = true;
+			}
 		}
-		else
+		if (animate == true)
 		{
 			drawBattleScreenBossALT();
-			animate2 = false;
+			if (elapsedTime >= storedtime3) 
+			{
+				timeSet = false;
+				animate = false;
+			}
 		}
 		printBattleStats();
 	}
@@ -571,14 +611,14 @@ void printBattleStats()
 		case 2: 
 			question = "What is ";
 			question += static_cast<char>(randomNo1) + 48;
-			question += " x "; 
+			question += " - "; 
 			question += static_cast<char>(randomNo2) + 48;
 			question += " ?";
 			break;
 		case 3: 
 			question = "What is ";
 			question += static_cast<char>(randomNo1) + 48;
-			question += " - "; 
+			question += " x "; 
 			question += static_cast<char>(randomNo2) + 48;
 			question += " ?";
 			break;
