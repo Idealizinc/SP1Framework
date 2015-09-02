@@ -536,9 +536,9 @@ void checkPlayerAnswer()
         if (enemyAttkTime == false)
         {
             //attk time is time left to attk.
-		attkTime = elapsedTime + enemyAttk;
-        enemyAttkTime = true;
-		attkTime += 4;
+		    attkTime = elapsedTime + enemyAttk;
+            enemyAttkTime = true;
+		    attkTime += 4;
         }
             if ((elapsedTime >= attkTime))//60 65 
             {
