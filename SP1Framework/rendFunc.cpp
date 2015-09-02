@@ -21,6 +21,10 @@ extern double deltaTime, elapsedTime, attkTime;
 extern bool selectionMade, mobDown, hpInitiallized;
 extern int selection;
 extern WORD playercolour;
+int selectionPointer = 1;
+bool canpress = false;
+extern bool allowNumInput, limiterSet;
+double storedTime2;
 
 void renderPrintedText(char toBePrinted ,int j,int i )
 {
@@ -840,11 +844,6 @@ void renderSelection()
         charLocation.X = 100;
 		charLocation.Y = 100;
 		playerInputOn = false;
-		if(keyPressed[K_SPACE])
-		{
-		loading = false;
-		currState = G_Stage1;
-		}
     }
 }
 
@@ -858,10 +857,30 @@ void renderLoadScreen()
 			   renderPrintedText( toBePrinted, j, i );
 		    }
     }
-	if ( keyPressed[K_ESCAPE] )
+	if(keyPressed[K_SPACE])
+	{
+		loading = false;
+		currState = G_Stage1;
+	}
+	else if ( keyPressed[K_ESCAPE] )
     {
         currState = G_MainMenu;
     }
+	if (keyPressed[K_ENTER] || keyPressed[K_SPACE])
+	{
+		
+		if (canpress == false)
+		{
+			storedTime2 = elapsedTime + 0.5;
+			canpress = true;
+		}
+		if ((elapsedTime >= storedTime2) && (canpress == true))
+		{
+			allowNumInput = true;
+			canpress = false;
+			currState = G_LoadScreen;
+		}
+	}
 }
 
 void drawMenu()
@@ -875,27 +894,64 @@ void drawMenu()
 		}
 		i++;
 	}
+	
 	console.writeToBuffer(30,15, "<1>  Game Start", 0x0A);
 	console.writeToBuffer(30,16, "<2>  Instruction", 0x0B );
 	console.writeToBuffer(30,17, "<3>  Options", 0x0D );
 	console.writeToBuffer(30,18, "<4>  Quit Game", 0x0E);
-	if (keyPressed[K_1])
+
+	if (keyPressed[K_UP])
 	{
-		currState = G_LoadScreen;
-		loading = true;
-		mainMenu = false;
+		if (selectionPointer != 1)
+		{
+			selectionPointer--;
+		}
+	}
+	else if (keyPressed[K_DOWN])
+	{
+		if (selectionPointer != 4)
+		{
+			selectionPointer++;
+		}
+	}
+	else if (keyPressed[K_1])
+	{
+		selectionPointer = 1;
 	}
 	else if (keyPressed[K_2])
 	{
-		currState = G_Tutorial;
+		selectionPointer = 2;
 	}
 	else if (keyPressed[K_3])
 	{
-		currState = G_Options;
+		selectionPointer = 3;
 	}
 	else if (keyPressed[K_4])
 	{
-		g_quitGame = true;
+		selectionPointer = 4;
+	}
+	switch (selectionPointer)
+	{
+		case 1: console.writeToBuffer(28, 15, (char)16, 0x0F); break;
+		case 2: console.writeToBuffer(28, 16, (char)16, 0x0F); break;
+		case 3: console.writeToBuffer(28, 17, (char)16, 0x0F); break;
+		case 4: console.writeToBuffer(28, 18, (char)16, 0x0F); break;
+	}
+	if (keyPressed[K_ENTER] || keyPressed[K_SPACE])
+	{
+		switch (selectionPointer)
+		{
+		case 1: currState = G_Difficulty;
+				loading = true;
+				mainMenu = false;
+				break;
+		case 2: currState = G_Tutorial;
+				break; 
+		case 3: currState = G_Options;
+				break;
+		case 4: g_quitGame = true;
+				break;
+		}
 	}
 }
 
@@ -918,25 +974,78 @@ void renderOptionsMenu()
 	console.writeToBuffer(20,18, "Press 6 for a Pink Character ", 0x0D );
 	console.writeToBuffer(20,19, "Press 7 for a Green Character ", 0x0A );
 	console.writeToBuffer(20,20, "Press 8 for a Black Character ", 0xF0 );
-	
-	int playerchoice = 0;
-	for (unsigned int i = K_1; i <= K_8 ; i++ )
+	console.writeToBuffer(20,21, "Press ENTER to confirm ", 0x0F );
+	if (keyPressed[K_UP])
 	{
-		if ( (keyPressed[i]) )
+		if (playerchoice != 1)
 		{
-			playerchoice = i;
-			switch ( playerchoice )
-			{
-				case  1  : playercolour = 0x7C; break;
-				case  2  : playercolour = 0x79; break;
-				case  3  : playercolour = 0x7F; break;
-				case  4  : playercolour = 0x7B; break;
-				case  5  : playercolour = 0x7E; break;
-				case  6  : playercolour = 0x7D; break;
-				case  7  : playercolour = 0x7A; break;
-				case  8  : playercolour = 0x70; break;
-				default : playercolour = 0x7F; break;
-			}
+			playerchoice--;
+		}
+	}
+	else if (keyPressed[K_DOWN])
+	{
+		if (playerchoice != 8)
+		{
+			playerchoice++;
+		}
+	}
+	else if (keyPressed[K_1])
+	{
+		playerchoice = 1;
+	}
+	else if (keyPressed[K_2])
+	{
+		playerchoice = 2;
+	}
+	else if (keyPressed[K_3])
+	{
+		playerchoice = 3;
+	}
+	else if (keyPressed[K_4])
+	{
+		playerchoice = 4;
+	}
+	else if (keyPressed[K_5])
+	{
+		playerchoice = 5;
+	}
+	else if (keyPressed[K_6])
+	{
+		playerchoice = 6;
+	}
+	else if (keyPressed[K_7])
+	{
+		playerchoice = 7;
+	}
+	else if (keyPressed[K_8])
+	{
+		playerchoice = 8;
+	}
+	switch (playerchoice)
+	{
+		case 1: console.writeToBuffer(18,13, (char)16, 0x0F ); break;
+		case 2:	console.writeToBuffer(18,14, (char)16, 0x0F ); break;
+		case 3:	console.writeToBuffer(18,15, (char)16, 0x0F ); break;
+		case 4:	console.writeToBuffer(18,16, (char)16, 0x0F ); break;
+		case 5:	console.writeToBuffer(18,17, (char)16, 0x0F ); break;
+		case 6:	console.writeToBuffer(18,18, (char)16, 0x0F ); break;
+		case 7:	console.writeToBuffer(18,19, (char)16, 0x0F ); break;
+		case 8: console.writeToBuffer(18,20, (char)16, 0x0F ); break;
+	}
+
+	if ( keyPressed[K_ENTER] )
+	{
+		switch ( playerchoice )
+		{
+			case  1  : playercolour = 0x7C; break;
+			case  2  : playercolour = 0x79; break;
+			case  3  : playercolour = 0x7F; break;
+			case  4  : playercolour = 0x7B; break;
+			case  5  : playercolour = 0x7E; break;
+			case  6  : playercolour = 0x7D; break;
+			case  7  : playercolour = 0x7A; break;
+			case  8  : playercolour = 0x70; break;
+			default :  playercolour = 0x7F; break;
 		}
 	}
 	console.writeToBuffer(20,22,"This is how you will look like in game: ",0x0F );
@@ -951,6 +1060,7 @@ void renderOptionsMenu()
         currState = G_MainMenu;
     }
 }
+
 void renderdifficultyset()
 {
 	for (int i = 0; i < 25; ++i)
@@ -962,7 +1072,6 @@ void renderdifficultyset()
 		}
 	}
 
-	//console.writeToBuffer(  )
 	for (unsigned int i = K_1; i <= K_3; i++)
 	{
 		if ((keyPressed[i]))
@@ -993,14 +1102,38 @@ void renderdifficultyset()
 	{
 		console.writeToBuffer(43, 20, "Hard", 0x0C);
 	}
+	
 	COORD X;
 	X.X = 17;
 	X.Y = 24;
 	string text = "Press 'escape' to return to the main menu.";
+	
+	
+	if (keyPressed[K_ENTER] || keyPressed[K_SPACE])
+	{
+		
+		if (canpress == false)
+		{
+			storedTime2 = elapsedTime + 1;
+			canpress = true;
+		}
+		if ((elapsedTime >= storedTime2) && (canpress == true))
+		{
+			allowNumInput = true;
+			canpress = false;
+			currState = G_LoadScreen;
+		}
+	}
+	
+	
 	console.writeToBuffer(X, text, 0xFC);
 	if (keyPressed[K_ESCAPE])
 	{
 		currState = G_MainMenu;
+	}
+	else if(keyPressed[K_SPACE])
+	{
+		//currState = G_LoadScreen;
 	}
 }
 

@@ -5,7 +5,7 @@ int monsterSelection(int val);
 void random();
 int randomenc = 0;
 int encounterUp = 0;
-int rate = 4; // Higher rate lower encounter //Default 250.
+int rate = 250; // Higher rate lower encounter //Default 250.
 
 int encounterCheck()
 {

@@ -419,7 +419,7 @@ void numberinput()
 		{
 			storedTime = elapsedTime + waitTime;
 			limiterSet = true;
-			if (keyPressed[K_ENTER])
+			if (keyPressed[K_ENTER] || keyPressed[K_SPACE])
 			{
 				storedTime += 0.5;
 			}
@@ -452,7 +452,8 @@ void numberinput()
 			answer.erase(answer.length() - 1 );
 			allowNumInput = false;
 		}
-		else if (keyPressed[K_ENTER])
+
+		else if (keyPressed[K_ENTER] || keyPressed[K_SPACE])
 		{
 			/*for ( size_t i = 0; i < 1; ++i  )
 			{
@@ -501,19 +502,44 @@ void createQuestion()
 	{
 		int Dans;
 		int ans;
+		int d;
 		srand (elapsedTime);
 		//srand(time(NULL));
 		randomNo1 = (rand()%9) + 1;
 		randomNo2 = (rand()%9) + 1;
 		DrandomNo1 = (rand()%9) + 1;
 		DrandomNo2 = (rand()%9) + 1;
-		randomsign = (rand()%4) + 1;
+		int diffParam = (rand()%100)+1;
+		int plus, minus, multiply;
+		switch (difficulty)
+		{
+			case 1: plus = 40, minus = 70, multiply = 90; break;
+			case 2: plus = 20, minus = 45, multiply = 75; break;
+			case 3: plus = 5, minus = 15, multiply = 55; break;
+		}
+		if ( diffParam > 1 && diffParam <= plus )
+		{
+			randomsign = 1;
+		}
+		else if ( diffParam > plus && diffParam <= minus )
+		{
+			randomsign = 2;
+		}
+		else if ( diffParam > minus && diffParam <= multiply )
+		{
+			randomsign = 3;
+		}
+		else if ( diffParam > multiply && diffParam <= 100 )
+		{
+			randomsign = 4;
+		}
+		
 		questionMade = true;
 		switch (randomsign)
 		{
 			case 1: ans = randomNo1 + randomNo2; break;
-			case 2: ans = randomNo1 * randomNo2; break;
-			case 3: ans = randomNo1 - randomNo2; break;
+			case 2: ans =  randomNo1 - randomNo2; break;
+			case 3: ans =randomNo1 * randomNo2; break;
 			case 4: DrandomNo3 = DrandomNo1 * DrandomNo2; ans = DrandomNo1; break;//  D1(3) * D2(5) = D3(15)  [ what is 15 / 5? ans 3 ] 
 		}
 		std::ostringstream theAnswer;
