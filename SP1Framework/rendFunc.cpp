@@ -607,7 +607,6 @@ void printBattleStats()
 			question += " / "; 
 			question += static_cast<char>(DrandomNo2) + 48;
 			question += " ?";
-
 			break;
 	}
 	d.X = 24;
@@ -875,6 +874,10 @@ void drawMenu()
 		}
 		i++;
 	}
+	console.writeToBuffer(30,15, "<1>  Game Start", 0x0A);
+	console.writeToBuffer(30,16, "<2>  Instruction", 0x0B );
+	console.writeToBuffer(30,17, "<3>  Options", 0x0D );
+	console.writeToBuffer(30,18, "<4>  Quit Game", 0x0E);
 	if (keyPressed[K_1])
 	{
 		currState = G_LoadScreen;

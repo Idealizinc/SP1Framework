@@ -13,10 +13,10 @@
 2   \_____|\____/|______|_____/_/    \_\_|  |_|  |_|\____/                   3
 12                                                                          31
 2                                                                            3
-12                           <one>     Game Start                           31
-2                            <two>     Instruction                           3
-12                           <three>   Options                              31
-2                            <four>    Quit Game                             3
+12                                                                          31
+2                                                                            3
+12                                                                          31
+2                                                                            3
 12                                                                          31
 2                                                                            3
 12                Select what to do, by pressing a number key!              31

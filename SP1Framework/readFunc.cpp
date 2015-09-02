@@ -1,5 +1,5 @@
 #include "readFunc.h"
-
+extern class Console console;
 
 void readMap(string str,char mapArray[22][78])
 {
@@ -59,6 +59,8 @@ void readMenu(string str,char menuArray[22][78])
         }
     }
     menuFile.close();
+
+
 }
 
 void readGameCleared(string str,char gameClearedArray[25][78])

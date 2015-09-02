@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include "game.h"
+#include "Framework\console.h"
 using std::string;
 using std::getline;
 using std::ifstream;

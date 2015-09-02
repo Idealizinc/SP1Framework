@@ -98,6 +98,7 @@
   <ItemGroup>
     <None Include="endBattleScreen.txt" />
     <None Include="map1.txt" />
+    <None Include="menuScreen.txt" />
     <None Include="optionScreen.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
