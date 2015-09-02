@@ -856,10 +856,18 @@ void renderOptionsMenu()
 			   renderPrintedText( toBePrinted, j, i );
 		    }
     }
-
-	//console.writeToBuffer(  )
+	console.writeToBuffer(20,12, "The default character is white", 0x0F );
+	console.writeToBuffer(20,13, "Press 1 for a Red Character ", 0x0C );
+	console.writeToBuffer(20,14, "Press 2 for a Blue Character ", 0x09 );
+	console.writeToBuffer(20,15, "Press 3 for a White Character ", 0x0F );
+	console.writeToBuffer(20,16, "Press 4 for a Teal Character ", 0x0B );
+	console.writeToBuffer(20,17, "Press 5 for a Yellow Character ", 0x0E );
+	console.writeToBuffer(20,18, "Press 6 for a Pink Character ", 0x0D );
+	console.writeToBuffer(20,19, "Press 7 for a Green Character ", 0x0A );
+	console.writeToBuffer(20,20, "Press 8 for a Black Character ", 0xF0 );
+	
 	int playerchoice = 0;
-	for (unsigned int i = K_1; i <= K_9 ; i++ )
+	for (unsigned int i = K_1; i <= K_8 ; i++ )
 	{
 		if ( (keyPressed[i]) )
 		{
@@ -868,17 +876,18 @@ void renderOptionsMenu()
 			{
 				case  1  : playercolour = 0x7C; break;
 				case  2  : playercolour = 0x79; break;
-				case  3  : playercolour = 0x7A; break;
+				case  3  : playercolour = 0x7F; break;
 				case  4  : playercolour = 0x7B; break;
 				case  5  : playercolour = 0x7E; break;
 				case  6  : playercolour = 0x7D; break;
-				case  7  : playercolour = 0x7F; break;
+				case  7  : playercolour = 0x7A; break;
 				case  8  : playercolour = 0x70; break;
 				default : playercolour = 0x7F; break;
 			}
 		}
 	}
-	
+	console.writeToBuffer(20,22,"This is how you will look like in game: ",0x0F );
+	console.writeToBuffer(60,22,(char)2,playercolour );
 	COORD X;
 	X.X = 17;
 	X.Y = 24;
