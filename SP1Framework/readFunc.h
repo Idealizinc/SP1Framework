@@ -29,5 +29,6 @@ void read2ndBattleScreen(string str,char battleArray2[20][78]);
 void read2ndBattleScreen2(string str,char battleArray2ALT[20][78]);
 void readEndBattleStats(string str,char endBattleArray[25][78]);
 void readGameCleared(string str,char gameClearedArray[25][78]);
+void readDifficulty(string str, char difficultysetArray[25][78]);
 
 #endif

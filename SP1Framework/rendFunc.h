@@ -46,5 +46,5 @@ void drawBattleScreenBoss();
 void drawEndBattleScreen();
 void renderOptionsMenu();
 void renderGameClear();
-
+void renderdifficultyset();
 #endif

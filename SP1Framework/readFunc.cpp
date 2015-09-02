@@ -83,24 +83,44 @@ void readGameCleared(string str,char gameClearedArray[25][78])
     menuFile.close();
 }
  
-void readTutorial(string str,char instructionArray[22][78])
+void readTutorial(string str, char instructionArray[22][78])
 {
 	string line;
-    int y2 = 0;
-    ifstream controlfile (str);
+	int y2 = 0;
+	ifstream controlfile(str);
 
-    if (controlfile.is_open())
-    {
-        while (getline (controlfile, line))
-        {
-            for ( int x = 0; x < line.length(); x++ )
-            {
-                instructionArray[y2][x] = line[x];
-            }
-            ++y2;
-        }
-    }
-    controlfile.close();
+	if (controlfile.is_open())
+	{
+		while (getline(controlfile, line))
+		{
+			for (int x = 0; x < line.length(); x++)
+			{
+				instructionArray[y2][x] = line[x];
+			}
+			++y2;
+		}
+	}
+	controlfile.close();
+}
+void readDifficulty(string str, char difficultysetArray[22][78])
+
+{
+	string line;
+	int y2 = 0;
+	ifstream controlfile(str);
+
+	if (controlfile.is_open())
+	{
+		while (getline(controlfile, line))
+		{
+			for (int x = 0; x < line.length(); x++)
+			{
+				difficultysetArray[y2][x] = line[x];
+			}
+			++y2;
+		}
+	}
+	controlfile.close();
 }
 
 void readOptionsMenu(string str,char optionArray[22][78])

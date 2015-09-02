@@ -55,6 +55,7 @@ enum GameStates
 	G_MainMenu,
 	G_Tutorial,
 	G_Options,
+	G_Difficulty,
 	G_LoadScreen,
 	G_Stage1,
 	G_Stage2,

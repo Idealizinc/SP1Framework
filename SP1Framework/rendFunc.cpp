@@ -9,11 +9,12 @@ extern COORD charLocation;
 extern enum GameStates currState;
 extern int  xSpawnCoord, ySpawnCoord, xReturnCoord, yReturnCoord, status, 
 			randomsign, randomNo2,DrandomNo2,DrandomNo3, randomNo1, currAtStage, 
-			monsterHP, foeHP, foeLVL, playerlv, monsterXP, xGateCoord, yGateCoord;
+			monsterHP, foeHP, foeLVL, playerlv, monsterXP, xGateCoord, yGateCoord, playerchoice;
 extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], 
 			ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], 
 			instructionArray[25][78], battleArray2[20][78], battleArray2ALT[20][78], 
-			endBattleArray[25][78], optionArray[25][78], gameClearedArray[25][78];
+			endBattleArray[25][78], optionArray[25][78], gameClearedArray[25][78], difficultysetArray[25][78];
+extern unsigned int difficulty;
 extern struct Hero player;
 extern struct Boss BossUnit;
 extern double deltaTime, elapsedTime, attkTime;
@@ -127,7 +128,7 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 		toBePrinted = 92; // "/"
 		console.writeToBuffer(j, i, toBePrinted, 0x8E); 
 	}
-	else if ((loading == true) || (atPortal == true) || (mainMenu == true) || (currState == G_GameCleared))
+	else if ((loading == true) || (atPortal == true) || (mainMenu == true) || (currState == G_GameCleared) || (currState == G_Difficulty))
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
 	}
@@ -949,6 +950,58 @@ void renderOptionsMenu()
     {
         currState = G_MainMenu;
     }
+}
+void renderdifficultyset()
+{
+	for (int i = 0; i < 25; ++i)
+	{
+		for (int j = 0; j < 78; ++j)
+		{
+			char toBePrinted = difficultysetArray[i][j];
+			renderPrintedText(toBePrinted, j, i);
+		}
+	}
+
+	//console.writeToBuffer(  )
+	for (unsigned int i = K_1; i <= K_3; i++)
+	{
+		if ((keyPressed[i]))
+		{
+			playerchoice = i;
+			switch (playerchoice)
+			{
+			case  1:playerchoice = 1; difficulty = 1; break;
+			case  2:playerchoice = 2; difficulty = 2; break;
+			case  3:playerchoice = 3; difficulty = 3; break;
+			}
+		}
+	}
+	console.writeToBuffer(20, 12, "The default difficulty is Easy", 0x0F);
+	console.writeToBuffer(20, 13, "Press 1 for Easy Difficulty ", 0x0F);
+	console.writeToBuffer(20, 14, "Press 2 for Normal Difficulty ", 0x0F);
+	console.writeToBuffer(20, 15, "Press 3 for Hard Difficulty", 0x0f);
+	console.writeToBuffer(20, 20, "Difficulty is set to: ", 0x0f);
+	if (playerchoice == 1)
+	{
+		console.writeToBuffer(43, 20, "Easy", 0x0A);
+	}
+	if (playerchoice == 2)
+	{
+		console.writeToBuffer(43, 20, "Normal", 0x0E);
+	}
+	if (playerchoice == 3)
+	{
+		console.writeToBuffer(43, 20, "Hard", 0x0C);
+	}
+	COORD X;
+	X.X = 17;
+	X.Y = 24;
+	string text = "Press 'escape' to return to the main menu.";
+	console.writeToBuffer(X, text, 0xFC);
+	if (keyPressed[K_ESCAPE])
+	{
+		currState = G_MainMenu;
+	}
 }
 
 void renderTutorialScreen()

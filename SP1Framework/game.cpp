@@ -28,6 +28,7 @@ char battleArray2ALT[20][78];
 char endBattleArray[25][78];
 char optionArray[25][78];
 char gameClearedArray[25][78];
+char difficultysetArray[25][78];
 
 //Impt Variables
 int xSpawnCoord = 0, ySpawnCoord = 0;
@@ -55,6 +56,7 @@ double loadTimer;
 bool loading = false;
 char loadScrnArray[25][78];
 GameStates currState = G_MainMenu;
+int playerchoice = 1;
 bool mainMenu = false;
 char menuArray[25][78];
 bool hpInitiallized = false;
@@ -115,6 +117,8 @@ bool atPortal = false; //Set To FALSE
 COORD charLocation;
 WORD playercolour = 0x7F;
 
+unsigned int difficulty = 1;
+
 Hero player;
 Monster MonsterUnit;
 Boss BossUnit;
@@ -134,6 +138,7 @@ void init()
 	readOptionsMenu("optionScreen.txt", optionArray);
 	readEndBattleStats("endBattleScreen.txt", endBattleArray);
 	readGameCleared("gameCleared.txt", gameClearedArray);
+	readDifficulty( "set.txt", difficultysetArray);
 
     charLocation.X = console.getConsoleSize().X / 2;
     charLocation.Y = console.getConsoleSize().Y / 2;
@@ -304,6 +309,7 @@ void render()
 		case G_MainMenu: mainMenu = true; renderSelection(); break;
 		case G_Tutorial: renderTutorialScreen(); break;
 		case G_Options: renderOptionsMenu(); break;	//Implemented Later
+		case G_Difficulty: renderdifficultyset(); break;
 		case G_LoadScreen: loading = true; drawMapRendChar(); break;
 		case G_Stage1: currAtStage = 1; drawMapRendChar(); break;
 		case G_Stage2: currAtStage = 2; drawMapRendChar(); break;
