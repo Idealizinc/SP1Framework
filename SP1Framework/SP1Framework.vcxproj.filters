@@ -79,5 +79,14 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="storyScreen.txt" />
+    <None Include="MOB_CAT2.txt" />
+    <None Include="MOB_ZOMBIE1.txt" />
+    <None Include="MOB_ZOMBIE2.txt" />
+    <None Include="MOB_REAPER1.txt">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="MOB_REAPER2.txt">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

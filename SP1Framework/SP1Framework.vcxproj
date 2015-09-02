@@ -99,6 +99,11 @@
     <None Include="endBattleScreen.txt" />
     <None Include="map1.txt" />
     <None Include="menuScreen.txt" />
+    <None Include="MOB_CAT2.txt" />
+    <None Include="MOB_REAPER1.txt" />
+    <None Include="MOB_REAPER2.txt" />
+    <None Include="MOB_ZOMBIE1.txt" />
+    <None Include="MOB_ZOMBIE2.txt" />
     <None Include="optionScreen.txt" />
     <None Include="storyScreen.txt" />
   </ItemGroup>

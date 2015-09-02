@@ -56,7 +56,7 @@ string stage_Map;           //store stage level.
 double loadTimer;
 bool loading = false;
 char loadScrnArray[25][78];
-GameStates currState = G_MainMenu;
+GameStates currState = G_Stage4;
 int playerchoice = 1;
 bool mainMenu = false;
 char menuArray[25][78];
@@ -543,6 +543,7 @@ void createQuestion()
 			case 3: ans = randomNo1 * randomNo2; break;
 			case 4: DrandomNo3 = DrandomNo1 * DrandomNo2; ans= DrandomNo3 / DrandomNo2; break;//  D1(3) * D2(5) = D3(15)  [ what is 15 / 5? ans 3 ] 
 		}
+		cout << ans << endl;
 		std::ostringstream theAnswer;
 		theAnswer << ans;
 		string qnAnswer = theAnswer.str();
