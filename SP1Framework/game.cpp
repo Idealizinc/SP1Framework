@@ -84,6 +84,9 @@ double storedTime;              // the value of the stored time.
 bool limiterSet = false;        // prevents players from input value multi time
 int randomNo1;                  // random number for first value
 int randomNo2;                  // random number for second value
+int DrandomNo1;
+int DrandomNo2;
+int DrandomNo3;
 int randomsign;                 // random sign symbols (not coded)
 string answer;                  //answer of player inputted.
 int currAtStage = 0;            // current stage level
@@ -490,12 +493,14 @@ void createQuestion()
 {
 	if (questionMade == false)
 	{
-		float decimalans;
+		int Dans;
 		int ans;
 		srand (elapsedTime);
 		//srand(time(NULL));
 		randomNo1 = (rand()%9) + 1;
 		randomNo2 = (rand()%9) + 1;
+		DrandomNo1 = (rand()%9) + 1;
+		DrandomNo2 = (rand()%9) + 1;
 		randomsign = (rand()%4) + 1;
 		questionMade = true;
 		switch (randomsign)
@@ -503,7 +508,7 @@ void createQuestion()
 			case 1: ans = randomNo1 + randomNo2; break;
 			case 2: ans = randomNo1 * randomNo2; break;
 			case 3: ans = randomNo1 - randomNo2; break;
-			case 4: decimalans = randomNo1 / randomNo2; ans = decimalans; break;
+			case 4: DrandomNo3 = DrandomNo1 * DrandomNo2; ans = DrandomNo1; break;//  D1(3) * D2(5) = D3(15)  [ what is 15 / 5? ans 3 ] 
 		}
 		std::ostringstream theAnswer;
 		theAnswer << ans;

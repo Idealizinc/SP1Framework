@@ -2,11 +2,18 @@
 #include "Framework\console.h"
 #include "game.h"
 extern class Console console;
-extern bool playerDead, mainMenu, loading, inBossFight, bossCleared, battleModeOn, atPortal, renderedChar, playerInputOn, locationSaved, animate, animate2, keyPressed[K_COUNT], initializeHP;
+extern bool playerDead, mainMenu, loading, inBossFight, bossCleared, 
+			battleModeOn, atPortal, renderedChar, playerInputOn, locationSaved, 
+			animate, animate2, keyPressed[K_COUNT], initializeHP;
 extern COORD charLocation;
 extern enum GameStates currState;
-extern int xSpawnCoord, ySpawnCoord, xReturnCoord, yReturnCoord, status, randomsign, randomNo2, randomNo1, currAtStage, monsterHP, foeHP, foeLVL, playerlv, monsterXP, xGateCoord, yGateCoord;
-extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], instructionArray[25][78], battleArray2[20][78], battleArray2ALT[20][78], endBattleArray[25][78], optionArray[25][78], gameClearedArray[25][78];
+extern int  xSpawnCoord, ySpawnCoord, xReturnCoord, yReturnCoord, status, 
+			randomsign, randomNo2,DrandomNo2,DrandomNo3, randomNo1, currAtStage, 
+			monsterHP, foeHP, foeLVL, playerlv, monsterXP, xGateCoord, yGateCoord;
+extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], 
+			ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], 
+			instructionArray[25][78], battleArray2[20][78], battleArray2ALT[20][78], 
+			endBattleArray[25][78], optionArray[25][78], gameClearedArray[25][78];
 extern struct Hero player;
 extern struct Boss BossUnit;
 extern double deltaTime, elapsedTime, attkTime;
@@ -546,26 +553,67 @@ void printBattleStats()
 
 	COORD d;
 	string question;
-	question = "What is ";
-	question += static_cast<char>(randomNo1) + 48;
+	
 	switch (randomsign)
 	{
-		case 1: question += " + "; break;
-		case 2: question += " x "; break;
-		case 3: question += " - "; break;
-		case 4: question += " / "; break;
+		case 1: 
+			question = "What is ";
+			question += static_cast<char>(randomNo1) + 48;
+			question += " + "; 
+			question += static_cast<char>(randomNo2) + 48;
+			question += " ?";
+			break;
+		case 2: 
+			question = "What is ";
+			question += static_cast<char>(randomNo1) + 48;
+			question += " x "; 
+			question += static_cast<char>(randomNo2) + 48;
+			question += " ?";
+			break;
+		case 3: 
+			question = "What is ";
+			question += static_cast<char>(randomNo1) + 48;
+			question += " - "; 
+			question += static_cast<char>(randomNo2) + 48;
+			question += " ?";
+			break;
+		case 4: 
+			question = "What is ";
+			string val1, val2;
+			int Num1,Num2;
+			if ( DrandomNo3 > 9 )
+			{
+				for ( unsigned int i = 0; i < 2 ;++i  )
+				{
+					if ( i == 0 )
+					{
+						Num1 = DrandomNo3 / 10;
+						val1 = static_cast<char>(Num1) + 48;
+					}
+					else if ( i == 1 )
+					{
+						Num2 = DrandomNo3 - (Num1 * 10);
+						val2 = static_cast<char>(Num2) + 48;
+					}
+				}
+			}
+			else if ( DrandomNo3 <= 9 )
+			{
+				Num2 = DrandomNo3;
+				val2 = static_cast<char>(Num2) + 48;
+			}
+			question += val1;
+			question += val2;
+			question += " / "; 
+			question += static_cast<char>(DrandomNo2) + 48;
+			question += " ?";
+
+			break;
 	}
-	question += static_cast<char>(randomNo2) + 48;
-	question += " ?";
 	d.X = 24;
 	d.Y = 21;
 	console.writeToBuffer(d, question, 0x0E);
-	string roundoff;
-	roundoff = "All numbers are rounded down to the nearest whole number";
-	switch (randomsign)
-	{
-		case 4: COORD f; f.X = 10; f.Y = 23; console.writeToBuffer(f, roundoff, 0x0D); break;
-	}
+
 	numberinput();
 	checkPlayerAnswer();
 }
