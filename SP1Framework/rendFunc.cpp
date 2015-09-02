@@ -13,7 +13,7 @@ extern int  xSpawnCoord, ySpawnCoord, xReturnCoord, yReturnCoord, status,
 extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], 
 			ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], 
 			instructionArray[25][78], battleArray2[20][78], battleArray2ALT[20][78], 
-			endBattleArray[25][78], optionArray[25][78], gameClearedArray[25][78], difficultysetArray[25][78];
+			endBattleArray[25][78], optionArray[25][78], gameClearedArray[25][78], difficultysetArray[25][78], storyArray[25][78];
 extern unsigned int difficulty;
 extern struct Hero player;
 extern struct Boss BossUnit;
@@ -898,7 +898,7 @@ void renderLoadScreen()
 		{
 			allowNumInput = true;
 			canpress = false;
-			currState = G_LoadScreen;
+			currState = G_StoryScreen;
 		}
 	}
 }
@@ -1106,10 +1106,10 @@ void renderdifficultyset()
 		}
 	}
 	console.writeToBuffer(20, 12, "The default difficulty is Easy", 0x0F);
-	console.writeToBuffer(20, 13, "Press 1 for Easy Difficulty ", 0x0F);
-	console.writeToBuffer(20, 14, "Press 2 for Normal Difficulty ", 0x0F);
-	console.writeToBuffer(20, 15, "Press 3 for Hard Difficulty", 0x0f);
-	console.writeToBuffer(20, 20, "Difficulty is set to: ", 0x0f);
+	console.writeToBuffer(20, 13, "Press 1 for Easy Difficulty ", 0x0A);
+	console.writeToBuffer(20, 14, "Press 2 for Normal Difficulty ", 0x0E);
+	console.writeToBuffer(20, 15, "Press 3 for Hard Difficulty", 0x0C);
+	console.writeToBuffer(20, 20, "Difficulty is set to: ", 0x0F);
 	if (playerchoice == 1)
 	{
 		console.writeToBuffer(43, 20, "Easy", 0x0A);
@@ -1126,7 +1126,7 @@ void renderdifficultyset()
 	COORD X;
 	X.X = 17;
 	X.Y = 24;
-	string text = "Press 'escape' to return to the main menu.";
+	string text = "<Press 'escape' to return to the main menu>";
 	
 	
 	if (keyPressed[K_ENTER] || keyPressed[K_SPACE])
@@ -1141,7 +1141,7 @@ void renderdifficultyset()
 		{
 			allowNumInput = true;
 			canpress = false;
-			currState = G_LoadScreen;
+			currState = G_StoryScreen;
 		}
 	}
 	
@@ -1174,8 +1174,76 @@ void renderTutorialScreen()
 	COORD X;
 	X.X = 17;
 	X.Y = 24;
-	string text = "Press 'escape' to return to the main menu.";
+	string text = "<Press 'escape' to return to the main menu>";
 	console.writeToBuffer(X, text, 0xFC);
+	if ( keyPressed[K_ESCAPE] )
+    {
+        currState = G_MainMenu;
+    }
+}
+
+void renderStoryScreen()
+{
+	string storytext1, storytext2, storytext3;
+
+	for (int i = 0; i < 25; ++i)
+	{
+		    for (int j = 0; j < 78; ++j)
+		    {
+			   char toBePrinted = storyArray[i][j];
+			   renderPrintedText( toBePrinted, j, i );
+		    }
+    }
+	switch ( currAtStage )
+	{
+		case  1 : storytext1 = "The Demon King is planning on taking over on Goliath's Kingdom!";
+					storytext2 = "King Goliath ventures out to slay the Demon King Jedric.";
+					storytext3 = "Finding the levers [\] are key to disabling Jedric's Barriers!";
+					break;
+		case  2 : storytext1 = "Upon getting out of the forest, Goliath reaches a cave.";
+					storytext2 = "Entering the cave, Goliath realizes the cave is full of bats.";
+					storytext3 = "The king now has to fight off the bats with his magical powers.";
+					break;
+		case  3 : storytext1 = "After fighting off the bats and getting out of the cave.";
+					storytext2 = "Goliath finds that he is now in a canyon.";
+					storytext3 = "The king now has to find his way out of the huge maze-like canyon.";
+					break;
+		case  4 : storytext1 = "Unable to get out of the Canyon.";
+					storytext2 = "Goliath starts to encounter even stronger monsters in the canyon.";
+					storytext3 = "The king is now closer to getting out of the canyon.";
+					break;
+		case  5 : storytext1 = "Goliath has reached the Demon Castle after coming out of the canyon.";
+					storytext2 = "Upon entering the castle, Goliath needs to find his way to Jedric.";
+					storytext3 = "The king is now almost upon the Demon King.";
+					break;
+		case  6 : storytext1 = "King Goliath has now reached the top of the Demon Castle.";
+					storytext2 = "He is now on the floor where Jedric supposedly resides.";
+					storytext3 = "It is now up to Goliath to find and take down the Demon King!";
+					break;
+	}
+	console.writeToBuffer(17,15, storytext1, 0xFC);
+	console.writeToBuffer(17,16, storytext2, 0xFC);
+	console.writeToBuffer(17,27, storytext3, 0xFC);
+	string text = "<Press 'space' to go to the next stage>";
+	COORD X;
+	X.X = 17;
+	X.Y = 24;
+	console.writeToBuffer(X, text, 0xFC);
+	if (keyPressed[K_ENTER] || keyPressed[K_SPACE])
+	{
+		
+		if (canpress == false)
+		{
+			storedTime2 = elapsedTime + 0.5;
+			canpress = true;
+		}
+		if ((elapsedTime >= storedTime2) && (canpress == true))
+		{
+			allowNumInput = true;
+			canpress = false;
+			currState = G_Stage1;
+		}
+	}
 	if ( keyPressed[K_ESCAPE] )
     {
         currState = G_MainMenu;

@@ -314,3 +314,22 @@ void readLoadScreen(string str,char loadScrnArray[25][78])
     }
     loadScrn.close();
 }
+void readStoryScreen(string str,char storyArray[25][78])
+{
+	string line;
+    int y = 0;
+	
+    ifstream scrn(str);
+    if (scrn.is_open())
+    {
+        while (getline (scrn, line))
+        {
+            for (unsigned int x = 0; x < line.length(); x++ )
+            {
+                storyArray[y][x] = line[x];
+            }
+            ++y;
+        }
+    }
+    scrn.close();
+}

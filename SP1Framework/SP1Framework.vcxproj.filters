@@ -78,5 +78,6 @@
     <None Include="menuScreen.txt">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="storyScreen.txt" />
   </ItemGroup>
 </Project>

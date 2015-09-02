@@ -29,6 +29,7 @@ char endBattleArray[25][78];
 char optionArray[25][78];
 char gameClearedArray[25][78];
 char difficultysetArray[25][78];
+char storyArray[25][78];
 
 //Impt Variables
 int xSpawnCoord = 0, ySpawnCoord = 0;
@@ -139,6 +140,8 @@ void init()
 	readEndBattleStats("endBattleScreen.txt", endBattleArray);
 	readGameCleared("gameCleared.txt", gameClearedArray);
 	readDifficulty( "set.txt", difficultysetArray);
+	readStoryScreen( "storyScreen.txt", storyArray);
+
 
     charLocation.X = console.getConsoleSize().X / 2;
     charLocation.Y = console.getConsoleSize().Y / 2;
@@ -310,7 +313,7 @@ void render()
 		case G_Tutorial: renderTutorialScreen(); break;
 		case G_Options: renderOptionsMenu(); break;	//Implemented Later
 		case G_Difficulty: renderdifficultyset(); break;
-		case G_LoadScreen: loading = true; drawMapRendChar(); break;
+		case G_StoryScreen: loading = true; renderStoryScreen(); break;
 		case G_Stage1: currAtStage = 1; drawMapRendChar(); break;
 		case G_Stage2: currAtStage = 2; drawMapRendChar(); break;
 		case G_Stage3: currAtStage = 3; drawMapRendChar(); break;
@@ -405,10 +408,10 @@ void monsterCheck()
 void processUserInput()
 {
     //quits the game if player hits the escape key
-    if (keyPressed[K_ESCAPE])
+    /*if (keyPressed[K_ESCAPE])
     {
 		g_quitGame = true;
-	}
+	}*/
 }
 
 void numberinput()

@@ -100,6 +100,7 @@
     <None Include="map1.txt" />
     <None Include="menuScreen.txt" />
     <None Include="optionScreen.txt" />
+    <None Include="storyScreen.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
