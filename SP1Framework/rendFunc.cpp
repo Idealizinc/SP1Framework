@@ -31,107 +31,87 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 {
 	if (toBePrinted == 'A')
 	{
-		toBePrinted = 176; // ░
-		console.writeToBuffer(j,i, toBePrinted, 0x8A); // Dirty Green [Grass]
+		console.writeToBuffer(j,i, 176, 0x8A); // Dirty Green [Grass] ░
 	}
 	else if (toBePrinted == 'M')
 	{
 		yGateCoord = i;
 		xGateCoord = j;
-		toBePrinted = 93; // "]"
-		console.writeToBuffer(j, i, toBePrinted, 0x8E);
+		console.writeToBuffer(j, i, 93, 0x8E); // "]"
 	}
 	else if (toBePrinted == 'W')
 	{
-		toBePrinted = 177; // ░
-		console.writeToBuffer(j,i, toBePrinted, 0x80); // Grey [Walls]
+		console.writeToBuffer(j,i, 177, 0x80); // Grey [Walls] ░
 	}
 	else if (toBePrinted == 'T')
 	{
-		toBePrinted = 5; // ♣
-		console.writeToBuffer(j,i, toBePrinted, 0x8A); // Green [Trees]
+		console.writeToBuffer(j,i, 5, 0x8A); // Green [Trees] ♣
 	}
 	else if (toBePrinted == 'D')
 	{
-		toBePrinted = 176; // ░
-		console.writeToBuffer(j,i, toBePrinted, 0x80); // Dark Grey [Walls]
+		console.writeToBuffer(j,i, 176, 0x80); // Dark Grey [Walls] ░
 	}
 	else if (toBePrinted == 'V')
 	{
-		toBePrinted = 176; // ░
-		console.writeToBuffer(j,i, toBePrinted, 0x70); // Light Grey [Floor]
+		console.writeToBuffer(j,i, 176, 0x70); // Light Grey [Floor] ░
 	}
 	else if (toBePrinted == 'P')
 	{
 		xSpawnCoord = j; // Obtain spawn coordinates for player
 		ySpawnCoord = i;
-		toBePrinted = 176; // ░ Fill up space under player.
-		console.writeToBuffer(j,i, toBePrinted, 0x78);
+		console.writeToBuffer(j,i, 176, 0x78);// ░ Fill up space under player.
 	}
 	else if (toBePrinted == 'C')
 	{
-		toBePrinted = 254; // ■
-		console.writeToBuffer(j,i, toBePrinted, 0x8E); // Gold [Chests]
+		console.writeToBuffer(j,i, 254, 0x8E); // Gold [Chests] ■
 	}
 	else if (toBePrinted == 'R')
 	{
-		toBePrinted = 254; // ■
-		console.writeToBuffer(j,i, toBePrinted, 0x7E); // Gold [Chests]
+		console.writeToBuffer(j,i, 254, 0x7E); // Gold [Chests] ■
 	}
 	else if (toBePrinted == 'E')
 	{
-		toBePrinted = 10; // 
-		console.writeToBuffer(j,i, toBePrinted, 0xB8); // Blue [Portal]
+		console.writeToBuffer(j,i, 10, 0xB8); // Blue [Portal]
 	}
 	else if (toBePrinted == 'X')
 	{
-		toBePrinted = 15; // Θ
-		console.writeToBuffer(j,i, toBePrinted, 0x8C); // Red [Boss]
+		console.writeToBuffer(j,i, 15, 0x8C); // Red [Boss] Θ
 	}
 	else if (toBePrinted == '1')
 	{
-		toBePrinted = 178; // ▓
-		console.writeToBuffer(j,i, toBePrinted, 0x7F); // White [Walls]
+		console.writeToBuffer(j,i, 178, 0x7F); // White [Walls] ▓
 	}
 	else if (toBePrinted == 'W')
 	{
-		toBePrinted = 176; // ░
-		console.writeToBuffer(j,i, toBePrinted, 0x80); // Grey [Walls]
+		console.writeToBuffer(j,i, 176, 0x80); // Grey [Walls] ░
 	}
 	else if (toBePrinted == 'Z')
 	{
-		toBePrinted = 176; // ░
-		console.writeToBuffer(j,i, toBePrinted, 0x84); // Reddish Brown [Cave Walls]
+		console.writeToBuffer(j,i, 176, 0x84); // Reddish Brown [Cave Walls] ░
 	}
 	else if (toBePrinted == '=')
 	{
-		toBePrinted = 176; // ░
-		console.writeToBuffer(j,i, toBePrinted, 0xCB); // Red [LoadBar]
+		console.writeToBuffer(j,i, 176, 0xCB); // Red [LoadBar] ░
 	}
 	else if (toBePrinted == '3')
 	{
-		toBePrinted = 17; // ◄
-		console.writeToBuffer(j,i, toBePrinted, 0x0E); // [Gold] Triangles
+		console.writeToBuffer(j,i, 17, 0x0E); // [Gold] Triangles ◄
 	}
 	else if (toBePrinted == '2')
 	{
-		toBePrinted = 16; // ►
-		console.writeToBuffer(j,i, toBePrinted, 0x0E); // [Gold] Triangles
+		console.writeToBuffer(j,i, 16, 0x0E); // [Gold] Triangles ►
 	}
 	else if (toBePrinted == '4')
 	{
-		toBePrinted = 30; // ▲
-		console.writeToBuffer(j,i, toBePrinted, 0x0E); // [Gold] Triangles
+		console.writeToBuffer(j,i, 30, 0x0E); // [Gold] Triangles ▲
 	}
 	else if (toBePrinted == '5')
 	{
-		toBePrinted = 31; // ▼
-		console.writeToBuffer(j,i, toBePrinted, 0x0E); // [Gold] Triangles
+		console.writeToBuffer(j,i, 31, 0x0E); // [Gold] Triangles ▼
 	}
 	else if (toBePrinted == 'K')
 	{
-		toBePrinted = 92; // "/"
-		console.writeToBuffer(j, i, toBePrinted, 0x8E); 
+		console.writeToBuffer(j, i, 92, 0x8E); // "/"
 	}
 	else if ((loading == true) || (atPortal == true) || (mainMenu == true) || (currState == G_GameCleared) || (currState == G_Difficulty))
 	{

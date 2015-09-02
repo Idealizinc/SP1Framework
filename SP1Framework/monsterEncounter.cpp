@@ -20,7 +20,7 @@ int encounterCheck()
 int random_function()
 {
 	int encounterCheck;
-	srand(time(NULL));
+	srand(static_cast<unsigned int>(time(NULL)));
 	encounterCheck = rand()%(rate + encounterUp); //randomenc;
 	return encounterCheck;
 
