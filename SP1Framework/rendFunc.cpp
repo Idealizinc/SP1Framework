@@ -13,8 +13,8 @@ extern int  xSpawnCoord, ySpawnCoord, xReturnCoord, yReturnCoord, status,
 extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], 
 			ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], 
 			instructionArray[25][78], battleArray2[20][78], battleArray2ALT[20][78], 
-			endBattleArray[25][78], optionArray[25][78], gameClearedArray[25][78], difficultysetArray[25][78], storyArray[25][78];
-extern unsigned int difficulty;
+			endBattleArray[25][78], optionArray[25][78], gameClearedArray[25][78], difficultysetArray[25][78];
+extern unsigned int difficultySet;
 extern struct Hero player;
 extern struct Boss BossUnit;
 extern double deltaTime, elapsedTime, attkTime;
@@ -1099,9 +1099,9 @@ void renderdifficultyset()
 			playerchoice = i;
 			switch (playerchoice)
 			{
-			case  1:playerchoice = 1; difficulty = 1; break;
-			case  2:playerchoice = 2; difficulty = 2; break;
-			case  3:playerchoice = 3; difficulty = 3; break;
+			case  1:playerchoice = 1; difficultySet = 1; break;
+			case  2:playerchoice = 2; difficultySet = 2; break;
+			case  3:playerchoice = 3; difficultySet = 3; break;
 			}
 		}
 	}
@@ -1113,14 +1113,17 @@ void renderdifficultyset()
 	if (playerchoice == 1)
 	{
 		console.writeToBuffer(43, 20, "Easy", 0x0A);
+        difficultySet = 1;
 	}
 	if (playerchoice == 2)
 	{
 		console.writeToBuffer(43, 20, "Normal", 0x0E);
+        difficultySet = 2;
 	}
 	if (playerchoice == 3)
 	{
 		console.writeToBuffer(43, 20, "Hard", 0x0C);
+        difficultySet = 3;
 	}
 	
 	COORD X;

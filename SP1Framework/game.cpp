@@ -118,7 +118,7 @@ bool atPortal = false; //Set To FALSE
 COORD charLocation;
 WORD playercolour = 0x7F;
 
-unsigned int difficulty = 1;
+unsigned int difficultySet = 1;
 
 Hero player;
 Monster MonsterUnit;
@@ -512,7 +512,7 @@ void createQuestion()
 		DrandomNo2 = (rand()%9) + 1;
 		int diffParam = (rand()%100)+1;
 		int plus, minus, multiply;
-		switch (difficulty)
+		switch (difficultySet)
 		{
 			case 1: plus = 40, minus = 70, multiply = 90; break;
 			case 2: plus = 20, minus = 45, multiply = 75; break;
