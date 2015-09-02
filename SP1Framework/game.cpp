@@ -280,8 +280,8 @@ void getReadData(int val)
 				normal_Monster1ALT = "MOB_DEVIL2.txt";
 				normal_Monster2 = "MOB_Spider1.txt";
 				normal_Monster2ALT = "MOB_Spider2.txt";
-				boss_Monster1 = "MOB_DEVIL1.txt";
-				boss_Monster1ALT = "MOB_DEVIL2.txt";
+				boss_Monster1 = "MOB_JEDRIC.txt";
+				boss_Monster1ALT = "MOB_JEDRIC2.txt";
 				stage_Map = "Map6.txt";
 				break;
 	}
