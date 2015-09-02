@@ -91,7 +91,8 @@ int stageVal = 21;              //Random unrelated value
 bool allowEnemyAttk = false;    // enemy to attack.
 bool enemyAttkTime = false;
 double attkTime;                // Attkspeed of enemy
-double enemyAttk = 3.00;        // player to attk.
+double enemyAttk = 7.00;        // player to attk.
+
 
 double waitTime = 0.065;         // waiting time for inputing value.
 
@@ -529,7 +530,6 @@ void checkPlayerAnswer()
 		player.chance -= 1;
 		playerInputted = false;
 	}
-
     //Attack Speed of enemy.
     if (allowEnemyAttk == false)
     {
@@ -538,22 +538,20 @@ void checkPlayerAnswer()
             //attk time is time left to attk.
 		    attkTime = elapsedTime + enemyAttk;
             enemyAttkTime = true;
-		    attkTime += 4;
         }
-            if ((elapsedTime >= attkTime))//60 65 
-            {
-                allowEnemyAttk = true;
-                questionMade = false;
-                enemyAttkTime = false;
-            }
+        if ((elapsedTime >= attkTime))
+        {
+            allowEnemyAttk = true;
+            questionMade = false;
+		    attkTime = elapsedTime + enemyAttk;
+        }
     }
     //Enemy Strikes
     if (allowEnemyAttk == true)
     {
-        
-            answer.erase();
-            player.hp -= MonsterUnit.damage;
-            allowEnemyAttk = false;
+        answer.erase();
+        player.hp -= MonsterUnit.damage;
+        allowEnemyAttk = false;
     }
 
 	if (foeHP <= 0) //foeHP is monster hp

@@ -49,8 +49,7 @@ void initiallizePlayerStats()
 	player.level = 1;
     player.chance = 3;
     player.exp = 0;
-    //player.expCap = 100;
-	player.hp = 100;//1000;
+	player.hp = 1000;
 	player.damage = 2;
 	player.expCap = 50 * player.level;
 	limitEXP = player.expCap;
@@ -59,19 +58,10 @@ void initiallizePlayerStats()
 
 void setPlayerChangableStats()
 {
-	//player.hp = 1000 + ((player.level) * 100);
-	//player.damage = 2;
-    //player.chance = 3;
 	player.expCap = 50 * player.level;
     playerDmg = player.damage;
 }
 
-//
-//    int level;
-//	int hp;
-//	int damage;
-//	int expgiven;
-//};
 void initiallizeMonsterStats()
 {
 	srand((unsigned)time(0));
@@ -118,13 +108,9 @@ void checkLevelUp()
 
 void changePlayerStats()
 {
-    player.damage += ((currAtStage + player.level) * 5) / (player.level * 2);
+    player.damage += ((currAtStage + player.level) * 4) / (player.level * 2);
     player.level += 1;
     player.exp -= player.expCap;
     player.expCap = 50 * player.level;
-    player.hp += 300;
-    // 10 / 2 = 5.0 (lvl 1) 3.75 3.12
-    //200 / 78 = 2.5 (lvl 36)
-    //1 2 3 4 5 6
-    //2 7 10
+    player.hp += 200;
 }

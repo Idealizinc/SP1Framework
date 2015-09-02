@@ -419,9 +419,9 @@ void printMapStats()
 	myhp << player.hp;
 	string myHP = myhp.str(); //string that contains player hp
 
-    std::ostringstream mydmg;
-    mydmg << player.damage;
-    string myDMG = mydmg.str(); // string that contains player dmg
+    //std::ostringstream mydmg;
+    //mydmg << player.damage;
+    //string myDMG = mydmg.str(); // string that contains player dmg
 
 	std::ostringstream enemyhp; 
 	enemyhp << foeHP ;
@@ -440,8 +440,8 @@ void printMapStats()
     text +=  myLvl;
 	text += "    My HP: ";
 	text += myHP;
-    text += "    Damage: ";
-    text += myDMG;
+    //text += "    Damage: ";
+    //text += myDMG;
 	text += "    Exp: ";
 	text += playerExp;
 	text += " / ";
@@ -495,16 +495,16 @@ void printBattleStats()
 	myhp << player.hp ;
 	string myHP = myhp.str(); // string that contains player hp
 
-    std::ostringstream mydmg;
-    mydmg << player.damage;
-    string myDMG = mydmg.str(); // string that contains player dmg
+    //std::ostringstream mydmg;
+    //mydmg << player.damage;
+    //string myDMG = mydmg.str(); // string that contains player dmg
 
 	string text;
 
 	text = " My HP: ";
 	text += myHP;
-    text += "    My DMG: ";
-    text += myDMG;
+    //text += "    My DMG: ";
+    //text += myDMG;
     text += "    Chance Left: ";
     text += myChance;
 	text += " ";
@@ -534,8 +534,8 @@ void printBattleStats()
     string textEnemyStat;
     textEnemyStat = " Enemy Level: ";
     textEnemyStat += enemyLVL;
-	textEnemyStat +=	"    Enemy HP: ";
-	textEnemyStat +=	monhp;
+	textEnemyStat += "    Enemy HP: ";
+	textEnemyStat += monhp;
     textEnemyStat += "    Time till Attack: ";
     textEnemyStat += Time;
     textEnemyStat += " ";
