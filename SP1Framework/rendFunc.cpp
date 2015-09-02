@@ -229,7 +229,7 @@ void animateBSNorm() // Battle Screen Anims
 	{
 		if (selectionMade == false)
 		{
-			srand(elapsedTime);
+			srand(static_cast<unsigned int>(elapsedTime));
 			selection = rand()%2 + 1;
 			selectionMade = true;
 		}

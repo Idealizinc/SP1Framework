@@ -501,7 +501,7 @@ void createQuestion()
 	if (questionMade == false)
 	{
 		int ans;
-		srand (elapsedTime);
+		srand(static_cast<unsigned int>(elapsedTime));
 		//srand(time(NULL));
 		randomNo1 = (rand()%9) + 1;
 		randomNo2 = (rand()%9) + 1;

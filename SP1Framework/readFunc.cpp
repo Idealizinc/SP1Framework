@@ -11,7 +11,7 @@ void readMap(string str,char mapArray[22][78])
     {
         while (getline (mymapfile,mapline))
         {
-            for ( int x = 0; x < mapline.length(); x++ )
+            for (unsigned int x = 0; x < mapline.length(); x++ )
             {
                 mapArray[y2][x] = mapline[x];
             }
@@ -31,7 +31,7 @@ void readEndBattleStats(string str,char endBattleArray[25][78])
     {
         while (getline (mymapfile,mapline))
         {
-            for ( int x = 0; x < mapline.length(); x++ )
+            for (unsigned int x = 0; x < mapline.length(); x++ )
             {
                 endBattleArray[y2][x] = mapline[x];
             }
@@ -51,7 +51,7 @@ void readMenu(string str,char menuArray[22][78])
     {
         while (getline (menuFile, line))
         {
-            for ( int x = 0; x < line.length(); x++ )
+            for (unsigned int x = 0; x < line.length(); x++ )
             {
                 menuArray[y2][x] = line[x];
             }
@@ -73,7 +73,7 @@ void readGameCleared(string str,char gameClearedArray[25][78])
     {
         while (getline (menuFile, line))
         {
-            for ( int x = 0; x < line.length(); x++ )
+            for (unsigned int x = 0; x < line.length(); x++ )
             {
                 gameClearedArray[y2][x] = line[x];
             }
@@ -93,7 +93,7 @@ void readTutorial(string str, char instructionArray[22][78])
 	{
 		while (getline(controlfile, line))
 		{
-			for (int x = 0; x < line.length(); x++)
+			for (unsigned int x = 0; x < line.length(); x++)
 			{
 				instructionArray[y2][x] = line[x];
 			}
@@ -113,7 +113,7 @@ void readDifficulty(string str, char difficultysetArray[22][78])
 	{
 		while (getline(controlfile, line))
 		{
-			for (int x = 0; x < line.length(); x++)
+			for (unsigned int x = 0; x < line.length(); x++)
 			{
 				difficultysetArray[y2][x] = line[x];
 			}
@@ -133,7 +133,7 @@ void readOptionsMenu(string str,char optionArray[22][78])
     {
         while (getline (controlfile, line))
         {
-            for ( int x = 0; x < line.length(); x++ )
+            for (unsigned int x = 0; x < line.length(); x++ )
             {
                 optionArray[y2][x] = line[x];
             }
@@ -151,7 +151,7 @@ void readPortal(string str,char screenArray[25][78])
         {
             while (getline (stageClr,mapline))
             {
-                for ( int x = 0; x < mapline.length(); x++ )
+                for (unsigned int x = 0; x < mapline.length(); x++ )
                 {
                     screenArray[y2][x] = mapline[x];
                 }
@@ -170,7 +170,7 @@ void readBattleScreen(string str,char battleArray[20][78])
     {
         while (getline (mymapfile,mapline))
         {
-            for ( int x = 0; x < mapline.length(); x++ )
+            for (unsigned int x = 0; x < mapline.length(); x++ )
             {
                 battleArray[y2][x] = mapline[x];
             }
@@ -189,7 +189,7 @@ void readBattleScreen2(string str,char battleArrayALT[20][78])
     {
         while (getline (mymapfile,mapline))
         {
-            for ( int x = 0; x < mapline.length(); x++ )
+            for (unsigned int x = 0; x < mapline.length(); x++ )
             {
                 battleArrayALT[y2][x] = mapline[x];
             }
@@ -209,7 +209,7 @@ void read2ndBattleScreen(string str,char battleArray2[20][78])
     {
         while (getline (mymapfile,mapline))
         {
-            for ( int x = 0; x < mapline.length(); x++ )
+            for (unsigned int x = 0; x < mapline.length(); x++ )
             {
                 battleArray2[y2][x] = mapline[x];
             }
@@ -228,7 +228,7 @@ void read2ndBattleScreen2(string str,char battleArray2ALT[20][78])
     {
         while (getline (mymapfile,mapline))
         {
-            for ( int x = 0; x < mapline.length(); x++ )
+            for (unsigned int x = 0; x < mapline.length(); x++ )
             {
                 battleArray2ALT[y2][x] = mapline[x];
             }
@@ -247,7 +247,7 @@ void readBossScreen(string str,char bossArray[20][78])
     {
         while (getline (mymapfile,mapline))
         {
-            for ( int x = 0; x < mapline.length(); x++ )
+            for (unsigned int x = 0; x < mapline.length(); x++ )
             {
                 bossArray[y2][x] = mapline[x];
             }
@@ -266,7 +266,7 @@ void readBossScreen2(string str,char bossArrayALT[20][78])
     {
         while (getline (mymapfile,mapline))
         {
-            for ( int x = 0; x < mapline.length(); x++ )
+            for (unsigned int x = 0; x < mapline.length(); x++ )
             {
                 bossArrayALT[y2][x] = mapline[x];
             }
@@ -285,7 +285,7 @@ void readGameOver(string str,char ggArray[25][78])
     {
         while (getline (gameOver,mapline))
         {
-            for ( int x = 0; x < mapline.length(); x++ )
+            for (unsigned int x = 0; x < mapline.length(); x++ )
             {
                 ggArray[y2][x] = mapline[x];
             }
@@ -305,7 +305,7 @@ void readLoadScreen(string str,char loadScrnArray[25][78])
     {
         while (getline (loadScrn, line))
         {
-            for ( int x = 0; x < line.length(); x++ )
+            for (unsigned int x = 0; x < line.length(); x++ )
             {
                 loadScrnArray[y][x] = line[x];
             }
