@@ -65,7 +65,7 @@ void setPlayerChangableStats()
 void initiallizeMonsterStats()
 {
 	srand((unsigned)time(0));
-	MonsterUnit.level = (rand()% 5 + (currAtStage * (player.level + 5) + currAtStage ));
+	MonsterUnit.level = (rand()% 5 + (currAtStage * ((player.level + 5) + currAtStage)));
 	MonsterUnit.hp = (MonsterUnit.level * 2);   // Got x2
 	MonsterUnit.expgiven = ((rand()%3) + 1) * MonsterUnit.level;
 
