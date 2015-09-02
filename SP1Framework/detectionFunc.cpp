@@ -123,7 +123,6 @@ void changePlayerStats()
     player.exp -= player.expCap;
     player.expCap = 50 * player.level;
     player.hp += 300;
-
     // 10 / 2 = 5.0 (lvl 1) 3.75 3.12
     //200 / 78 = 2.5 (lvl 36)
     //1 2 3 4 5 6

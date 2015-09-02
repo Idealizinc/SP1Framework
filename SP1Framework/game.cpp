@@ -540,22 +540,23 @@ void checkPlayerAnswer()
         enemyAttkTime = true;
 		attkTime += 4;
         }
-        if (elapsedTime >= attkTime)
-        {
-            allowEnemyAttk = true;
-            questionMade = false;
-            enemyAttkTime = false;
-        }
+            if ((elapsedTime >= attkTime))//60 65 
+            {
+                allowEnemyAttk = true;
+                questionMade = false;
+                enemyAttkTime = false;
+            }
     }
     //Enemy Strikes
     if (allowEnemyAttk == true)
     {
+        
             answer.erase();
             player.hp -= MonsterUnit.damage;
             allowEnemyAttk = false;
     }
 
-	if (foeHP <= 0) //HP2 is monster hp
+	if (foeHP <= 0) //foeHP is monster hp
 	{
 		if (battleModeOn == true)
 		{
