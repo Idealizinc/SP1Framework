@@ -576,9 +576,9 @@ void checkPlayerAnswer()
 	}
 	if (((player.hp <= 0) || (player.chance <= 0)) && (mainMenu == false) && (loading == false))
 	{
-		mobDown = true;
 		selectionMade = false;
 		playerDead = true;
+		//currState = G_GameOver;
 	}
 }
 

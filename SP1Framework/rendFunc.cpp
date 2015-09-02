@@ -124,14 +124,14 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
 	}
-	else if ((battleModeOn == true) || ((inBossFight == true)) && (bossCleared == false))
-	{
-		console.writeToBuffer(j,i, toBePrinted, 0x0F); // Coloration Failed - blk Txt
-	}
-    else if ((playerDead == true))
+	else if ((playerDead == true))
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0C); // Color The Underscores dashes RED.
 	}
+	else if ((battleModeOn == true) || ((inBossFight == true)) && (bossCleared == false))
+	{
+		console.writeToBuffer(j,i, toBePrinted, 0x0F); // Coloration Failed - blk Txt
+	} 
 }
 
 void renderCharacter()
@@ -347,8 +347,6 @@ void renderGameOver()
 			renderPrintedText( toBePrinted, j, i );
 		}
     }
-	battleModeOn = false;
-	inBossFight = false;
 	if ( keyPressed[K_SPACE] )
 	{
 		switch(currAtStage)
@@ -356,15 +354,19 @@ void renderGameOver()
 			case 1: currState = G_Stage1; break;
 			case 2: currState = G_Stage2; break;
 			case 3: currState = G_Stage3; break;
-			case 4: currState = G_StageCleared; break;
+			case 4: currState = G_Stage4; break;
+			case 5: currState = G_Stage5; break;
+			case 6: currState = G_StageCleared; break;
 		}
 		currAtStage = 0;
 		renderedChar = false;
 		locationSaved = false;
 		playerDead = false;
 		bossCleared = false;
-		drawMapRendChar();
 		hpInitiallized = false;
+		battleModeOn = false;
+		inBossFight = false;
+		drawMapRendChar();
 	}
     if ( keyPressed[K_ESCAPE] )
     {
@@ -578,7 +580,6 @@ void printChestReward()
 		chestReward += reward;
 		chestReward += "!";
 		console.writeToBuffer(chestNotif,chestReward,0x0A);
-		
 }
 
 void printFakeChestInfo()
@@ -745,6 +746,13 @@ void renderSelection()
 			locationSaved = false;
 		}
 	}
+	else if ((playerDead == true) && (renderedChar == true))
+    {
+        charLocation.X = 100;
+		charLocation.Y = 100;
+		playerInputOn = false;
+		currState = G_GameOver;
+    }
 	else if ((battleModeOn == true) && (loading == false))
 	{
 		animateBSNorm();
@@ -777,13 +785,6 @@ void renderSelection()
 		charLocation.Y = 100;
 		playerInputOn = false;
 		currState = G_StageCleared;
-    }
-    else if ((playerDead == true) && (loading == false) && (mainMenu == false) && (renderedChar == true))
-    {
-        charLocation.X = 100;
-		charLocation.Y = 100;
-		playerInputOn = false;
-		currState = G_GameOver;
     }
 	else if (loading == true)
     {

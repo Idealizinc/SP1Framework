@@ -50,7 +50,7 @@ void initiallizePlayerStats()
     player.chance = 3;
     player.exp = 0;
     //player.expCap = 100;
-	player.hp = 1000;
+	player.hp = 100;//1000;
 	player.damage = 2;
 	player.expCap = 50 * player.level;
 	limitEXP = player.expCap;
