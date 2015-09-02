@@ -54,7 +54,7 @@ string stage_Map;           //store stage level.
 double loadTimer;
 bool loading = false;
 char loadScrnArray[25][78];
-GameStates currState = G_MainMenu;// G_MainMenu;
+GameStates currState = G_MainMenu;
 bool mainMenu = false;
 char menuArray[25][78];
 bool hpInitiallized = false;
@@ -253,19 +253,27 @@ void getReadData(int val)
 				break;
 		case 4:	normal_Monster1 = "MOB_DEVIL1.txt";
 				normal_Monster1ALT = "MOB_DEVIL2.txt";
-				normal_Monster2 = "MOB_Spider1.txt";
-				normal_Monster2ALT = "MOB_Spider2.txt";
+				normal_Monster2 = "MOB_CAT1.txt";
+				normal_Monster2ALT = "MOB_CAT2.txt";
 				boss_Monster1 = "MOB_SLIME1.txt"; 
 				boss_Monster1ALT = "MOB_SLIME2.txt";
 				stage_Map = "Map4.txt";
 				break;
-		case 5:	normal_Monster1 = "MOB_DEVIL1.txt";
+		case 5:	normal_Monster1 = "MOB_SLIME1.txt";
+				normal_Monster1ALT = "MOB_SLIME2.txt";
+				normal_Monster2 = "MOB_BAT1.txt";
+				normal_Monster2ALT = "MOB_BAT2.txt";
+				boss_Monster1 = "MOB_BAT1.txt";
+				boss_Monster1ALT = "MOB_BAT2.txt";
+				stage_Map = "Map5.txt";
+				break;
+		case 6:	normal_Monster1 = "MOB_DEVIL1.txt";
 				normal_Monster1ALT = "MOB_DEVIL2.txt";
 				normal_Monster2 = "MOB_Spider1.txt";
 				normal_Monster2ALT = "MOB_Spider2.txt";
-				boss_Monster1 = "MOB_SLIME1.txt";
-				boss_Monster1ALT = "MOB_SLIME2.txt";
-				stage_Map = "Map5.txt";
+				boss_Monster1 = "MOB_DEVIL1.txt";
+				boss_Monster1ALT = "MOB_DEVIL2.txt";
+				stage_Map = "Map6.txt";
 				break;
 	}
 	readMap(stage_Map,mapArray);
@@ -330,7 +338,7 @@ void checkMove()
 			(mapArray[Y - 1][X] != 'Z') && (mapArray[Y - 1][X] != 'M'))
 		{
 			charLocation.Y--;
-			//monsterCheck();
+			monsterCheck();
 		}
 	}
 
@@ -341,7 +349,7 @@ void checkMove()
 			(mapArray[Y][X - 1] != 'Z') && (mapArray[Y][X - 1] != 'M'))
 		{
 			charLocation.X--;
-			//monsterCheck();
+			monsterCheck();
 		}
 	}
 	else if ((keyPressed[K_DOWN] || keyPressed[K_S]) && charLocation.Y < console.getConsoleSize().Y - 1)
@@ -351,7 +359,7 @@ void checkMove()
 			(mapArray[Y + 1][X] != 'Z') && (mapArray[Y + 1][X] != 'M'))
 		{
 			charLocation.Y++;
-			//monsterCheck();
+			monsterCheck();
 		}
 	}
 	else if ((keyPressed[K_RIGHT] || keyPressed[K_D]) && charLocation.X < console.getConsoleSize().X - 1)
@@ -361,7 +369,7 @@ void checkMove()
 			(mapArray[Y][X + 1] != 'Z') && (mapArray[Y][X + 1] != 'M'))
 		{
 			charLocation.X++;
-			//monsterCheck();
+			monsterCheck();
 		}
 	}
 	if (mapArray[Y][X] == 'E')
@@ -386,9 +394,9 @@ void monsterCheck()
 
 void processUserInput()
 {
-     //quits the game if player hits the escape key
- //   if (keyPressed[K_ESCAPE])
- //   {
+    //quits the game if player hits the escape key
+    //if (keyPressed[K_ESCAPE])
+    //{
 	//	g_quitGame = true;
 	//}
 }

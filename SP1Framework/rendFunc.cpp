@@ -48,11 +48,6 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 		toBePrinted = 176; // ░
 		console.writeToBuffer(j,i, toBePrinted, 0x70); // Light Grey [Floor]
 	}
-	else if (toBePrinted == 'B')
-	{
-		toBePrinted = 176; // ░
-		console.writeToBuffer(j,i, toBePrinted, 0x70); // Light Grey [Floor]
-	}
 	else if (toBePrinted == 'P')
 	{
 		xSpawnCoord = j; // Obtain spawn coordinates for player
