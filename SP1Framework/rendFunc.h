@@ -12,6 +12,9 @@ using std::string;
 using std::getline;
 using std::ifstream;
 using std::vector;
+using std::cin;
+using std::cout;
+using std::endl;
 
 void renderPrintedText(char toBePrinted ,int j,int i );
 void renderCharacter();     // renders the character into the buffer
@@ -42,4 +45,6 @@ void drawBattleScreen2ALT();
 void drawBattleScreenBoss();
 void drawEndBattleScreen();
 void renderOptionsMenu();
+void renderGameClear();
+
 #endif

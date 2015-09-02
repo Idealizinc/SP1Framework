@@ -60,6 +60,26 @@ void readMenu(string str,char menuArray[22][78])
     }
     menuFile.close();
 }
+
+void readGameCleared(string str,char gameClearedArray[25][78])
+{
+	string line;
+    int y2 = 0;
+    ifstream menuFile (str);
+
+    if (menuFile.is_open())
+    {
+        while (getline (menuFile, line))
+        {
+            for ( int x = 0; x < line.length(); x++ )
+            {
+                gameClearedArray[y2][x] = line[x];
+            }
+            ++y2;
+        }
+    }
+    menuFile.close();
+}
  
 void readTutorial(string str,char instructionArray[22][78])
 {

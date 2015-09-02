@@ -6,19 +6,27 @@ extern bool playerDead, mainMenu, loading, inBossFight, bossCleared, battleModeO
 extern COORD charLocation;
 extern enum GameStates currState;
 extern int xSpawnCoord, ySpawnCoord, xReturnCoord, yReturnCoord, status, randomsign, randomNo2, randomNo1, currAtStage, monsterHP, foeHP, foeLVL, playerlv, monsterXP, xGateCoord, yGateCoord;
-extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], instructionArray[25][78], battleArray2[20][78], battleArray2ALT[20][78], endBattleArray[25][78], optionArray[25][78];
+extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], instructionArray[25][78], battleArray2[20][78], battleArray2ALT[20][78], endBattleArray[25][78], optionArray[25][78], gameClearedArray[25][78];
 extern struct Hero player;
 extern struct Boss BossUnit;
 extern double deltaTime, elapsedTime, attkTime;
 extern bool selectionMade, mobDown, hpInitiallized;
 extern int selection;
 extern WORD playercolour;
+
 void renderPrintedText(char toBePrinted ,int j,int i )
 {
 	if (toBePrinted == 'A')
 	{
 		toBePrinted = 176; // ░
 		console.writeToBuffer(j,i, toBePrinted, 0x8A); // Dirty Green [Grass]
+	}
+	else if (toBePrinted == 'M')
+	{
+		yGateCoord = i;
+		xGateCoord = j;
+		toBePrinted = 93; // "]"
+		console.writeToBuffer(j, i, toBePrinted, 0x8E);
 	}
 	else if (toBePrinted == 'W')
 	{
@@ -36,6 +44,11 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 		console.writeToBuffer(j,i, toBePrinted, 0x80); // Dark Grey [Walls]
 	}
 	else if (toBePrinted == 'V')
+	{
+		toBePrinted = 176; // ░
+		console.writeToBuffer(j,i, toBePrinted, 0x70); // Light Grey [Floor]
+	}
+	else if (toBePrinted == 'B')
 	{
 		toBePrinted = 176; // ░
 		console.writeToBuffer(j,i, toBePrinted, 0x70); // Light Grey [Floor]
@@ -112,14 +125,7 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 		toBePrinted = 92; // "/"
 		console.writeToBuffer(j, i, toBePrinted, 0x8E); 
 	}
-	else if (toBePrinted == 'M')
-	{
-		xGateCoord = i;
-		yGateCoord = j;
-		toBePrinted = 93; // "]"
-		console.writeToBuffer(j, i, toBePrinted, 0x8E); 
-	}
-	else if ((loading == true) || (atPortal == true) || (mainMenu == true))
+	else if ((loading == true) || (atPortal == true) || (mainMenu == true) || (currState == G_GameCleared))
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0B); // Color The Underscores dases and so, Blue.
 	}
@@ -310,7 +316,9 @@ void portalrender()
 			case 1: currState = G_Stage2; break;
 			case 2: currState = G_Stage3; break;
 			case 3: currState = G_Stage4; break;
-			case 4: currState = G_StageCleared; break;
+			case 4: currState = G_Stage5; break;
+			case 5: currState = G_Stage6; break;
+			case 6: currState = G_GameCleared; break;
 		}
 		atPortal = false;
 		//currState = G_Stage2;
@@ -326,8 +334,14 @@ void portalrender()
             case 1: currState = G_MainMenu; break;
         }
     }
+	COORD X;
+	X.X = 17;
+	X.Y = 22;
+	string text = "Press 'space' to go to the next stage.";
+	console.writeToBuffer(X, text, 0x0B);
 } 
 // readGameOver()
+
 void renderGameOver()
 {
     for (int i = 0; i < 25; ++i)
@@ -368,10 +382,37 @@ void renderGameOver()
     }
 }
 
+void renderGameClear()
+{
+    for (int i = 0; i < 25; ++i)
+	{
+		for (int j = 0; j < 78; ++j)
+		{
+			char toBePrinted = gameClearedArray[i][j];
+			renderPrintedText( toBePrinted,j,i );
+		}
+     }
+	if (keyPressed[K_SPACE])
+	{
+		currState = G_MainMenu;
+		atPortal = false;
+		bossCleared = false;
+		battleModeOn = false;
+		renderedChar = false;
+		playerDead = false;
+	}
+	COORD X;
+	X.X = 17;
+	X.Y = 22;
+	string text = "Press 'space' to return to the main menu.";
+	console.writeToBuffer(X, text, 0x0A);
+} 
+
 void printMapStats()
 {
-	checkLevelUp();
 	COORD c;
+
+    checkLevelUp();
 
     std::ostringstream mylvl;
     mylvl << player.level;
@@ -462,6 +503,7 @@ void printBattleStats()
     string myDMG = mydmg.str(); // string that contains player dmg
 
 	string text;
+
 	text = " My HP: ";
 	text += myHP;
     text += "    My DMG: ";
@@ -472,6 +514,8 @@ void printBattleStats()
 	c.X = 20;
 	c.Y = 19;
 	console.writeToBuffer(c, text, 0xF9);
+
+    //0xF0 (blak txt wite bg)
 
     //attk speed.
     COORD enemyStats;
@@ -502,6 +546,7 @@ void printBattleStats()
     enemyStats.Y = 20;
     console.writeToBuffer(enemyStats, textEnemyStat, 0xF4);
 
+
 	COORD d;
 	string question;
 	question = "What is ";
@@ -527,7 +572,6 @@ void printBattleStats()
 	numberinput();
 	checkPlayerAnswer();
 }
-
 void printChestReward()
 {
 		COORD chestNotif;
@@ -817,18 +861,10 @@ void renderOptionsMenu()
 			   renderPrintedText( toBePrinted, j, i );
 		    }
     }
-	console.writeToBuffer(20,12, "The default character is white", 0x0F );
-	console.writeToBuffer(20,13, "Press 1 for a Red Character ", 0x0C );
-	console.writeToBuffer(20,14, "Press 2 for a Blue Character ", 0x09 );
-	console.writeToBuffer(20,15, "Press 3 for a White Character ", 0x0F );
-	console.writeToBuffer(20,16, "Press 4 for a Teal Character ", 0x0B );
-	console.writeToBuffer(20,17, "Press 5 for a Yellow Character ", 0x0E );
-	console.writeToBuffer(20,18, "Press 6 for a Pink Character ", 0x0D );
-	console.writeToBuffer(20,19, "Press 7 for a Green Character ", 0x0A );
-	console.writeToBuffer(20,20, "Press 8 for a Black Character ", 0xF0 );
-	
+
+	//console.writeToBuffer(  )
 	int playerchoice = 0;
-	for (unsigned int i = K_1; i <= K_8 ; i++ )
+	for (unsigned int i = K_1; i <= K_9 ; i++ )
 	{
 		if ( (keyPressed[i]) )
 		{
@@ -837,18 +873,17 @@ void renderOptionsMenu()
 			{
 				case  1  : playercolour = 0x7C; break;
 				case  2  : playercolour = 0x79; break;
-				case  3  : playercolour = 0x7F; break;
+				case  3  : playercolour = 0x7A; break;
 				case  4  : playercolour = 0x7B; break;
 				case  5  : playercolour = 0x7E; break;
 				case  6  : playercolour = 0x7D; break;
-				case  7  : playercolour = 0x7A; break;
+				case  7  : playercolour = 0x7F; break;
 				case  8  : playercolour = 0x70; break;
 				default : playercolour = 0x7F; break;
 			}
 		}
 	}
-	console.writeToBuffer(20,22,"This is how you will look like in game: ",0x0F );
-	console.writeToBuffer(60,22,(char)2,playercolour );
+	
 	COORD X;
 	X.X = 17;
 	X.Y = 24;

@@ -27,6 +27,7 @@ char battleArray2[20][78];
 char battleArray2ALT[20][78];
 char endBattleArray[25][78];
 char optionArray[25][78];
+char gameClearedArray[25][78];
 
 //Impt Variables
 int xSpawnCoord = 0, ySpawnCoord = 0;
@@ -128,6 +129,7 @@ void init()
 	readTutorial("controls.txt", instructionArray);
 	readOptionsMenu("optionScreen.txt", optionArray);
 	readEndBattleStats("endBattleScreen.txt", endBattleArray);
+	readGameCleared("gameCleared.txt", gameClearedArray);
 
     charLocation.X = console.getConsoleSize().X / 2;
     charLocation.Y = console.getConsoleSize().Y / 2;
@@ -257,6 +259,14 @@ void getReadData(int val)
 				boss_Monster1ALT = "MOB_SLIME2.txt";
 				stage_Map = "Map4.txt";
 				break;
+		case 5:	normal_Monster1 = "MOB_DEVIL1.txt";
+				normal_Monster1ALT = "MOB_DEVIL2.txt";
+				normal_Monster2 = "MOB_Spider1.txt";
+				normal_Monster2ALT = "MOB_Spider2.txt";
+				boss_Monster1 = "MOB_SLIME1.txt";
+				boss_Monster1ALT = "MOB_SLIME2.txt";
+				stage_Map = "Map5.txt";
+				break;
 	}
 	readMap(stage_Map,mapArray);
 	readBattleScreen(normal_Monster1,battleArray);
@@ -287,9 +297,10 @@ void render()
 		case G_Stage2: currAtStage = 2; drawMapRendChar(); break;
 		case G_Stage3: currAtStage = 3; drawMapRendChar(); break;
 		case G_Stage4: currAtStage = 4; drawMapRendChar(); break;
-		/*case G_Stage5: currAtStage = 5; drawMapRendChar(); break;
-		case G_Stage6: currAtStage = 6; drawMapRendChar(); break;*/
+		case G_Stage5: currAtStage = 5; drawMapRendChar(); break;
+		case G_Stage6: currAtStage = 6; drawMapRendChar(); break;
 		case G_StageCleared: portalrender(); break;
+		case G_GameCleared: renderGameClear(); break;
 		case G_GameOver: renderGameOver(); break; 
 		
 	}
@@ -319,7 +330,7 @@ void checkMove()
 			(mapArray[Y - 1][X] != 'Z') && (mapArray[Y - 1][X] != 'M'))
 		{
 			charLocation.Y--;
-			monsterCheck();
+			//monsterCheck();
 		}
 	}
 
@@ -330,7 +341,7 @@ void checkMove()
 			(mapArray[Y][X - 1] != 'Z') && (mapArray[Y][X - 1] != 'M'))
 		{
 			charLocation.X--;
-			monsterCheck();
+			//monsterCheck();
 		}
 	}
 	else if ((keyPressed[K_DOWN] || keyPressed[K_S]) && charLocation.Y < console.getConsoleSize().Y - 1)
@@ -340,7 +351,7 @@ void checkMove()
 			(mapArray[Y + 1][X] != 'Z') && (mapArray[Y + 1][X] != 'M'))
 		{
 			charLocation.Y++;
-			monsterCheck();
+			//monsterCheck();
 		}
 	}
 	else if ((keyPressed[K_RIGHT] || keyPressed[K_D]) && charLocation.X < console.getConsoleSize().X - 1)
@@ -350,7 +361,7 @@ void checkMove()
 			(mapArray[Y][X + 1] != 'Z') && (mapArray[Y][X + 1] != 'M'))
 		{
 			charLocation.X++;
-			monsterCheck();
+			//monsterCheck();
 		}
 	}
 	if (mapArray[Y][X] == 'E')
