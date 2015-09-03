@@ -386,7 +386,7 @@ void renderGameOver()
 			case 3: currState = G_Stage3; break;
 			case 4: currState = G_Stage4; break;
 			case 5: currState = G_Stage5; break;
-			case 6: currState = G_StageCleared; break;
+			case 6: currState = G_Stage6; break;
 		}
 		currAtStage = 0;
 		renderedChar = false;
@@ -422,20 +422,30 @@ void renderGameClear()
 			renderPrintedText( toBePrinted,j,i );
 		}
      }
-	if (keyPressed[K_SPACE])
-	{
-		currState = G_MainMenu;
-		atPortal = false;
-		bossCleared = false;
-		battleModeOn = false;
-		renderedChar = false;
-		playerDead = false;
-	}
 	string text = "<Press 'space' to return to the main menu>";
 	console.writeToBuffer(17, 22, text, 0x0A);
     initiallizePlayerStats();
     initiallizeMonsterStats();
     battleModeOn = false;
+	if (keyPressed[K_ENTER] || keyPressed[K_SPACE])
+	{
+		if (canpress == false)
+		{
+			storedTime2 = elapsedTime + 0.5;
+			canpress = true;
+		}
+		if ((elapsedTime >= storedTime2) && (canpress == true))
+		{
+			allowNumInput = true;
+			canpress = false;
+			currState = G_MainMenu;
+			atPortal = false;
+			bossCleared = false;
+			battleModeOn = false;
+			renderedChar = false;
+			playerDead = false;
+		}
+	}
 } 
 
 void printMapStats()

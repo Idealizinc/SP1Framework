@@ -55,7 +55,7 @@ string stage_Map;           //store stage level.
 //Game State
 double loadTimer;
 bool loading = false;
-GameStates currState = G_MainMenu;
+GameStates currState = G_Stage6;
 int playerchoice = 1;
 bool mainMenu = false;
 char menuArray[25][78];

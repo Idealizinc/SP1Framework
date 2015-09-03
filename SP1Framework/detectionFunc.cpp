@@ -36,7 +36,7 @@ void chestOpen()
         mapArray[charLocation.Y][charLocation.X] = 'V';
         status += 20;
         player.hp += 200;
-		player.exp += 9900;
+		player.exp += 50*player.level;
     }
 	if (mapArray[charLocation.Y][charLocation.X] == 'R')
     { 
