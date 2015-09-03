@@ -8,6 +8,7 @@ extern struct Hero player;
 extern struct Boss BossUnit;
 extern struct Monster MonsterUnit;
 extern int yGateCoord, xGateCoord;
+extern int leverFlip;
 
 extern unsigned int difficultySet;
 
@@ -24,7 +25,8 @@ void leverpull()
 	if (mapArray[charLocation.Y][charLocation.X] == 'K')
 	{
 		mapArray[yGateCoord][xGateCoord] = 'V';
-		mapArray[charLocation.Y][charLocation.X] = 47;
+		mapArray[charLocation.Y][charLocation.X] = 'V';
+        leverFlip += 20;
 	}
 }
 

@@ -28,6 +28,7 @@ extern bool allowNumInput, limiterSet;
 double storedTime2, storedtime3;
 bool timeSet = false;
 unsigned int pageCounter = 0;
+extern int leverFlip;
 
 void renderPrintedText(char toBePrinted ,int j,int i )
 {
@@ -111,6 +112,10 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 	{
 		console.writeToBuffer(j, i, 92, 0x8E); // "/"
 	}
+    else if (toBePrinted == 'L')
+    {
+        console.writeToBuffer(j, i, 232, 0x7E);
+    }
 	else if (currState == G_StoryScreen)
 	{
 		console.writeToBuffer(j,i, toBePrinted, 0x0E); // Color The Underscores dashes Yellow.
@@ -579,6 +584,7 @@ void printBattleStats()
     textEnemyStat += enemyLVL;
 	textEnemyStat += "    Enemy HP: ";
 	textEnemyStat += monhp;
+    textEnemyStat += " ";
     enemyStats.X = 20;
     enemyStats.Y = 20;
     console.writeToBuffer(enemyStats, textEnemyStat, 0xF4);
@@ -702,6 +708,12 @@ void drawMap()
     {
         printFakeChestInfo();
         status++;
+    }
+    if (leverFlip > 0)
+    {
+        string LeverFlip = "You have opened the gate!";
+        console.writeToBuffer(25, 23, LeverFlip, 0x0E);
+        leverFlip--;
     }
 }
 

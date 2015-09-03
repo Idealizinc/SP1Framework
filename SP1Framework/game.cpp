@@ -41,7 +41,7 @@ int playerlv = 100;
 int numberOfTries = 4;
 
 //ENABLE PLAYER ENCOUNTER
-bool randomEncountersOn = false; // SET TO TRUE LATER
+bool randomEncountersOn = true; // SET TO TRUE LATER
 
 //Read Values
 string normal_Monster1;     //store first frame of monster txt
@@ -117,6 +117,8 @@ int stageVal = 21;              //Random unrelated value
 //Status
 int status = 0;
 
+//Lever Flip
+int leverFlip = 0;
 
 // Game specific variables here
 COORD charLocation;
@@ -532,7 +534,6 @@ void createQuestion()
 			case 3: ans = randomNo1 * randomNo2; break;
 			case 4: DrandomNo3 = DrandomNo1 * DrandomNo2; ans= DrandomNo3 / DrandomNo2; break;//  D1(3) * D2(5) = D3(15)  [ what is 15 / 5? ans 3 ] 
 		}
-		cout << ans << endl;
 		std::ostringstream theAnswer;
 		theAnswer << ans;
 		string qnAnswer = theAnswer.str();
