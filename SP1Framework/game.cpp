@@ -56,7 +56,7 @@ string stage_Map;           //store stage level.
 double loadTimer;
 bool loading = false;
 char loadScrnArray[25][78];
-GameStates currState = G_Stage6;
+GameStates currState = G_MainMenu;
 int playerchoice = 1;
 bool mainMenu = false;
 char menuArray[25][78];
@@ -98,7 +98,7 @@ int stageVal = 21;              //Random unrelated value
 bool allowEnemyAttk = false;    // enemy to attack.
 bool enemyAttkTime = false;
 double attkTime;                // Attkspeed of enemy
-double enemyAttk = 7.00;        // player to attk.
+double enemyAttk = 10.00;        // player to attk.
 unsigned int difficultySet = 1;
 
 
@@ -575,14 +575,14 @@ void checkPlayerAnswer()
         if (enemyAttkTime == false)
         {
             //attk time is time left to attk.
-		    attkTime = elapsedTime + enemyAttk;
+		    attkTime = elapsedTime + (enemyAttk - difficultySet);
             enemyAttkTime = true;
         }
         if ((elapsedTime >= attkTime))
         {
             allowEnemyAttk = true;
             questionMade = false;
-		    attkTime = elapsedTime + enemyAttk;
+		    attkTime = elapsedTime + (enemyAttk - difficultySet);
         }
     }
     //Enemy Strikes

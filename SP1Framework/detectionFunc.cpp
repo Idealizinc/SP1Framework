@@ -37,7 +37,7 @@ void chestOpen()
         player.hp += 200;
     }
 	if (mapArray[charLocation.Y][charLocation.X] == 'R')
-    {
+    { 
         //insert item codes
         mapArray[charLocation.Y][charLocation.X] = 'V';
         status -= 20;
@@ -68,12 +68,12 @@ void initiallizeMonsterStats()
 {
     //difficultySet 1 2 3.
 	srand((unsigned)time(0));
-	MonsterUnit.level = (rand()% 5 + (currAtStage * (player.level * difficultySet)));
-	MonsterUnit.hp = (MonsterUnit.level * difficultySet + (player.level * 2));   // previously x2
+	MonsterUnit.level = (rand()% 5 + (currAtStage * (difficultySet + 2) + player.level));
+	MonsterUnit.hp = ((currAtStage * (player.level * (difficultySet + 1))) * difficultySet + (player.level * 2));   // previously x2
 	MonsterUnit.expgiven = (4 - difficultySet) * (MonsterUnit.level + (4 - difficultySet));
 
-    BossUnit.level = 20 + ((currAtStage * 2) * (player.level));
-	BossUnit.hp = BossUnit.level * 2;
+    BossUnit.level = 20 + (difficultySet * currAtStage) + player.level;
+	BossUnit.hp = ((currAtStage * 3) * (player.level * difficultySet)) * 2;
 	BossUnit.expgiven = 200 * (currAtStage * (difficultySet + 1));
 
 	monsterHP = MonsterUnit.hp;

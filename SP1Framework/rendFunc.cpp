@@ -425,6 +425,7 @@ void renderGameClear()
 		battleModeOn = false;
 		renderedChar = false;
 		playerDead = false;
+        initiallizePlayerStats();
 	}
 	COORD X;
 	X.X = 17;
