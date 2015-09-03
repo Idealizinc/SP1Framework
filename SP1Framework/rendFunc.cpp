@@ -140,9 +140,9 @@ void renderFramerate()
     COORD c;
     // displays the framerate
     std::ostringstream ss;
-    ss << std::fixed << std::setprecision(3);
+    ss << std::fixed << std::setprecision(1);
     ss << 1.0 / deltaTime << "FPS";
-    c.X = console.getConsoleSize().X - 9;
+    c.X = console.getConsoleSize().X - 7;
     c.Y = 0;
     console.writeToBuffer(c, ss.str(), 0xF0);
 
@@ -1324,6 +1324,10 @@ void renderStoryScreen()
 			}
 			loading = false;
 			atPortal = false;
+			renderedChar = false;
+			battleModeOn = false;
+			inBossFight = false;
+			bossCleared = false;
 		}
 	}
 	if ( keyPressed[K_ESCAPE] )

@@ -37,7 +37,7 @@ int xGateCoord = 0, yGateCoord = 0;
 int xReturnCoord, yReturnCoord;
 bool renderedChar = false;
 int playerxp = 0;
-int playerlv = 1;
+int playerlv = 100;
 int numberOfTries = 4;
 
 //ENABLE PLAYER ENCOUNTER
@@ -65,7 +65,7 @@ bool hpInitiallized = false;
 //Movement and Detection
 bool playerInputOn = true;      // toggles movement of player.
 bool battleModeOn = false;      // when true, loads battle screen
-bool inBossFight = false;       // toggles inboss fight screen.
+bool inBossFight = true;       // toggles inboss fight screen.
 bool bossCleared = false;       // when boss cleared, won't meet again.
 bool mobDown = false;			// Check when monster dies
 unsigned int difficultySet = 1; //Difficulty of game

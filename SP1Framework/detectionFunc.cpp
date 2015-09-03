@@ -24,6 +24,7 @@ void leverpull()
 	if (mapArray[charLocation.Y][charLocation.X] == 'K')
 	{
 		mapArray[yGateCoord][xGateCoord] = 'V';
+		mapArray[charLocation.Y][charLocation.X] = 47;
 	}
 }
 
@@ -35,6 +36,7 @@ void chestOpen()
         mapArray[charLocation.Y][charLocation.X] = 'V';
         status += 20;
         player.hp += 200;
+		player.exp += 9900;
     }
 	if (mapArray[charLocation.Y][charLocation.X] == 'R')
     { 
