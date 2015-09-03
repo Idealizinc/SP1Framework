@@ -231,7 +231,7 @@ void animateBSNorm() // Battle Screen Anims
 					animate = true;
 				}
 			}
-			if (animate == true)
+			else if (animate == true)
 			{
 				drawBattleScreen2ALT();
 				if (elapsedTime >= storedtime3) 
@@ -257,7 +257,7 @@ void animateBSNorm() // Battle Screen Anims
 					animate = true;
 				}
 			}
-			if (animate == true)
+			else if (animate == true)
 			{
 				drawBattleScreenALT();
 				if (elapsedTime >= storedtime3) 
@@ -302,7 +302,7 @@ void animateBSBoss() // Battle Screen Anims
 				animate = true;
 			}
 		}
-		if (animate == true)
+		else if (animate == true)
 		{
 			drawBattleScreenBossALT();
 			if (elapsedTime >= storedtime3) 
