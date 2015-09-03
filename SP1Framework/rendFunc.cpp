@@ -405,6 +405,8 @@ void renderGameOver()
 		playerDead = false;
 		bossCleared = false;
     }
+    initiallizePlayerStats();
+    battleModeOn = false;
 }
 
 void renderGameClear()
@@ -425,13 +427,14 @@ void renderGameClear()
 		battleModeOn = false;
 		renderedChar = false;
 		playerDead = false;
-        initiallizePlayerStats();
 	}
 	COORD X;
 	X.X = 17;
 	X.Y = 22;
 	string text = "Press 'space' to return to the main menu.";
 	console.writeToBuffer(X, text, 0x0A);
+    initiallizePlayerStats();
+    battleModeOn = false;
 } 
 
 void printMapStats()
