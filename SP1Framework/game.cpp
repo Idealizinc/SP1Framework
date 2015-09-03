@@ -55,7 +55,7 @@ string stage_Map;           //store stage level.
 //Game State
 double loadTimer;
 bool loading = false;
-GameStates currState = G_MainMenu;
+GameStates currState = G_Stage6;
 int playerchoice = 1;
 bool mainMenu = false;
 char menuArray[25][78];
@@ -228,6 +228,7 @@ void isReadDataNeeded()
 	if (hpInitiallized == false)
 	{
 		initiallizePlayerStats();
+        initiallizeMonsterStats();
 		hpInitiallized = true;
 	}
 }
@@ -594,13 +595,17 @@ void checkPlayerAnswer()
 			mobDown = true;
 		}
 		enemyAttkTime = false;
-		player.chance = 3; //resets chance
         player.exp += monsterXP;
 		initializeHP = false;
         //attkTime = elapsedTime + enemyAttk;
-        player.chance = 3; //resets chance
+        player.chance = 7 - difficultySet; //resets chance
 	}
-	if (((player.hp <= 0) || (player.chance <= 0)) && (mainMenu == false) && (loading == false))
+    if (player.chance <= 0)
+    {
+        player.hp -= 200;
+        player.chance = 7 - difficultySet;
+    }
+	if ((player.hp <= 0) && (mainMenu == false) && (loading == false))
 	{
 		selectionMade = false;
 		playerDead = true;

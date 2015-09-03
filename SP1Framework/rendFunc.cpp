@@ -408,6 +408,7 @@ void renderGameOver()
 		bossCleared = false;
     }
     initiallizePlayerStats();
+    initiallizeMonsterStats();
     battleModeOn = false;
 }
 
@@ -433,6 +434,7 @@ void renderGameClear()
 	string text = "<Press 'space' to return to the main menu>";
 	console.writeToBuffer(17, 22, text, 0x0A);
     initiallizePlayerStats();
+    initiallizeMonsterStats();
     battleModeOn = false;
 } 
 

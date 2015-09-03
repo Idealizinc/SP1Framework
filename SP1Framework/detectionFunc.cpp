@@ -49,7 +49,7 @@ void initiallizePlayerStats()
 {
 	int rngdamage = rand() % 10 + 50;
 	player.level = 1;
-    player.chance = 3;
+    player.chance = 7 - difficultySet;
     player.exp = 0;
 	player.hp = 1000;
 	player.damage = 2;
@@ -70,7 +70,7 @@ void initiallizeMonsterStats()
 	srand((unsigned)time(0));
 	MonsterUnit.level = (rand()% 5 + (currAtStage * (difficultySet + 2) + player.level));
 	MonsterUnit.hp = ((currAtStage * (player.level * (difficultySet + 1))) * difficultySet + (player.level * 2));   // previously x2
-	MonsterUnit.expgiven = (4 - difficultySet) * (MonsterUnit.level + (4 - difficultySet));
+	MonsterUnit.expgiven =rand()%20 + (4 - difficultySet) * (MonsterUnit.level + (4 - difficultySet));
 
     BossUnit.level = 20 + (difficultySet * currAtStage) + player.level;
 	BossUnit.hp = ((currAtStage * 3) * (player.level * difficultySet)) * 2;
