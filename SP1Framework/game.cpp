@@ -69,9 +69,7 @@ bool playerInputOn = true;      // toggles movement of player.
 int answerIsDifferent;          // check if player ans is diff.
 string battleAnswer;            // holds value of player ans.
 bool locationSaved =  false;    // saves player location upon battle.
-///////////////////////Edit Val Ltr
-bool bossCleared = true;       // when boss cleared, won't meet again.
-///////////////////////
+bool bossCleared = false;       // when boss cleared, won't meet again.
 bool inBossFight = false;       // toggles inboss fight screen.
 bool initializeHP = false;      // To initialise monster/boss HP
 bool selectionMade = false;
