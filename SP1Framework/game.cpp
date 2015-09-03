@@ -62,65 +62,66 @@ char menuArray[25][78];
 bool hpInitiallized = false;
 
 //For Battle Scrn & Battle Anim 
-bool battleModeOn = false;      // when true, loads battle screen
-bool animate = true;            // toggles between two frames.
-bool animate2 = true;           // toggles between two frames.
+//Movement and Detection
 bool playerInputOn = true;      // toggles movement of player.
+bool battleModeOn = false;      // when true, loads battle screen
+bool inBossFight = false;       // toggles inboss fight screen.
+bool bossCleared = false;       // when boss cleared, won't meet again.
+bool mobDown = false;			// Check when monster dies
+unsigned int difficultySet = 1; //Difficulty of game
+bool onlever = false;			// Set to FALSE, For Levers in game
+bool atPortal = false;			//Set To FALSE, For moving to next level
+bool limiterSet = false;        // prevents players from input value multi time
+int currAtStage = 0;            // current stage level
+bool playerDead = false;		// For Gameover screen
+
+//Battle
 int answerIsDifferent;          // check if player ans is diff.
 string battleAnswer;            // holds value of player ans.
-bool locationSaved =  false;    // saves player location upon battle.
-bool bossCleared = false;       // when boss cleared, won't meet again.
-bool inBossFight = false;       // toggles inboss fight screen.
 bool initializeHP = false;      // To initialise monster/boss HP
-bool selectionMade = false;
-int selection;
-bool mobDown = false;
-
-//For Battle Systems
-bool playerInputted = false;    // check if player got put answer.
-bool questionMade = false;      // creates question only when answered.
+bool selectionMade = false;		// Checks which monster to spawn
+int selection;					// Chooses which monster to spawn
+double waitTime = 0.085;         // waiting time for inputing value.
+bool allowEnemyAttk = false;    // enemy to attack.
+bool enemyAttkTime = false;
+double attkTime;                // Attkspeed of enemy
+double enemyAttk = 10.00;        // player to attk.
 bool allowNumInput = true;      // player's num input
-int playerDmg;                  // player dmg
-double storedTime;              // the value of the stored time.
-bool limiterSet = false;        // prevents players from input value multi time
 int randomNo1;                  // random number for first value
 int randomNo2;                  // random number for second value
 int DrandomNo1;
 int DrandomNo2;
 int DrandomNo3;
+
+//Stats of player and monsters
+Hero player;					
+Monster MonsterUnit;
+Boss BossUnit;
+int charHP, HP, foeHP, foeLVL, limitEXP, Damage, Damage2, monsterXP, monsterHP;
+
+//Animation
+bool animate = true;            // toggles between two frames.
+bool animate2 = true;           // toggles between two frames.
+bool locationSaved =  false;    // saves player location upon battle.
+
+//For Battle Systems
+bool playerInputted = false;    // check if player got put answer.
+bool questionMade = false;      // creates question only when answered.
+int playerDmg;                  // player dmg
+double storedTime;              // the value of the stored time.
 int randomsign;                 // random sign symbols (not coded)
 string answer;                  //answer of player inputted.
-int currAtStage = 0;            // current stage level
 int stageVal = 21;              //Random unrelated value
-bool allowEnemyAttk = false;    // enemy to attack.
-bool enemyAttkTime = false;
-double attkTime;                // Attkspeed of enemy
-double enemyAttk = 10.00;        // player to attk.
-unsigned int difficultySet = 1;
 
-
-double waitTime = 0.085;         // waiting time for inputing value.
-
-//For Game Over Screen
-bool playerDead = false;
-
-// Keys
-bool onlever = false ; // Set to FALSE
 
 //Status
 int status = 0;
 
-//For Portal End Stage
-bool atPortal = false; //Set To FALSE
 
 // Game specific variables here
 COORD charLocation;
 WORD playercolour = 0x7F;
 
-Hero player;
-Monster MonsterUnit;
-Boss BossUnit;
-int charHP, HP, foeHP, foeLVL, limitEXP, Damage, Damage2, monsterXP, monsterHP;
 
 // Initialize variables, allocate memory, load data from file, etc. 
 // This is called once before entering into your main loop
