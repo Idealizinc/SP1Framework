@@ -29,6 +29,7 @@ double storedTime2, storedtime3;
 bool timeSet = false;
 unsigned int pageCounter = 0;
 extern int leverFlip;
+int playerdifficultyselect = 1;
 
 void renderPrintedText(char toBePrinted ,int j,int i )
 {
@@ -1083,6 +1084,22 @@ void renderdifficultyset()
 		}
 	}
 
+	if (keyPressed[K_UP])
+	{
+		if (playerchoice != 1)
+		{
+			playerchoice--;
+		}
+	}
+	else if (keyPressed[K_DOWN])
+	{
+		if (playerchoice != 3)
+		{
+			playerchoice++;
+		}
+	}
+	
+	
 	for (unsigned int i = K_1; i <= K_3; i++)
 	{
 		if ((keyPressed[i]))
@@ -1090,12 +1107,20 @@ void renderdifficultyset()
 			playerchoice = i;
 			switch (playerchoice)
 			{
-			case  1:playerchoice = 1; difficultySet = 1; break;
-			case  2:playerchoice = 2; difficultySet = 2; break;
-			case  3:playerchoice = 3; difficultySet = 3; break;
+				case  1:playerchoice = 1; difficultySet = 1; break;
+				case  2:playerchoice = 2; difficultySet = 2; break;
+				case  3:playerchoice = 3; difficultySet = 3; break;
 			}
 		}
 	}
+
+	switch (playerchoice)
+	{
+		case  1:console.writeToBuffer(18, 13, (char)16, 0x0F); break;
+		case  2:console.writeToBuffer(18, 14, (char)16, 0x0F); break;
+		case  3:console.writeToBuffer(18, 15, (char)16, 0x0F); break;
+	}
+
 	console.writeToBuffer(20, 12, "The default difficulty is Easy", 0x0F);
 	console.writeToBuffer(20, 13, "Press 1 for Easy Difficulty ", 0x0A);
 	console.writeToBuffer(20, 14, "Press 2 for Normal Difficulty ", 0x0E);

@@ -406,11 +406,11 @@ void monsterCheck()
 
 void processUserInput()
 {
-    //quits the game if player hits the escape key
- //   if (keyPressed[K_ESCAPE])
- //   {
-	//	g_quitGame = true;
-	//}
+    /*quits the game if player hits the escape key
+    if (keyPressed[K_ESCAPE])
+    {
+		g_quitGame = true;
+	}*/
 }
 
 void numberinput()
