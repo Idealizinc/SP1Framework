@@ -1,6 +1,7 @@
 ﻿#include "rendFunc.h"
 #include "Framework\console.h"
 #include "game.h"
+
 extern class Console console;
 extern bool playerDead, mainMenu, loading, inBossFight, bossCleared, 
 			battleModeOn, atPortal, renderedChar, playerInputOn, locationSaved, 

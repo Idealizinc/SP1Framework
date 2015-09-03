@@ -8,7 +8,8 @@ extern struct Hero player;
 extern struct Boss BossUnit;
 extern struct Monster MonsterUnit;
 extern int yGateCoord, xGateCoord;
-extern int difficultySet;
+
+extern unsigned int difficultySet;
 
 void bossFightCheck()
 {
@@ -67,15 +68,13 @@ void initiallizeMonsterStats()
 {
     //difficultySet 1 2 3.
 	srand((unsigned)time(0));
-	MonsterUnit.level = (rand()% 5 + (currAtStage * ((player.level + difficultySet) + currAtStage)));
-	MonsterUnit.hp = (MonsterUnit.level * difficultySet);   // previously x2
-	MonsterUnit.expgiven = ((rand()%3) + difficultySet) * MonsterUnit.level;
+	MonsterUnit.level = (rand()% 5 + (currAtStage * (player.level * difficultySet)));
+	MonsterUnit.hp = (MonsterUnit.level * difficultySet + (player.level * 2));   // previously x2
+	MonsterUnit.expgiven = (4 - difficultySet) * (MonsterUnit.level + (4 - difficultySet));
 
-
-    BossUnit.level = 20 + ((currAtStage + 1) * (player.level * 5));
-	BossUnit.hp = BossUnit.level * 3;
+    BossUnit.level = 20 + ((currAtStage * 2) * (player.level));
+	BossUnit.hp = BossUnit.level * 2;
 	BossUnit.expgiven = 200 * (currAtStage * (difficultySet + 1));
-
 
 	monsterHP = MonsterUnit.hp;
 	if ( battleModeOn == true )
@@ -94,8 +93,8 @@ void initiallizeMonsterStats()
 
 void setMonsterChangableStats()
 {
-	int monsterDamage = rand() % 20 + (40 * difficultySet) /*(20 * (currAtStage + 1) * player.level)*/;
-	int bossDamage = rand() % 50 + (100 * ((currAtStage + difficultySet) / 2 ));
+	int monsterDamage = rand() % 20 + ((60 * (difficultySet + 1)) + (player.level * 5))/*(20 * (currAtStage + 1) * player.level)*/;
+	int bossDamage = rand() % 50 + (100 * ((currAtStage * player.level + difficultySet) / 2 ));
 	MonsterUnit.damage = 10 + monsterDamage;
 	BossUnit.damage = bossDamage;
 }
@@ -110,9 +109,9 @@ void checkLevelUp()
 
 void changePlayerStats()
 {
-    player.damage += ((currAtStage + player.level) * 4) / (player.level * difficultySet);
+    player.damage += ((difficultySet + player.level) * 3) / ((player.level + 1) * difficultySet);
     player.level += 1;
     player.exp -= player.expCap;
     player.expCap = 50 * player.level;
-    player.hp += 200;
+    player.hp += 150;
 }

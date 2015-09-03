@@ -98,6 +98,7 @@ bool allowEnemyAttk = false;    // enemy to attack.
 bool enemyAttkTime = false;
 double attkTime;                // Attkspeed of enemy
 double enemyAttk = 7.00;        // player to attk.
+unsigned int difficultySet = 1;
 
 
 double waitTime = 0.085;         // waiting time for inputing value.
@@ -117,8 +118,6 @@ bool atPortal = false; //Set To FALSE
 // Game specific variables here
 COORD charLocation;
 WORD playercolour = 0x7F;
-
-unsigned int difficultySet = 1;
 
 Hero player;
 Monster MonsterUnit;
@@ -408,10 +407,10 @@ void monsterCheck()
 void processUserInput()
 {
     //quits the game if player hits the escape key
-    /*if (keyPressed[K_ESCAPE])
-    {
-		g_quitGame = true;
-	}*/
+ //   if (keyPressed[K_ESCAPE])
+ //   {
+	//	g_quitGame = true;
+	//}
 }
 
 void numberinput()
