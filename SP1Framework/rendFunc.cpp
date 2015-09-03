@@ -1218,16 +1218,16 @@ void renderTutorialScreen()
 					break;
 		case  7 :   infoText1 = "<King Goliath - Player>";
 					infoText2 = "As King Goliath, you are to fight the monsters and get to the portal.";
-					infoText3 = "You have health points as well as chances when fighting monsters.";
-					infoText4 = "Upon running out of either, will have to restart the stage.";
+					infoText3 = "In battle, monsters will attack you every few seconds.";
+					infoText4 = "You will lose Health Points upon being attacked.";
 					infoText5 = "You lose a chance everytime you answer a question wrongly.";
 					infoText6 = "<Page: 8 / 9> Press 'Space' or 'Enter' to cycle the pages.";
 					break;
 		case  8 :   infoText1 = "<King Goliath - Player - Continued>";
-					infoText2 = "In battle, monsters will attack you every few seconds.";
-					infoText3 = "You will lose Health Points upon being attacked.";
-					infoText4 = "Upon dying from a monster, your level will reset to level 1.";
-					infoText5 = "";
+					infoText2 = "If you run out of chances, you take 20% of your HP as damage";
+					infoText3 = "and your chances will reset; the number depends on difficulty.";
+					infoText4 = "If you run out of HP, you will have to restart the stage";
+					infoText5 = "and your level will reset to level 1.";
 					infoText6 = "<Page: 9 / 9> Press 'Space' or 'Enter' to cycle the pages.";
 					break;
 	}

@@ -7,7 +7,7 @@
 #include "readFunc.h"
 
 // Console object
-Console console(78, 25, "SP1 Framework");
+Console console(78, 25, "<Superino Goliatho>");
 
 //Time elapsed
 double elapsedTime;                     //Elapsed time of the game
@@ -65,7 +65,7 @@ bool hpInitiallized = false;
 //Movement and Detection
 bool playerInputOn = true;      // toggles movement of player.
 bool battleModeOn = false;      // when true, loads battle screen
-bool inBossFight = true;       // toggles inboss fight screen.
+bool inBossFight = false;       // toggles inboss fight screen.
 bool bossCleared = false;       // when boss cleared, won't meet again.
 bool mobDown = false;			// Check when monster dies
 unsigned int difficultySet = 1; //Difficulty of game
