@@ -41,7 +41,7 @@ int playerlv = 100;
 int numberOfTries = 4;
 
 //ENABLE PLAYER ENCOUNTER
-bool randomEncountersOn = true; // SET TO TRUE LATER
+bool randomEncountersOn = false; // SET TO TRUE LATER
 
 //Read Values
 string normal_Monster1;     //store first frame of monster txt
