@@ -38,7 +38,7 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 	{
 		yGateCoord = i;
 		xGateCoord = j;
-		console.writeToBuffer(j, i, 93, 0x8E); // "]"
+		console.writeToBuffer(j, i, 206, 0x8E); // "╬"
 	}
 	else if (toBePrinted == 'W')
 	{
@@ -113,6 +113,10 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 	else if (toBePrinted == 'K')
 	{
 		console.writeToBuffer(j, i, 92, 0x8E); // "/"
+	}
+	else if (currState == G_StoryScreen)
+	{
+		console.writeToBuffer(j,i, toBePrinted, 0x0E); // Color The Underscores dashes Yellow.
 	}
 	else if ((loading == true) || (atPortal == true) || (mainMenu == true) || (currState == G_GameCleared) || (currState == G_Difficulty))
 	{
@@ -339,17 +343,8 @@ void portalrender()
      }
 	if (keyPressed[K_SPACE])
 	{
-		switch(currAtStage)
-		{
-			case 1: currState = G_Stage2; break;
-			case 2: currState = G_Stage3; break;
-			case 3: currState = G_Stage4; break;
-			case 4: currState = G_Stage5; break;
-			case 5: currState = G_Stage6; break;
-			case 6: currState = G_GameCleared; break;
-		}
+		currState = G_StoryScreen;
 		atPortal = false;
-		//currState = G_Stage2;
 		bossCleared = false;
 		battleModeOn = false;
 		renderedChar = false;
@@ -859,13 +854,16 @@ void renderSelection()
 		playerInputOn = false;
 		currState = G_StageCleared;
     }
+	/////////////////REMOVE LATER//////////////////
 	else if (loading == true)
     {
-		renderLoadScreen();
+		//renderStoryScreen();
         charLocation.X = 100;
 		charLocation.Y = 100;
 		playerInputOn = false;
+		loading = false;
     }
+	//////////////////////////////////////////////
 }
 
 void renderLoadScreen()
@@ -906,6 +904,8 @@ void renderLoadScreen()
 
 void drawMenu()
 {
+	allowNumInput = true;
+	playerInputOn = true;
 	for (int i = 0; i < 25;)
 	{
 		for (int j = 0; j < 78; ++j)
@@ -1198,44 +1198,47 @@ void renderStoryScreen()
 			   renderPrintedText( toBePrinted, j, i );
 		    }
     }
-	switch ( currAtStage )
+	
+	switch (currAtStage)
 	{
-		case  1 : storytext1 = "The Demon King is planning on taking over on Goliath's Kingdom!";
+		
+		case  0 :   storytext1 = "The Demon King is planning on taking over on Goliath's Kingdom!";
 					storytext2 = "King Goliath ventures out to slay the Demon King Jedric.";
-					storytext3 = "Finding the levers [\] are key to disabling Jedric's Barriers!";
+					storytext3 = "Finding the levers [/] are key to disabling Jedric's Barriers!";
 					break;
-		case  2 : storytext1 = "Upon getting out of the forest, Goliath reaches a cave.";
+		case  1 :   storytext1 = "Upon getting out of the forest, Goliath reaches a cave.";
 					storytext2 = "Entering the cave, Goliath realizes the cave is full of bats.";
 					storytext3 = "The king now has to fight off the bats with his magical powers.";
 					break;
-		case  3 : storytext1 = "After fighting off the bats and getting out of the cave.";
+		case  2 :   storytext1 = "After fighting off the bats and getting out of the cave.";
 					storytext2 = "Goliath finds that he is now in a canyon.";
 					storytext3 = "The king now has to find his way out of the huge maze-like canyon.";
 					break;
-		case  4 : storytext1 = "Unable to get out of the Canyon.";
+		case  3 :   storytext1 = "Unable to get out of the Canyon.";
 					storytext2 = "Goliath starts to encounter even stronger monsters in the canyon.";
 					storytext3 = "The king is now closer to getting out of the canyon.";
 					break;
-		case  5 : storytext1 = "Goliath has reached the Demon Castle after coming out of the canyon.";
+		case  4 :   storytext1 = "Goliath has reached the Demon Castle after coming out of the canyon.";
 					storytext2 = "Upon entering the castle, Goliath needs to find his way to Jedric.";
 					storytext3 = "The king is now almost upon the Demon King.";
 					break;
-		case  6 : storytext1 = "King Goliath has now reached the top of the Demon Castle.";
+		case  5 :   storytext1 = "King Goliath has now reached the top of the Demon Castle.";
 					storytext2 = "He is now on the floor where Jedric supposedly resides.";
 					storytext3 = "It is now up to Goliath to find and take down the Demon King!";
 					break;
+		case  6 :   storytext1 = "King Goliath has fought off the Demon King and reclaimed his kingdom.";
+					storytext2 = "His kingdom is once again free of dangers.";
+					storytext3 = "--The End--";
+					break;
 	}
-	console.writeToBuffer(17,15, storytext1, 0xFC);
-	console.writeToBuffer(17,16, storytext2, 0xFC);
-	console.writeToBuffer(17,27, storytext3, 0xFC);
+	
+	console.writeToBuffer(8,14, storytext1, 0x0A);
+	console.writeToBuffer(8,16, storytext2, 0x0A);
+	console.writeToBuffer(8,18, storytext3, 0x0A);
 	string text = "<Press 'space' to go to the next stage>";
-	COORD X;
-	X.X = 17;
-	X.Y = 24;
-	console.writeToBuffer(X, text, 0xFC);
+	console.writeToBuffer(17,24, text, 0xF9);
 	if (keyPressed[K_ENTER] || keyPressed[K_SPACE])
 	{
-		
 		if (canpress == false)
 		{
 			storedTime2 = elapsedTime + 0.5;
@@ -1245,7 +1248,16 @@ void renderStoryScreen()
 		{
 			allowNumInput = true;
 			canpress = false;
-			currState = G_Stage1;
+			switch(currAtStage)
+			{
+				case 0: currState = G_Stage1; break;
+				case 1: currState = G_Stage2; break;
+				case 2: currState = G_Stage3; break;
+				case 3: currState = G_Stage4; break;
+				case 4: currState = G_Stage5; break;
+				case 5: currState = G_Stage6; break;
+				case 6: currState = G_GameCleared; break;
+			}
 		}
 	}
 	if ( keyPressed[K_ESCAPE] )

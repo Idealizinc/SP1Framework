@@ -41,7 +41,7 @@ int playerlv = 1;
 int numberOfTries = 4;
 
 //ENABLE PLAYER ENCOUNTER
-bool randomEncountersOn = true; // SET TO TRUE LATER
+bool randomEncountersOn = false; // SET TO TRUE LATER
 
 //Read Values
 string normal_Monster1;     //store first frame of monster txt
@@ -56,7 +56,7 @@ string stage_Map;           //store stage level.
 double loadTimer;
 bool loading = false;
 char loadScrnArray[25][78];
-GameStates currState = G_Stage4;
+GameStates currState = G_Stage6;
 int playerchoice = 1;
 bool mainMenu = false;
 char menuArray[25][78];
@@ -66,12 +66,13 @@ bool hpInitiallized = false;
 bool battleModeOn = false;      // when true, loads battle screen
 bool animate = true;            // toggles between two frames.
 bool animate2 = true;           // toggles between two frames.
-int monsterFound;               // -
 bool playerInputOn = true;      // toggles movement of player.
 int answerIsDifferent;          // check if player ans is diff.
 string battleAnswer;            // holds value of player ans.
 bool locationSaved =  false;    // saves player location upon battle.
-bool bossCleared = false;       // when boss cleared, won't meet again.
+///////////////////////Edit Val Ltr
+bool bossCleared = true;       // when boss cleared, won't meet again.
+///////////////////////
 bool inBossFight = false;       // toggles inboss fight screen.
 bool initializeHP = false;      // To initialise monster/boss HP
 bool selectionMade = false;
@@ -138,7 +139,7 @@ void init()
 	readOptionsMenu("optionScreen.txt", optionArray);
 	readEndBattleStats("endBattleScreen.txt", endBattleArray);
 	readGameCleared("gameCleared.txt", gameClearedArray);
-	readDifficulty( "set.txt", difficultysetArray);
+	readDifficulty( "settingScreen.txt", difficultysetArray);
 	readStoryScreen( "storyScreen.txt", storyArray);
 
 
@@ -311,15 +312,15 @@ void render()
 		case G_MainMenu: mainMenu = true; renderSelection(); break;
 		case G_Tutorial: renderTutorialScreen(); break;
 		case G_Options: renderOptionsMenu(); break;	//Implemented Later
-		case G_Difficulty: renderdifficultyset(); break;
-		case G_StoryScreen: loading = true; renderStoryScreen(); break;
+		case G_Difficulty: renderdifficultyset(); currAtStage = 0; break;
+		case G_StoryScreen: renderStoryScreen(); break;
 		case G_Stage1: currAtStage = 1; drawMapRendChar(); break;
 		case G_Stage2: currAtStage = 2; drawMapRendChar(); break;
 		case G_Stage3: currAtStage = 3; drawMapRendChar(); break;
 		case G_Stage4: currAtStage = 4; drawMapRendChar(); break;
 		case G_Stage5: currAtStage = 5; drawMapRendChar(); break;
 		case G_Stage6: currAtStage = 6; drawMapRendChar(); break;
-		case G_StageCleared: portalrender(); break;
+		case G_StageCleared: renderStoryScreen(); break;
 		case G_GameCleared: renderGameClear(); break;
 		case G_GameOver: renderGameOver(); break; 
 		
