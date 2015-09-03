@@ -87,46 +87,10 @@ void checkPlayerAnswer();
 void createQuestion();
 
 //Rendering
-//void renderMap();           // renders the map to the buffer first THIS IS NOT EVEN USED
-//void renderCharacter();     // renders the character into the buffer
-//void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
-//void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
-//void animateBSNorm();		// swaps between and prints diff battle screens.
-//void animateBSBoss();		// same As Above Just For Boss Fights
-//void portalrender();        // renders the portal.
-//void renderGameOver();      // renders Game Over screen.
-//void printMapStats();       // stats of player
-//void printBattleStats();    // stats of enemy and player.
-//void printChestReward();    // shows bonus of the player.
-//void printFakeChestInfo();  // prints details of fake chest.
-//void portalrender();        // renders the portal.
-//void drawMap();             // draws the game map.
-//void drawMapRendChar();     // draws the character on map.
-//void renderSelection();		// Decides what is to be rendered
-//void renderLoadScreen();
-//void renderSelection();		// Decides what is to be rendered
 void drawMenu();
-//void renderTutorialScreen();
 
 //Reading
-//void readMap(string str);					// reads the map in a txt file.
-//void readPortal();							// Changes stage when player completes current stage.
-//void readBattleScreen(string str);		    // first frame of animation
-//void readBattleScreen2(string str);			// second frame of animation
-//void readBossScreen(string str);			// Read Boss Screen 1
-//void readBossScreen2(string str);			// Read Boss Screen 2
-//void readGameOver();						// reads the gameover in a txt file.
 void getReadData(int val);                  // reads txt files based on stage.
-//void readLoadScreen(string str,char loadScrnArray[25][79]);
-
-//Detection
-//void bossFightCheck();		            // Checks if player is on boss.
-//void initiallizePlayerStats();          // player initial stats
-//void setPlayerChangableStats();         // player changable stats
-//void initiallizeMonsterStats();         // monster initial stats
-//void setMonsterChangableStats();        // monster changable stats
-//void checklevelup();                    // player level up.
-//void changeplayerstats();               // change player stats
 
 //Struct name of the player.
 struct Hero
