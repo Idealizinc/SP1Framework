@@ -27,6 +27,7 @@ bool canpress = false;
 extern bool allowNumInput, limiterSet;
 double storedTime2, storedtime3;
 bool timeSet = false;
+unsigned int pageCounter = 0;
 
 void renderPrintedText(char toBePrinted ,int j,int i )
 {
@@ -1136,6 +1137,108 @@ void renderTutorialScreen()
 			   renderPrintedText( toBePrinted, j, i );
 		    }
     }
+	string infoText1, infoText2, infoText3, infoText4, infoText5, infoText6;
+	if (keyPressed[K_ENTER] || keyPressed[K_SPACE])
+	{
+		if (canpress == false)
+		{
+			storedTime2 = elapsedTime + 0.5;
+			canpress = true;
+		}
+		if ((elapsedTime >= storedTime2) && (canpress == true))
+		{
+			allowNumInput = true;
+			canpress = false;
+			pageCounter++;
+			loading = false;
+			atPortal = false;
+		}
+	}
+	switch (pageCounter)
+	{
+		
+		case  0 :   infoText1 = "<Movement>";
+					infoText2 = "W/Up Arrow Key ----- To Move Your Character Up By A Single Space";
+					infoText3 = "A/Left Arrow Key --- To Move Your Character Left By A Single Space";
+					infoText4 = "S/Down Arrow Key --- To Move Your Character Down By A Single Space";
+					infoText5 = "D/Right Arrow Key -- To Move Your Character Right By A Single Space";
+					infoText6 = "<Page: 1 / 9> Press 'Space' or 'Enter' to cycle the pages.";
+					break;
+		case  1 :   infoText1 = "<Battle Controls>";
+					infoText2 = "Number Keys (0-9) -- To Input A Value Into The Answer Field";
+					infoText3 = "Enter Key ---------- To Submit The Inputted Answer";
+					infoText4 = "Dash Key ----------- To Input A Minus Sign Into The Answer Field";
+					infoText5 = "Backspace Key ------ To Delete A Previously Entered The Input";
+					infoText6 = "<Page: 2 / 9> Press 'Space' or 'Enter' to cycle the pages.";
+					break;
+		case  2 :   infoText1 = "<Monsters>";
+					infoText2 = "Monsters appear at random as you proceed through the map.";
+					infoText3 = "Upon defeating them, you will earn experience points.";
+					infoText4 = "To fight the monsters, you will need to use the Battle Controls";
+					infoText5 = "shown in the previous page.";
+					infoText6 = "<Page: 3 / 9> Press 'Space' or 'Enter' to cycle the pages.";
+					break;
+		case  3 :   infoText1 = "<Bosses>";
+					infoText2 = "Every Stage has a boss marker <";
+					infoText2 += (char)15;
+					infoText2 += ">";
+					infoText3 = "When you step on the boss marker, a boss fight will start.";
+					infoText4 = "Boss fights use the same controls as normal battles.";
+					infoText5 = "Bosses give you more experience than normal monsters.";
+					infoText6 = "<Page: 4 / 9> Press 'Space' or 'Enter' to cycle the pages.";
+					break;
+		case  4 :   infoText1 = "<Maps>";
+					infoText2 = "There are treasure chests on the map, these give health and experience.";
+					infoText3 = "However, there are Fake Chests that deal damage to you on the map. ";
+					infoText4 = "Chests look like: <";
+					infoText4 += (char)254;
+					infoText4 += ">";
+					infoText5 = "";
+					infoText6 = "<Page: 5 / 9> Press 'Space' or 'Enter' to cycle the pages.";
+					break;
+		case  5 :   infoText1 = "<Maps - Continued>";
+					infoText2 = "There are levers </> on the map, upon stepping on them, ";
+					infoText3 = "Barriers <";
+					infoText3 += (char)206;
+					infoText3 += "> will be removed from the map, and you will be able";
+					infoText4 = "to proceed to find the boss and clear the stage.";
+					infoText5 = "";
+					infoText6 = "<Page: 6 / 9> Press 'Space' or 'Enter' to cycle the pages.";
+					break;
+		case  6 :   infoText1 = "<Maps - Continued>";
+					infoText2 = "There are portals on the map <";
+					infoText2 += (char)10;
+					infoText2 += ">";
+					infoText3 = "These can only be accessed after beating the boss.";
+					infoText4 = "They take you to the next stage.";
+					infoText5 = "";
+					infoText6 = "<Page: 7 / 9> Press 'Space' or 'Enter' to cycle the pages.";
+					break;
+		case  7 :   infoText1 = "<King Goliath - Player>";
+					infoText2 = "As King Goliath, you are to fight the monsters and get to the portal.";
+					infoText3 = "You have health points as well as chances when fighting monsters.";
+					infoText4 = "Upon running out of either, will have to restart the stage.";
+					infoText5 = "You lose a chance everytime you answer a question wrongly.";
+					infoText6 = "<Page: 8 / 9> Press 'Space' or 'Enter' to cycle the pages.";
+					break;
+		case  8 :   infoText1 = "<King Goliath - Player - Continued>";
+					infoText2 = "In battle, monsters will attack you every few seconds.";
+					infoText3 = "You will lose Health Points upon being attacked.";
+					infoText4 = "Upon dying from a monster, your level will reset to level 1.";
+					infoText5 = "";
+					infoText6 = "<Page: 9 / 9> Press 'Space' or 'Enter' to cycle the pages.";
+					break;
+	}
+	if (pageCounter > 8)
+	{
+		pageCounter = 0;
+	}
+	console.writeToBuffer(6, 6, infoText1, 0x0E);
+	console.writeToBuffer(6, 8, infoText2, 0x0A);
+	console.writeToBuffer(6,10, infoText3, 0x0A);
+	console.writeToBuffer(6,12, infoText4, 0x0A);
+	console.writeToBuffer(6,14, infoText5, 0x0A);
+	console.writeToBuffer(6,18, infoText6, 0x0D);
 	COORD X;
 	X.X = 17;
 	X.Y = 24;

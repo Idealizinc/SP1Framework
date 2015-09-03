@@ -1,25 +1,25 @@
 111111111111111111111111111111111111111111111111111111111111111111111111111111
-1WWW                           Instructions                               WWW1
-1WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW1
-1W     3movement2                       3battle controls2                   W1
-1      w / up key ---- move up          numbers zero to nine - input numbers 1
-1      s / down key -- move down        enter key ------------ submit answer 1
-1      a / left key -- move left        dash key ------------- negative sign 1
-1      d / right key - move right       backspace key -------- delete input  1
+111111111111111111111111111111111111111111111111111111111111111111111111111111
+1111                            Instructions                              1111
+111111111111111111111111111111111111111111111111111111111111111111111111111111
+1111                                                                      1111
+111                                                                        111
+11                                                                          11
 1                                                                            1
-1      3bosses2 - X                     3chests2 - C                         1
-1      what's a game without bosses?    there are chests around the map.     1
-1      they guard the stage portal      they contain good or bad things.     1
-1      defeat them to get pass!                                              1
-1                                       3portals2 - E                        1
-1      3how to fight2                   these take you further in your       1
-1      Monsters appear at random,       journey, to the next stage!          1
-1      and you, Lord Goliatho will                                           1
-1      fight them! However, he has a weird power. You can defeat monsters    1
-1      by solving math equations and damaging them by answering questions    1
-1      correctly. However, you have up to three chances to make mistakes in  1
-1      each battle. Upon running out of chances, you will lose the game,     1
-1      because he'll get brain damage. If you take too long, the enemy will  1
-1W     attack you, and reset the question , so be faster than the enemy!    W1
-1WW                                                                        WW1
+1                                                                            1
+1                                                                            1
+1                                                                            1
+1                                                                            1
+1                                                                            1
+1                                                                            1
+1                                                                            1                                                                            1
+1                                                                            1
+1                                                                            1
+1                                                                            1
+1                                                                            1
+1                                                                            1
+11                                                                          11
+111                                                                        111
+11111                                                                     1111
+111111111111111111111111111111111111111111111111111111111111111111111111111111
 111111111111111111111111111111111111111111111111111111111111111111111111111111
