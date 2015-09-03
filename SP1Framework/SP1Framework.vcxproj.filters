@@ -69,24 +69,4 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="map1.txt" />
-    <None Include="endBattleScreen.txt" />
-    <None Include="optionScreen.txt">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="menuScreen.txt">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="storyScreen.txt" />
-    <None Include="MOB_CAT2.txt" />
-    <None Include="MOB_ZOMBIE1.txt" />
-    <None Include="MOB_ZOMBIE2.txt" />
-    <None Include="MOB_REAPER1.txt">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="MOB_REAPER2.txt">
-      <Filter>Source Files</Filter>
-    </None>
-  </ItemGroup>
 </Project>
