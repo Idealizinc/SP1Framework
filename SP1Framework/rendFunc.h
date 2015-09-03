@@ -37,7 +37,6 @@ void drawBattleScreen();
 void drawBattleScreenALT();
 void drawBattleScreenBoss();
 void drawBattleScreenBossALT();
-void renderLoadScreen();
 void drawMenu();
 void renderTutorialScreen();
 void drawBattleScreen2();

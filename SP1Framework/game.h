@@ -51,7 +51,6 @@ enum Keys
 // Stage Changing.
 enum GameStates
 {
-	G_Intro,
 	G_MainMenu,
 	G_Tutorial,
 	G_Options,
@@ -104,7 +103,6 @@ void createQuestion();
 //void drawMap();             // draws the game map.
 //void drawMapRendChar();     // draws the character on map.
 //void renderSelection();		// Decides what is to be rendered
-void animateLoading();
 //void renderLoadScreen();
 //void renderSelection();		// Decides what is to be rendered
 void drawMenu();

@@ -55,7 +55,6 @@ string stage_Map;           //store stage level.
 //Game State
 double loadTimer;
 bool loading = false;
-char loadScrnArray[25][78];
 GameStates currState = G_MainMenu;
 int playerchoice = 1;
 bool mainMenu = false;
@@ -133,7 +132,6 @@ void init()
     elapsedTime = 0.0;
 	readPortal("endscreen.txt",screenArray);
     readGameOver("gameover.txt",ggArray);
-	readLoadScreen("LoadScreen_100%.txt",loadScrnArray);
 	readMenu("menuScreen.txt", menuArray);
 	readTutorial("controls.txt", instructionArray);
 	readOptionsMenu("optionScreen.txt", optionArray);
@@ -265,24 +263,24 @@ void getReadData(int val)
 				break;
 		case 4:	normal_Monster1 = "MOB_DEVIL1.txt";
 				normal_Monster1ALT = "MOB_DEVIL2.txt";
-				normal_Monster2 = "MOB_CAT1.txt";
-				normal_Monster2ALT = "MOB_CAT2.txt";
-				boss_Monster1 = "MOB_SLIME1.txt"; 
-				boss_Monster1ALT = "MOB_SLIME2.txt";
+				normal_Monster2 = "MOB_SLIME1.txt";
+				normal_Monster2ALT = "MOB_SLIME2.txt";
+				boss_Monster1 = "MOB_ZOMBIE1.txt"; 
+				boss_Monster1ALT = "MOB_ZOMBIE2.txt";
 				stage_Map = "Map4.txt";
 				break;
-		case 5:	normal_Monster1 = "MOB_SLIME1.txt";
-				normal_Monster1ALT = "MOB_SLIME2.txt";
-				normal_Monster2 = "MOB_BAT1.txt";
-				normal_Monster2ALT = "MOB_BAT2.txt";
-				boss_Monster1 = "MOB_BAT1.txt";
-				boss_Monster1ALT = "MOB_BAT2.txt";
-				stage_Map = "Map5.txt";
-				break;
-		case 6:	normal_Monster1 = "MOB_DEVIL1.txt";
-				normal_Monster1ALT = "MOB_DEVIL2.txt";
+		case 5:	normal_Monster1 = "MOB_ZOMBIE1.txt";
+				normal_Monster1ALT = "MOB_ZOMBIE2.txt";
 				normal_Monster2 = "MOB_Spider1.txt";
 				normal_Monster2ALT = "MOB_Spider2.txt";
+				boss_Monster1 = "MOB_REAPER1.txt";
+				boss_Monster1ALT = "MOB_REAPER2.txt";
+				stage_Map = "Map5.txt";
+				break;
+		case 6:	normal_Monster1 = "MOB_REAPER1.txt";
+				normal_Monster1ALT = "MOB_REAPER2.txt";
+				normal_Monster2 = "MOB_ZOMBIE1.txt";
+				normal_Monster2ALT = "MOB_ZOMBIE2.txt";
 				boss_Monster1 = "MOB_JEDRIC.txt";
 				boss_Monster1ALT = "MOB_JEDRIC2.txt";
 				stage_Map = "Map6.txt";
@@ -308,12 +306,11 @@ void render()
     clearScreen();      // clears the current screen and draw from scratch 
 	switch(currState)
 	{
-		case G_Intro:;			//Implemented Later
 		case G_MainMenu: mainMenu = true; renderSelection(); break;
 		case G_Tutorial: renderTutorialScreen(); break;
 		case G_Options: renderOptionsMenu(); break;	//Implemented Later
 		case G_Difficulty: renderdifficultyset(); currAtStage = 0; break;
-		case G_StoryScreen: renderStoryScreen(); break;
+		case G_StoryScreen: loading = true; renderStoryScreen(); break;
 		case G_Stage1: currAtStage = 1; drawMapRendChar(); break;
 		case G_Stage2: currAtStage = 2; drawMapRendChar(); break;
 		case G_Stage3: currAtStage = 3; drawMapRendChar(); break;
@@ -325,7 +322,7 @@ void render()
 		case G_GameOver: renderGameOver(); break; 
 		
 	}
-	  // renders the character into the buffer
+	 // renders the character into the buffer
 	renderFramerate();  // renders debug information, frame rate, elapsed time, etc
 	renderToScreen();   // dump the contents of the buffer to the screen, one frame worth of game
 	
@@ -458,14 +455,6 @@ void numberinput()
 
 		else if (keyPressed[K_ENTER] || keyPressed[K_SPACE])
 		{
-			/*for ( size_t i = 0; i < 1; ++i  )
-			{
-				if (answer[i] == 0 )
-				{
-					answer.erase(1,i);
-				}
-				cout << answer << endl;
-			}*/
 			if ( answer.compare(battleAnswer) == 0 )
 			{
 				answerIsDifferent = false;
@@ -484,10 +473,10 @@ void numberinput()
 	//Print Player's Answer
 	COORD d;
 	d.X = 24;
-	d.Y = 22;
+	d.Y = 23;
 	COORD e;
 	e.X = 35;
-	e.Y = 22;
+	e.Y = 23;
 	console.writeToBuffer(d, "My answer: ", 0x0B);
 	console.writeToBuffer(e, answer, 0x0A);
 }
@@ -619,29 +608,3 @@ void checkPlayerAnswer()
 		//currState = G_GameOver;
 	}
 }
-
-
-//void animateLoading()
-//{
-//	
-//	for ( int c = 0; c < 6 ; )
-//	{
-//		int wait = elapsedTime + 5;
-//		switch (c)
-//		{
-//			case 0: readLoadScreen("LoadScreen_0%.txt"); renderLoadScreen(); break;
-//			case 1: readLoadScreen("LoadScreen_15%.txt"); renderLoadScreen(); break;
-//			case 2: readLoadScreen("LoadScreen_35%.txt"); renderLoadScreen(); break;
-//			case 3: readLoadScreen("LoadScreen_65%.txt"); renderLoadScreen(); break;
-//			case 4: readLoadScreen("LoadScreen_80%.txt"); renderLoadScreen(); break;
-//			case 5: readLoadScreen("LoadScreen_100%.txt"); renderLoadScreen(); break;
-//		}
-//		if ( wait < elapsedTime )
-//		++c;
-//	}
-	
-	/*while (c < 6)
-	{
-		renderLoadScreen();
-	}*/
-//}

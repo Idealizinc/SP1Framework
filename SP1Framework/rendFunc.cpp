@@ -11,7 +11,7 @@ extern enum GameStates currState;
 extern int  xSpawnCoord, ySpawnCoord, xReturnCoord, yReturnCoord, status, 
 			randomsign, randomNo2,DrandomNo2,DrandomNo3, randomNo1, currAtStage, 
 			monsterHP, foeHP, foeLVL, playerlv, monsterXP, xGateCoord, yGateCoord, playerchoice;
-extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], 
+extern char screenArray[25][78], menuArray[25][78], mapArray[22][78], 
 			ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], 
 			instructionArray[25][78], battleArray2[20][78], battleArray2ALT[20][78], 
 			endBattleArray[25][78], optionArray[25][78], gameClearedArray[25][78], difficultysetArray[25][78], storyArray[25][78];
@@ -89,10 +89,6 @@ void renderPrintedText(char toBePrinted ,int j,int i )
 	else if (toBePrinted == 'Z')
 	{
 		console.writeToBuffer(j,i, 176, 0x84); // Reddish Brown [Cave Walls] ░
-	}
-	else if (toBePrinted == '=')
-	{
-		console.writeToBuffer(j,i, 176, 0xCB); // Red [LoadBar] ░
 	}
 	else if (toBePrinted == '3')
 	{
@@ -341,27 +337,32 @@ void portalrender()
 			renderPrintedText( toBePrinted,j,i );
 		}
      }
-	if (keyPressed[K_SPACE])
+	if (keyPressed[K_ENTER] || keyPressed[K_SPACE])
 	{
-		currState = G_StoryScreen;
-		atPortal = false;
-		bossCleared = false;
-		battleModeOn = false;
-		renderedChar = false;
-		playerDead = false;
+		loading = false;
+		if (canpress == false)
+		{
+			storedTime2 = elapsedTime + 0.5;
+			canpress = true;
+		}
+		if ((elapsedTime >= storedTime2) && (canpress == true))
+		{
+			allowNumInput = true;
+			canpress = false;
+			currState = G_StoryScreen;
+			atPortal = false;
+			bossCleared = false;
+			battleModeOn = false;
+			renderedChar = false;
+			playerDead = false;
+		}
 	}
 	if ( keyPressed[K_ESCAPE] )
     {
-        switch(currAtStage)
-        {
-            case 1: currState = G_MainMenu; break;
-        }
+        currState = G_MainMenu;
     }
-	COORD X;
-	X.X = 17;
-	X.Y = 22;
-	string text = "Press 'space' to go to the next stage.";
-	console.writeToBuffer(X, text, 0x0B);
+	string text = "<Press 'space' to go to the next stage>";
+	console.writeToBuffer(17,22, text, 0x0B);
 } 
 // readGameOver()
 
@@ -428,11 +429,8 @@ void renderGameClear()
 		renderedChar = false;
 		playerDead = false;
 	}
-	COORD X;
-	X.X = 17;
-	X.Y = 22;
-	string text = "Press 'space' to return to the main menu.";
-	console.writeToBuffer(X, text, 0x0A);
+	string text = "<Press 'space' to return to the main menu>";
+	console.writeToBuffer(17, 22, text, 0x0A);
     initiallizePlayerStats();
     battleModeOn = false;
 } 
@@ -537,7 +535,7 @@ void printBattleStats()
 	text += myHP;
     //text += "    My DMG: ";
     //text += myDMG;
-    text += "    Chance Left: ";
+    text += "    Chances Left: ";
     text += myChance;
 	text += " ";
 	c.X = 20;
@@ -568,13 +566,15 @@ void printBattleStats()
     textEnemyStat += enemyLVL;
 	textEnemyStat += "    Enemy HP: ";
 	textEnemyStat += monhp;
-    textEnemyStat += "    Time till Attack: ";
-    textEnemyStat += Time;
-    textEnemyStat += " ";
-    enemyStats.X = 12;
+    enemyStats.X = 20;
     enemyStats.Y = 20;
     console.writeToBuffer(enemyStats, textEnemyStat, 0xF4);
 
+	string enemyTime;
+	enemyTime = " Time till Enemy's Attack: ";
+	enemyTime += Time;
+	enemyTime += " ";
+	console.writeToBuffer(20,21, enemyTime, 0x0C);
 
 	COORD d;
 	string question;
@@ -635,7 +635,7 @@ void printBattleStats()
 			break;
 	}
 	d.X = 24;
-	d.Y = 21;
+	d.Y = 22;
 	console.writeToBuffer(d, question, 0x0E);
 
 	numberinput();
@@ -858,52 +858,12 @@ void renderSelection()
 		playerInputOn = false;
 		currState = G_StageCleared;
     }
-	/////////////////REMOVE LATER//////////////////
-	else if (loading == true)
+	else if ((loading == true))
     {
-		//renderStoryScreen();
         charLocation.X = 100;
 		charLocation.Y = 100;
-		playerInputOn = false;
-		loading = false;
+		currState = G_StoryScreen;
     }
-	//////////////////////////////////////////////
-}
-
-void renderLoadScreen()
-{
-	for (int i = 0; i < 25; ++i)
-	{
-		    for (int j = 0; j < 78; ++j)
-		    {
-			   char toBePrinted = loadScrnArray[i][j];
-			   renderPrintedText( toBePrinted, j, i );
-		    }
-    }
-	if(keyPressed[K_SPACE])
-	{
-		loading = false;
-		currState = G_Stage1;
-	}
-	else if ( keyPressed[K_ESCAPE] )
-    {
-        currState = G_MainMenu;
-    }
-	if (keyPressed[K_ENTER] || keyPressed[K_SPACE])
-	{
-		
-		if (canpress == false)
-		{
-			storedTime2 = elapsedTime + 0.5;
-			canpress = true;
-		}
-		if ((elapsedTime >= storedTime2) && (canpress == true))
-		{
-			allowNumInput = true;
-			canpress = false;
-			currState = G_StoryScreen;
-		}
-	}
 }
 
 void drawMenu()
@@ -962,12 +922,13 @@ void drawMenu()
 		case 3: console.writeToBuffer(28, 17, (char)16, 0x0F); break;
 		case 4: console.writeToBuffer(28, 18, (char)16, 0x0F); break;
 	}
+	console.writeToBuffer(8, 21, "Use your Up, Down or W, S or number keys to highlight an option.", 0x0A);
+	console.writeToBuffer(15, 22, "Press enter or space to confirm your selection.", 0x0A);
 	if (keyPressed[K_ENTER] || keyPressed[K_SPACE])
 	{
 		switch (selectionPointer)
 		{
 		case 1: currState = G_Difficulty;
-				loading = true;
 				mainMenu = false;
 				break;
 		case 2: currState = G_Tutorial;
@@ -1078,7 +1039,7 @@ void renderOptionsMenu()
 	COORD X;
 	X.X = 17;
 	X.Y = 24;
-	string text = "Press 'escape' to return to the main menu.";
+	string text = "<Press 'escape' to return to the main menu>";
 	console.writeToBuffer(X, text, 0xFC);
 	if ( keyPressed[K_ESCAPE] )
     {
@@ -1142,7 +1103,7 @@ void renderdifficultyset()
 		
 		if (canpress == false)
 		{
-			storedTime2 = elapsedTime + 1;
+			storedTime2 = elapsedTime + 0.5;
 			canpress = true;
 		}
 		if ((elapsedTime >= storedTime2) && (canpress == true))
@@ -1175,10 +1136,6 @@ void renderTutorialScreen()
 			   renderPrintedText( toBePrinted, j, i );
 		    }
     }
-	if ( keyPressed[K_ESCAPE] )
-    {
-        currState = G_MainMenu;
-    }
 	COORD X;
 	X.X = 17;
 	X.Y = 24;
@@ -1202,7 +1159,6 @@ void renderStoryScreen()
 			   renderPrintedText( toBePrinted, j, i );
 		    }
     }
-	
 	switch (currAtStage)
 	{
 		
@@ -1235,7 +1191,6 @@ void renderStoryScreen()
 					storytext3 = "--The End--";
 					break;
 	}
-	
 	console.writeToBuffer(8,14, storytext1, 0x0A);
 	console.writeToBuffer(8,16, storytext2, 0x0A);
 	console.writeToBuffer(8,18, storytext3, 0x0A);
@@ -1262,6 +1217,8 @@ void renderStoryScreen()
 				case 5: currState = G_Stage6; break;
 				case 6: currState = G_GameCleared; break;
 			}
+			loading = false;
+			atPortal = false;
 		}
 	}
 	if ( keyPressed[K_ESCAPE] )

@@ -295,25 +295,6 @@ void readGameOver(string str,char ggArray[25][78])
     gameOver.close();
 }
 
-void readLoadScreen(string str,char loadScrnArray[25][78])
-{
-	string line;
-    int y = 0;
-	
-    ifstream loadScrn(str);
-    if (loadScrn.is_open())
-    {
-        while (getline (loadScrn, line))
-        {
-            for (unsigned int x = 0; x < line.length(); x++ )
-            {
-                loadScrnArray[y][x] = line[x];
-            }
-            ++y;
-        }
-    }
-    loadScrn.close();
-}
 void readStoryScreen(string str,char storyArray[25][78])
 {
 	string line;
