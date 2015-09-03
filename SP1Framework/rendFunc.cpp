@@ -14,7 +14,7 @@ extern int  xSpawnCoord, ySpawnCoord, xReturnCoord, yReturnCoord, status,
 extern char screenArray[25][78], loadScrnArray[25][78], menuArray[25][78], mapArray[22][78], 
 			ggArray[25][78], bossArray[20][78], bossArrayALT[20][78], battleArray[20][78], battleArrayALT[20][78], 
 			instructionArray[25][78], battleArray2[20][78], battleArray2ALT[20][78], 
-			endBattleArray[25][78], optionArray[25][78], gameClearedArray[25][78], difficultysetArray[25][78];
+			endBattleArray[25][78], optionArray[25][78], gameClearedArray[25][78], difficultysetArray[25][78], storyArray[25][78];
 extern unsigned int difficultySet;
 extern struct Hero player;
 extern struct Boss BossUnit;
