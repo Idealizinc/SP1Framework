@@ -602,7 +602,8 @@ void checkPlayerAnswer()
 	}
     if (player.chance <= 0)
     {
-        player.hp -= 200;
+        int noChance = (player.hp / 100) * 20;
+        player.hp -= noChance;
         player.chance = 7 - difficultySet;
     }
 	if ((player.hp <= 0) && (mainMenu == false) && (loading == false))
